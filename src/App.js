@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import Login from "./pages/Login";
+import PatientRegistration from "./pages/PatientRegistration";
 import GlobalConfigView from "./shared/components/GlobalConfigView/GlobalConfigView.js";
 import LoadingOverlay from "./shared/components/LoadingOverlay/LoadingOverlay";
 import NotificationView from "./shared/components/Notification/NotificationView.jsx";
 import withSecurity from "./shared/components/WithSecurity/WithSecurity.js";
 import ScrollToTop from "./shared/ScrollToTop/ScrollToTop.jsx";
-
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/patient-registration" element={<PatientRegistration />} />
           </Routes>
         </GlobalConfigView>
       </div>
