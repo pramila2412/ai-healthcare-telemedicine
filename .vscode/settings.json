@@ -1,0 +1,124 @@
+{
+  "javascript.preferences.importModuleSpecifierFormat": "non-relative",
+  "javascript.preferences.importModuleSpecifierEnding": "auto",
+  "javascript.preferences.useAliasesForRenames": true,
+  "javascript.autoClosingTags": true,
+  "javascript.suggest.autoImports": true,
+
+  "typescript.preferences.importModuleSpecifierFormat": "non-relative",
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascript",
+    "javascriptreact": "html",
+    "typescript": "javascript",
+    "typescriptreact": "html"
+  },
+
+  "tailwindCSS.emmetCompletions": true,
+
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  },
+
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+
+  "javascript.suggest.paths": false,
+  "typescript.suggest.paths": false,
+
+  "cSpell.words": [
+    "Ahmedabad",
+    "Andhra",
+    "Arunachal",
+    "Bengaluru",
+    "Bhubaneswar",
+    "Bilaspur",
+    "bloodgrp",
+    "Chhattisgarh",
+    "comwhite",
+    "Cuttack",
+    "Dehradun",
+    "Dhanbad",
+    "Dharamshala",
+    "Dibrugarh",
+    "downarrow",
+    "Durg",
+    "Durgapur",
+    "Dwarka",
+    "Guntur",
+    "Gurugram",
+    "Guwahati",
+    "Haridwar",
+    "Haryana",
+    "Himachal",
+    "Hiswhite",
+    "Infor",
+    "Inforwhite",
+    "Infromation",
+    "insur",
+    "Itanagar",
+    "Jalandhar",
+    "Jharkhand",
+    "Karimnagar",
+    "Karnataka",
+    "Kolkata",
+    "Madhya",
+    "Manali",
+    "Mangaluru",
+    "Margao",
+    "Medi",
+    "Muzaffarpur",
+    "Mysuru",
+    "Nadu",
+    "Nainital",
+    "Nashik",
+    "Noida",
+    "Odisha",
+    "Panaji",
+    "Panipat",
+    "Pasighat",
+    "Pradesh",
+    "Raipur",
+    "Recwhite",
+    "Rohini",
+    "Rourkela",
+    "Saket",
+    "Shimla",
+    "Silchar",
+    "Tawang",
+    "Telangana",
+    "Thiruvananthapuram",
+    "Tirupati",
+    "Udaipur",
+    "userwhite",
+    "Uttar",
+    "Uttarakhand",
+    "Vadodara",
+    "Vasco",
+    "Warangal"
+  ]
+}

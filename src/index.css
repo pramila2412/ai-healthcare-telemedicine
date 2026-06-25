@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+
+@theme {
+  --color-primary: #0D8B72;
+}
+
+/* Global Styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fallback image styles */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@layer components {
+  .section-padding {
+    @apply py-16 md:py-24 bg-white;
+  }
+  .section-overline {
+    @apply text-[var(--color-primary)] font-bold tracking-wide uppercase block mb-4;
+  }
+  .section-heading {
+    @apply text-gray-900 font-extrabold text-3xl md:text-4xl lg:text-5xl leading-tight mb-6;
+  }
+  .section-subheading {
+    @apply text-gray-500 text-lg leading-relaxed mb-8;
+  }
+  .icon-wrapper {
+    @apply w-12 h-12 rounded-xl bg-[#EEF4F3] flex items-center justify-center shrink-0;
+  }
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
+
+.date-input {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.date-input-empty::-webkit-datetime-edit {
+  opacity: 0;
+}
+
+.date-input-empty::-webkit-date-and-time-value {
+  opacity: 0;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  top: 10;
+  left: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.date-input::-webkit-inner-spin-button,
+.date-input::-webkit-clear-button {
+  display: none;
+}
+
+.date-input-empty {
+  color: transparent;
+}
