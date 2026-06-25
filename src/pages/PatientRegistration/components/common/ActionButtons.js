@@ -1,5 +1,13 @@
-import Button from "@mui/material/Button";
 import React from "react";
+import Button from "@mui/material/Button";
+
+const sharedButtonStyles = {
+  borderRadius: "8px",
+  fontSize: "11px",
+  fontWeight: 700,
+  padding: "11px 20px",
+  textTransform: "none",
+};
 
 const ActionButtons = ({
   onSkip,
@@ -12,44 +20,32 @@ const ActionButtons = ({
   isNextDisabled = false,
 }) => {
   return (
-    <div className="mt-9 flex items-center justify-between gap-4 max-md:flex-col max-md:items-stretch">
+    <div className="mt-9 flex flex-col items-stretch gap-4 md:flex-row md:items-center md:justify-between">
       <Button
         type="button"
         variant="contained"
         onClick={onSkip}
         sx={{
+          ...sharedButtonStyles,
           backgroundColor: "#EDF8F6",
           color: "#00856F",
           boxShadow: "none",
-          borderRadius: "8px",
-          fontSize: "11px",
-          fontWeight: 700,
-          padding: "11px 20px",
-          textTransform: "none",
-          "&:hover": {
-            backgroundColor: "#DFF1ED",
-            boxShadow: "none",
-          },
+          "&:hover": { backgroundColor: "#DFF1ED", boxShadow: "none" },
         }}
       >
         {skipLabel}
       </Button>
 
-      <div className="flex items-center gap-4 max-md:flex-col max-md:items-stretch">
+      <div className="flex flex-col items-stretch gap-3 md:flex-row md:items-center md:gap-4">
         <Button
           type="button"
           variant="text"
           onClick={onBack}
           disabled={isBackDisabled}
           sx={{
+            ...sharedButtonStyles,
             color: "#172B2B",
-            fontSize: "11px",
-            fontWeight: 700,
-            textTransform: "none",
-            "&:hover": {
-              color: "#00856F",
-              backgroundColor: "transparent",
-            },
+            "&:hover": { color: "#00856F", backgroundColor: "transparent" },
           }}
         >
           {backLabel}
@@ -61,17 +57,10 @@ const ActionButtons = ({
           onClick={onNext}
           disabled={isNextDisabled}
           sx={{
+            ...sharedButtonStyles,
             backgroundColor: "#007F68",
             boxShadow: "none",
-            borderRadius: "8px",
-            fontSize: "11px",
-            fontWeight: 700,
-            padding: "11px 20px",
-            textTransform: "none",
-            "&:hover": {
-              backgroundColor: "#006C59",
-              boxShadow: "none",
-            },
+            "&:hover": { backgroundColor: "#006C59", boxShadow: "none" },
           }}
         >
           {nextLabel}

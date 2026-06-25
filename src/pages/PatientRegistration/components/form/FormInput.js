@@ -1,5 +1,5 @@
-import TextField from "@mui/material/TextField";
 import React from "react";
+import TextField from "@mui/material/TextField";
 
 const FormInput = ({
   label,
@@ -30,13 +30,8 @@ const FormInput = ({
         error={error}
         helperText={helperText}
         sx={{
-          "& .MuiOutlinedInput-root": {
-            borderRadius: "8px",
-            fontSize: "12px",
-          },
-          "& .MuiOutlinedInput-input": {
-            padding: "13px 14px",
-          },
+          "& .MuiOutlinedInput-root": { borderRadius: "8px", fontSize: "12px" },
+          "& .MuiOutlinedInput-input": { padding: "13px 14px" },
         }}
       />
     </div>

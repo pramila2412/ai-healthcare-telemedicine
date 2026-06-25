@@ -1,6 +1,6 @@
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import React from "react";
-import { ALLOWED_FILE_EXTENSIONS } from "../utils/fileUtils";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { ALLOWED_FILE_EXTENSIONS } from "../../utils/fileUtils";
 
 const UploadBox = ({
   title,
@@ -16,7 +16,7 @@ const UploadBox = ({
       onFilesSelect(selectedFiles);
     }
 
-    // Allows user to upload the same file again after removing it.
+    // Allows selecting the same file again after removing it.
     event.target.value = "";
   };
 
@@ -32,7 +32,7 @@ const UploadBox = ({
 
       <div>
         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-700">
-          <CloudUploadOutlinedIcon sx={{ fontSize: 30 }} />
+          <CloudUploadIcon sx={{ fontSize: 30 }} />
         </div>
 
         <h4 className="mb-1 text-xs font-bold text-slate-700">{title}</h4>

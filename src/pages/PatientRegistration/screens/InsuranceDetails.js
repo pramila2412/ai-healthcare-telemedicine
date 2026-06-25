@@ -1,15 +1,16 @@
+import React, { useState } from "react";
+import Alert from "@mui/material/Alert";
+import Checkbox from "@mui/material/Checkbox";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DescriptionIcon from "@mui/icons-material/Description";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-import Alert from "@mui/material/Alert";
-import Checkbox from "@mui/material/Checkbox";
-import React, { useState } from "react";
-import ActionButtons from "../components/ActionButtons";
-import FilePreviewCard from "../components/FilePreviewCard";
-import FormInput from "../components/FormInput";
-import FormSelect from "../components/FormSelect";
-import UploadBox from "../components/UploadBox";
-import { insuranceProviders } from "../constants/options";
+import ActionButtons from "../components/common/ActionButtons";
+import SectionHeader from "../components/common/SectionHeader";
+import FormInput from "../components/form/FormInput";
+import FormSelect from "../components/form/FormSelect";
+import FilePreviewCard from "../components/upload/FilePreviewCard";
+import UploadBox from "../components/upload/UploadBox";
+import { insuranceProviders } from "../data/registrationOptions";
 import { isValidFileSize, isValidFileType } from "../utils/fileUtils";
 
 const InsuranceDetails = ({ data, updateData, onNext, onBack, onSkip }) => {
@@ -19,10 +20,7 @@ const InsuranceDetails = ({ data, updateData, onNext, onBack, onSkip }) => {
     const { name, value, checked, type } = event.target;
 
     setErrorMessage("");
-
-    updateData({
-      [name]: type === "checkbox" ? checked : value,
-    });
+    updateData({ [name]: type === "checkbox" ? checked : value });
   };
 
   const handleInsuranceCardUpload = (files) => {
@@ -40,19 +38,10 @@ const InsuranceDetails = ({ data, updateData, onNext, onBack, onSkip }) => {
       return;
     }
 
-    updateData({
-      insuranceCard: selectedFile,
-    });
-  };
-
-  const removeInsuranceCard = () => {
-    updateData({
-      insuranceCard: null,
-    });
+    updateData({ insuranceCard: selectedFile });
   };
 
   const handleNext = () => {
-    // Insurance is optional, but policy number is required if provider is selected.
     if (data.provider && !data.policyNumber?.trim()) {
       setErrorMessage("Please enter policy/customer number.");
       return;
@@ -63,14 +52,10 @@ const InsuranceDetails = ({ data, updateData, onNext, onBack, onSkip }) => {
 
   return (
     <section className="max-w-[930px]">
-      <div className="mb-7">
-        <h1 className="m-0 text-[22px] font-bold text-slate-900">
-          Insurance Information
-        </h1>
-        <p className="mt-2 text-xs leading-5 text-slate-400">
-          Add your insurance details to make claim processing faster and easier.
-        </p>
-      </div>
+      <SectionHeader
+        title="Insurance Information"
+        description="Add your insurance details to make claim processing faster and easier."
+      />
 
       {errorMessage && (
         <Alert severity="error" className="mb-5">
@@ -118,10 +103,7 @@ const InsuranceDetails = ({ data, updateData, onNext, onBack, onSkip }) => {
 
         {data.insuranceCard && (
           <div className="mt-4 max-w-[220px]">
-            <FilePreviewCard
-              file={data.insuranceCard}
-              onRemove={removeInsuranceCard}
-            />
+            <FilePreviewCard file={data.insuranceCard} onRemove={() => updateData({ insuranceCard: null })} />
           </div>
         )}
       </div>
@@ -132,16 +114,10 @@ const InsuranceDetails = ({ data, updateData, onNext, onBack, onSkip }) => {
           name="confirmation"
           checked={data.confirmation || false}
           onChange={handleChange}
-          sx={{
-            color: "#00856F",
-            "&.Mui-checked": {
-              color: "#00856F",
-            },
-          }}
+          sx={{ color: "#00856F", "&.Mui-checked": { color: "#00856F" } }}
         />
 
         <CheckCircleIcon sx={{ fontSize: 15, color: "#00856F" }} />
-
         <span>I confirm that the insurance information provided is correct.</span>
       </label>
 

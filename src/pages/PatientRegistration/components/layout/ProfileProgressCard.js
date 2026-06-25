@@ -1,15 +1,12 @@
+import React from "react";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LinearProgress from "@mui/material/LinearProgress";
-import React from "react";
 
 const ProfileProgressCard = ({ progress }) => {
   return (
-    <div className="mt-auto rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+    <div className="mt-5 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm md:mt-10">
       <div className="mb-3 flex items-center justify-between gap-3">
-        <h4 className="m-0 text-xs font-semibold text-slate-800">
-          Profile Progress
-        </h4>
-
+        <h4 className="m-0 text-xs font-semibold text-slate-800">Profile Progress</h4>
         <span className="whitespace-nowrap text-xs font-semibold text-emerald-700">
           {progress}% Complete
         </span>

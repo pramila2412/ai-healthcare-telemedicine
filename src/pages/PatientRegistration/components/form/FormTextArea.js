@@ -1,5 +1,5 @@
-import TextField from "@mui/material/TextField";
 import React from "react";
+import TextField from "@mui/material/TextField";
 
 const FormTextArea = ({
   label,
@@ -25,19 +25,10 @@ const FormTextArea = ({
         value={value || ""}
         onChange={onChange}
         placeholder={placeholder}
-        slotProps={{
-          htmlInput: {
-            maxLength,
-          },
-        }}
+        slotProps={{ htmlInput: { maxLength } }}
         sx={{
-          "& .MuiOutlinedInput-root": {
-            borderRadius: "8px",
-            fontSize: "12px",
-          },
-          "& .MuiOutlinedInput-input": {
-            lineHeight: 1.5,
-          },
+          "& .MuiOutlinedInput-root": { borderRadius: "8px", fontSize: "12px" },
+          "& .MuiOutlinedInput-input": { lineHeight: 1.5 },
         }}
       />
 

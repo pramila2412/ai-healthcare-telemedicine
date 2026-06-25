@@ -1,17 +1,28 @@
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import React from "react";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { registrationConfig } from "../../data/registrationConfig";
 import {
-    profileProgressByStep,
-    registrationSteps,
-} from "../constants/registrationSteps";
+  STEP_INDEXES,
+  profileProgressByStep,
+  registrationSteps,
+} from "../../data/registrationSteps";
 import ProfileProgressCard from "./ProfileProgressCard";
 
 const RegistrationSidebar = ({ currentStep }) => {
   const progress = profileProgressByStep[currentStep] || 0;
 
+  const visibleSteps = registrationConfig.showReviewStepInSidebar
+    ? registrationSteps
+    : registrationSteps.filter((step) => step.id !== STEP_INDEXES.REVIEW_COMPLETE);
+
+  const mobileStepperClass =
+    registrationConfig.mobileStepperVariant === "horizontal-scroll"
+      ? "flex gap-2 overflow-x-auto pb-1 md:flex-col md:overflow-visible md:pb-0 md:gap-5"
+      : "grid grid-cols-2 gap-2 md:flex md:flex-col md:gap-5";
+
   return (
-    <aside className="flex min-h-screen w-[250px] flex-col border-r border-slate-100 bg-[#F8FBFA] px-5 py-7 max-md:min-h-0 max-md:w-full max-md:border-b max-md:border-r-0">
-      <div className="mb-11 flex items-center gap-2.5 max-md:mb-6">
+    <aside className="w-full border-b border-slate-100 bg-[#F8FBFA] px-4 py-5 md:min-h-screen md:w-[250px] md:border-b-0 md:border-r md:px-5 md:py-7">
+      <div className="mb-5 flex items-center gap-2.5 md:mb-11">
         <img
           src="/images/logo.png"
           alt="MediConnect logo"
@@ -19,17 +30,13 @@ const RegistrationSidebar = ({ currentStep }) => {
         />
 
         <div>
-          <h3 className="m-0 text-sm font-bold text-emerald-700">
-            MediConnect
-          </h3>
-          <p className="m-0 text-[10px] text-slate-500">
-            AI Healthcare Platform
-          </p>
+          <h3 className="m-0 text-sm font-bold text-emerald-700">MediConnect</h3>
+          <p className="m-0 text-[10px] text-slate-500">AI Healthcare Platform</p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 max-md:gap-2.5">
-        {registrationSteps.map((step) => {
+      <div className={mobileStepperClass}>
+        {visibleSteps.map((step) => {
           const StepIcon = step.icon;
           const isCompleted = step.id < currentStep;
           const isActive = step.id === currentStep;
@@ -37,7 +44,7 @@ const RegistrationSidebar = ({ currentStep }) => {
           return (
             <div
               key={step.id}
-              className={`flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-xs transition ${
+              className={`flex min-w-0 items-center gap-2 rounded-xl px-2 py-2 text-[11px] transition md:gap-3 md:px-2.5 md:py-2.5 md:text-xs ${
                 isActive
                   ? "bg-emerald-50 font-bold text-emerald-700"
                   : isCompleted
@@ -59,7 +66,7 @@ const RegistrationSidebar = ({ currentStep }) => {
                 )}
               </div>
 
-              <span>{step.label}</span>
+              <span className="leading-4">{step.label}</span>
             </div>
           );
         })}

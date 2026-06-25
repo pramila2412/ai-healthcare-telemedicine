@@ -1,8 +1,8 @@
+import React from "react";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import React from "react";
 
 const FormSelect = ({
   label,
@@ -31,9 +31,7 @@ const FormSelect = ({
           sx={{
             borderRadius: "8px",
             fontSize: "12px",
-            "& .MuiSelect-select": {
-              padding: "13px 14px",
-            },
+            "& .MuiSelect-select": { padding: "13px 14px" },
           }}
         >
           <MenuItem value="">

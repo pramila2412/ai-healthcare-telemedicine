@@ -1,9 +1,9 @@
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import PersonIcon from "@mui/icons-material/Person";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export const STEP_INDEXES = {
   PERSONAL_DETAILS: 0,
