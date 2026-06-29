@@ -2,37 +2,33 @@ import './FeaturesSection.css';
 import React from 'react';
 import { Container } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
-import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
 const features = [
   {
     title: 'AI Health\nInsights',
     image: '/images/whychoose.png',
-    icon: <SmartToyOutlinedIcon className="text-primary" />,
+    icon: '/images/Group.svg',
     desc: 'Receive personalized health\nrecommendations and risk assessments.',
     bullets: ['Instant symptom analysis', 'Health risk assessment', 'Personalized recommendations']
   },
   {
     title: 'Connected\nMedical Records',
     image: '/images/whychoose1.png',
-    icon: <ReceiptLongOutlinedIcon className="text-primary" />,
+    icon: '/images/Records.svg',
     desc: 'Access prescriptions, reports, and\nconsultations from one place.',
     bullets: ['All records in one place', 'Easy access anytime', '100% secure & private']
   },
   {
     title: 'Secure Healthcare\nNetwork',
     image: '/images/whychoose2.png',
-    icon: <SecurityOutlinedIcon className="text-primary" />,
+    icon: '/images/Insurance.svg',
     desc: 'Enterprise-grade security\nand privacy protection.',
     bullets: ['Instant symptom analysis', 'Health risk assessment', 'Personalized recommendations']
   },
   {
     title: 'Continuous\nCare',
     image: '/images/whychoose3.png',
-    icon: <FavoriteBorderOutlinedIcon className="text-primary" />,
+    icon: '/images/Monitor.svg',
     desc: 'From appointments to\nfollow-ups and monitoring.',
     bullets: ['Health tips & articles', 'Lifestyle recommendations', 'Connect with experts']
   }
@@ -42,11 +38,11 @@ const FeaturesSection = () => {
   return (
     <section className="section-padding">
       <Container maxWidth="lg">
-        <div className="text-center mb-24">
-          <span className="section-overline">
+        <div className="text-center mb-16">
+          <span className="text-primary font-medium tracking-wide uppercase block mb-4">
             WHY CHOOSE US?
           </span>
-          <h2 className="section-heading mb-0">
+          <h2 className="text-gray-900 font-semibold text-3xl md:text-4xl lg:text-[2.5rem] leading-tight mb-0">
             Healthcare Powered by Intelligence
           </h2>
         </div>
@@ -55,55 +51,39 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="w-full max-w-[285px] h-[540px] mx-auto flex flex-col rounded-lg border border-[#D0D0D0] shadow-[0_12px_24px_-6px_rgba(0,0,0,0.1)] overflow-hidden bg-white"
+              className="w-full h-[580px] mx-auto flex flex-col rounded-[20px] border border-gray-200 overflow-hidden bg-white"
+              style={{ boxShadow: '0 8px 30px -10px rgba(0,0,0,0.06)' }}
             >
-              {/* Fallback image wrapper */}
-              <div 
-                className="h-[60%] relative overflow-hidden flex items-center justify-center bg-[#F9FAFB]"
-                style={{
-                  maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
-                  WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)'
-                }}
-              >
+              {/* Image filling the top area */}
+              <div className="h-[45%] w-full relative shrink-0">
                 <img
                   src={feature.image}
                   alt={feature.title}
-                  className="object-contain w-full h-full p-4 hidden"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
-                  onLoad={(e) => {
-                    e.target.style.display = 'block';
-                    if(e.target.nextSibling) e.target.nextSibling.style.display = 'none';
-                  }}
+                  className="object-cover object-top w-full h-full"
                 />
-                <div className="flex items-center justify-center h-full w-full">
-                  <span className="text-xs text-gray-500">Image placeholder</span>
-                </div>
               </div>
               
               <div className="p-6 flex-grow flex flex-col">
-                <div className="flex items-start mb-4">
-                  <div className="w-10 h-10 rounded-full bg-[#F0F9F6] flex items-center justify-center mr-4 shrink-0">
-                    {feature.icon}
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 rounded-full bg-[#F0F9F6] flex items-center justify-center mr-3 shrink-0">
+                    <img src={feature.icon} alt="Icon" className="w-5 h-5" />
                   </div>
-                  <h3 className="font-extrabold text-gray-900 leading-tight whitespace-pre-line text-[1.05rem]">
+                  <h3 className="font-bold text-gray-900 leading-tight whitespace-pre-line text-[0.95rem]">
                     {feature.title}
                   </h3>
                 </div>
-                <p className="text-primary mb-6 font-medium leading-relaxed whitespace-pre-line text-sm">
+                
+                <p className="text-primary mb-6 font-medium leading-snug whitespace-pre-line text-[0.8rem]">
                   {feature.desc}
                 </p>
-                <ul className="mt-auto space-y-2">
+                
+                <ul className="mt-auto space-y-2.5">
                   {feature.bullets.map((bullet, i) => (
                     <li key={i} className="flex items-start">
-                      <div className="min-w-[26px] mt-1">
-                        <div className="w-4 h-4 rounded-full bg-[#E5F3F0] flex items-center justify-center">
-                          <CheckIcon className="text-[12px] text-primary" style={{ stroke: '#0D8B72', strokeWidth: 1 }} />
-                        </div>
+                      <div className="min-w-[20px] mt-[1px]">
+                        <CheckIcon className="text-[14px]" style={{ color: '#0D8B72', stroke: '#0D8B72', strokeWidth: 1 }} />
                       </div>
-                      <span className="text-xs text-gray-500 font-medium leading-snug">
+                      <span className="text-[0.75rem] text-gray-500 font-medium leading-snug">
                         {bullet}
                       </span>
                     </li>
