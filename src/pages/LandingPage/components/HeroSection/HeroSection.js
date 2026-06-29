@@ -40,23 +40,14 @@ const HeroSection = () => {
               </p>
               
               <div className="flex flex-wrap gap-4 mb-12">
-                <Button 
-                  variant="contained" 
-                  color="primary" 
-                  size="large" 
-                  startIcon={<CalendarMonthIcon />}
-                  className="px-6 py-3 text-base rounded-lg shadow-none normal-case font-semibold"
-                >
+                <button className="px-6 py-3 flex items-center justify-center gap-2 text-base font-normal bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors border-none cursor-pointer">
+                  <CalendarMonthIcon className="text-[20px]" />
                   Book Appointment
-                </Button>
-                <Button 
-                  variant="outlined" 
-                  size="large" 
-                  startIcon={<VideocamOutlinedIcon />}
-                  className="px-6 py-3 text-base rounded-lg border-primary text-primary hover:bg-primary/5 normal-case font-semibold"
-                >
+                </button>
+                <button className="px-6 py-3 flex items-center justify-center gap-2 text-base font-normal border border-primary text-primary bg-transparent rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
+                  <VideocamOutlinedIcon className="text-[20px]" />
                   Consult Online
-                </Button>
+                </button>
               </div>
             </div>
 
@@ -72,10 +63,10 @@ const HeroSection = () => {
                     {item.icon}
                   </div>
                   <div>
-                    <p className="font-bold text-gray-700 text-xs leading-tight">
+                    <p className="font-semibold text-[#666666] text-xs leading-tight">
                       {item.title}
                     </p>
-                    <p className="text-gray-400 text-[0.7rem]">
+                    <p className="font-normal text-[#666666] text-[0.7rem]">
                       {item.desc}
                     </p>
                   </div>
@@ -104,8 +95,8 @@ const HeroSection = () => {
                     <VideocamOutlinedIcon className="text-primary text-[20px]" />
                  </div>
                  <div>
-                   <p className="font-extrabold text-gray-900 text-sm">Consult Online</p>
-                   <p className="text-gray-500 text-[0.7rem]">Connect in Few Seconds</p>
+                   <p className="font-semibold text-gray-900 text-sm">Consult Online</p>
+                   <p className="text-[#556660] text-[0.7rem]">Connect in Few Seconds</p>
                  </div>
               </Paper>
 
@@ -115,8 +106,8 @@ const HeroSection = () => {
                     <PersonSearchOutlinedIcon className="text-primary text-[20px]" />
                  </div>
                  <div>
-                   <p className="font-extrabold text-gray-900 text-sm">Find Doctors</p>
-                   <p className="text-gray-500 text-[0.7rem]">Verified specialists</p>
+                   <p className="font-semibold text-gray-900 text-sm">Find Doctors</p>
+                   <p className="text-[#556660] text-[0.7rem]">Verified specialists</p>
                  </div>
               </Paper>
 
@@ -126,8 +117,8 @@ const HeroSection = () => {
                     <ScienceOutlinedIcon className="text-primary text-[20px]" />
                  </div>
                  <div>
-                   <p className="font-extrabold text-gray-900 text-sm">Lab Tests</p>
-                   <p className="text-gray-500 text-[0.7rem]">Book tests at home</p>
+                   <p className="font-semibold text-gray-900 text-sm">Lab Tests</p>
+                   <p className="text-[#556660] text-[0.7rem]">Book tests at home</p>
                  </div>
               </Paper>
             </div>
