@@ -1,446 +1,303 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Search } from "lucide-react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+import FormInput from "../../../../shared/components/FormInput/FormInput";
+import FormSelect from "../../../../shared/components/FormSelect/FormSelect";
+import PrimaryButton from "../../../../shared/components/PrimaryButton/PrimaryButton";
+import RequiredNotice from "../../../../shared/components/RequiredNotice/RequiredNotice";
+import { genders, bloodGroups } from "../../../../shared/constants/patientRegistration/dropdownOptions";
+import { states, stateCities } from "../../../../shared/constants/patientRegistration/indianStates";
+
+import {
+  setPersonalInfo,
+  setActiveStep,
+} from "../../../../state-management/modules/patientRegistration/patientRegistrationActions";
+import { selectPersonalInfo } from "../../../../state-management/modules/patientRegistration/patientRegistrationSelectors";
+
 import user from "../../../../assets/patientRegistration/user.svg";
 import phone from "../../../../assets/patientRegistration/phone.svg";
 import email from "../../../../assets/patientRegistration/email.svg";
 import location from "../../../../assets/patientRegistration/location.svg";
-import dob from "../../../../assets/patientRegistration/dob.svg";
-import bloodgrp from "../../../../assets/patientRegistration/bloodgrp.svg";
 import gender from "../../../../assets/patientRegistration/gender.svg";
-import downArrow from "../../../../assets/patientRegistration/downarrow.svg";
+import bloodgrp from "../../../../assets/patientRegistration/bloodgrp.svg";
+import calender1 from "../../../../assets/patientRegistration/calender1.svg";
 import calender from "../../../../assets/patientRegistration/calender.svg";
-import star from "../../../../assets/patientRegistration/star.svg";
+import dob from "../../../../assets/patientRegistration/dob.svg";
 
-
-const states = [
-  "Andhra Pradesh",
-  "Arunachal Pradesh",
-  "Assam",
-  "Bihar",
-  "Chhattisgarh",
-  "Delhi",
-  "Goa",
-  "Gujarat",
-  "Haryana",
-  "Himachal Pradesh",
-  "Jharkhand",
-  "Karnataka",
-  "Kerala",
-  "Madhya Pradesh",
-  "Maharashtra",
-  "Odisha",
-  "Punjab",
-  "Rajasthan",
-  "Tamil Nadu",
-  "Telangana",
-  "Uttar Pradesh",
-  "Uttarakhand",
-  "West Bengal",
-  "Other",
-];
-
-const genders = ["Male", "Female", "Non-binary", "Prefer not to say"];
-
-const bloodGroups = [
-  "O+",
-  "A+",
-  "B+",
-  "AB+",
-  "O-",
-  "A-",
-  "B-",
-  "AB-",
-  "Don't Know",
-];
-
-const stateCities = {
-  "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Tirupati"],
-  "Arunachal Pradesh": ["Itanagar", "Tawang", "Pasighat"],
-  Assam: ["Guwahati", "Dibrugarh", "Silchar"],
-  Bihar: ["Patna", "Gaya", "Muzaffarpur"],
-  Chhattisgarh: ["Raipur", "Bilaspur", "Durg"],
-  Delhi: ["New Delhi", "Dwarka", "Rohini", "Saket"],
-  Goa: ["Panaji", "Margao", "Vasco da Gama"],
-  Gujarat: ["Ahmedabad", "Surat", "Vadodara", "Rajkot"],
-  Haryana: ["Gurugram", "Faridabad", "Panipat"],
-  "Himachal Pradesh": ["Shimla", "Manali", "Dharamshala"],
-  Jharkhand: ["Ranchi", "Jamshedpur", "Dhanbad"],
-  Karnataka: ["Bengaluru", "Mysuru", "Hubli", "Mangaluru"],
-  Kerala: ["Kochi", "Thiruvananthapuram", "Kozhikode"],
-  "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior"],
-  Maharashtra: ["Mumbai", "Pune", "Nagpur", "Nashik"],
-  Odisha: ["Bhubaneswar", "Cuttack", "Rourkela"],
-  Punjab: ["Ludhiana", "Amritsar", "Jalandhar"],
-  Rajasthan: ["Jaipur", "Jodhpur", "Udaipur"],
-  "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Salem"],
-  Telangana: ["Hyderabad", "Warangal", "Karimnagar"],
-  "Uttar Pradesh": ["Lucknow", "Kanpur", "Noida", "Varanasi"],
-  Uttarakhand: ["Dehradun", "Haridwar", "Nainital"],
-  "West Bengal": ["Kolkata", "Howrah", "Durgapur"],
-  Other: ["Other"],
+// ── Validation ────────────────────────────────────────────────────────────────
+const validateField = (name, value) => {
+  switch (name) {
+    case "fullName":
+      return !value?.trim() ? "Please enter your full name!" : "";
+    case "dob":
+      return !value ? "Please select your date of birth!" : "";
+    case "gender":
+      return !value ? "Please select your gender!" : "";
+    case "bloodGroup":
+      return !value ? "Please select your blood group!" : "";
+    case "state":
+      return !value ? "Please select your state!" : "";
+    case "city":
+      return !value ? "Please select your current city!" : "";
+    case "email":
+      if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+        return "Enter a valid email address!";
+      return "";
+    default:
+      return "";
+  }
 };
 
-const CustomSelect = ({
-  name,
-  value,
-  options,
-  placeholder,
-  searchPlaceholder,
-  icon,
-  inputClass,
-  onSelect,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const selectRef = useRef(null);
+const REQUIRED_FIELDS = ["fullName", "dob", "gender", "bloodGroup", "state", "city", "email"];
 
-  const filteredOptions = options.filter((option) =>
-    option.toLowerCase().includes(searchTerm.trim().toLowerCase()),
-  );
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (selectRef.current && !selectRef.current.contains(event.target)) {
-        setIsOpen(false);
-        setSearchTerm("");
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
-
-  const handleSelect = (option) => {
-    onSelect(name, option);
-    setIsOpen(false);
-    setSearchTerm("");
-  };
-
-  return (
-    <div className="relative" ref={selectRef}>
-      <button
-        type="button"
-        onClick={() => setIsOpen((current) => !current)}
-        className={`${inputClass} relative flex items-center text-left ${
-          value ? "text-[#141414]" : "text-[#666666]"
-        }`}
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-      >
-        <img
-          src={icon}
-          alt=""
-          className="absolute left-4 top-1/2 h-3.5 w-3.5 -translate-y-1/2"
-        />
-        <span className="block truncate">{value || placeholder}</span>
-        <img
-          src={downArrow}
-          alt=""
-          className={`absolute right-4 top-1/2 h-3.5 w-3.5 -translate-y-1/2 transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
-      </button>
-
-      {isOpen && (
-        <div className="absolute left-0 right-0 top-[calc(100%+6px)] z-30 overflow-hidden rounded-lg border border-[#E5E7EB] bg-white shadow-[0_10px_28px_rgba(20,20,20,0.14)]">
-          <div className="p-3">
-            <div className="relative">
-              <Search
-                size={16}
-                strokeWidth={1.75}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666]"
-              />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                placeholder={searchPlaceholder}
-                className="h-10 w-full rounded-md border border-[#E5E7EB] pl-12 pr-4 text-sm font-normal text-[#141414] outline-none cursor-pointer placeholder:text-[#777777] focus:border-[#D0D0D0]"
-                autoFocus
-              />
-            </div>
-          </div>
-
-          <div className="max-h-52 overflow-y-auto px-3 pb-2" role="listbox">
-            {filteredOptions.length > 0 ? (
-              filteredOptions.map((option) => {
-                const isSelected = option === value;
-
-                return (
-                  <button
-                    key={option}
-                    type="button"
-                    role="option"
-                    aria-selected={isSelected}
-                    onClick={() => handleSelect(option)}
-                    className={`relative flex h-12 w-full items-center border-b border-[#E5E7EB] text-left text-sm font-normal last:border-b-0 cursor-pointer px-3 transition-colors duration-150
-                         ${isSelected ? "bg-[#F4FAF7] text-[#096B58]" : "text-[#202020] hover:bg-[#F3F4F6]"}`}
-                  >
-                    {isSelected && (
-                      <span className="absolute left-0 top-0 h-full w-1 bg-[#096B58]" />
-                    )}
-                    {option}
-                  </button>
-                );
-              })
-            ) : (
-              <div className="flex h-12 items-center text-sm text-[#666666]">
-                No options found
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
+// ── PersonalInformation ───────────────────────────────────────────────────────
 const PersonalInformation = () => {
-  const dobInputRef = useRef(null);
-  const [formData, setFormData] = useState("");
+  const dispatch = useDispatch();
+  const saved = useSelector(selectPersonalInfo);
 
+  const [formData, setFormData] = useState(
+    saved || {
+      fullName: "",
+      dob: "",
+      phone: "",
+      email: "",
+      gender: "",
+      bloodGroup: "",
+      state: "",
+      city: "",
+    }
+  );
+
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  const showError = (name) => !!touched[name];
+
+  // ── Handlers ─────────────────────────────────────────────────────────────────
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(name === "state" ? { city: "" } : {}),
-    }));
-  };
-
-  const handleSelectChange = (name, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(name === "state" ? { city: "" } : {}),
-    }));
-  };
-
-  const openDatePicker = () => {
-    if (dobInputRef.current?.showPicker) {
-      dobInputRef.current.showPicker();
-    } else {
-      dobInputRef.current?.focus();
+    const updated = { ...formData, [name]: value, ...(name === "state" ? { city: "" } : {}) };
+    setFormData(updated);
+    if (touched[name]) {
+      setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
     }
   };
 
-  const inputClass =
-    "w-full h-10 border border-[#E5E7EB] rounded-lg px-6 pl-12 pr-10 text-xs font-normal text-[#141414] focus:outline-none cursor-pointer";
+  const handleBlur = (name, value) => {
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+  };
 
-  const labelClass = "block mb-2 text-[12px] font-normal  text-[#202020]";
+  const handleSelectChange = (name, value) => {
+    const updated = { ...formData, [name]: value, ...(name === "state" ? { city: "" } : {}) };
+    setFormData(updated);
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prev) => ({
+      ...prev,
+      [name]: validateField(name, value),
+      ...(name === "state" ? { city: "" } : {}),
+    }));
+  };
 
+  const handleSelectBlur = (name) => {
+    if (!formData[name]) {
+      setTouched((prev) => ({ ...prev, [name]: true }));
+      setErrors((prev) => ({ ...prev, [name]: validateField(name, formData[name]) }));
+    }
+  };
+
+  // ── Submit ────────────────────────────────────────────────────────────────────
+  const handleNext = () => {
+    const newErrors = {};
+    REQUIRED_FIELDS.forEach((f) => { newErrors[f] = validateField(f, formData[f]); });
+    const hasErrors = Object.values(newErrors).some((e) => e !== "");
+    if (hasErrors) return;
+
+    dispatch(setPersonalInfo(formData));
+    dispatch(setActiveStep("additional"));
+  };
+
+  const isFormValid =
+    formData.fullName?.trim() &&
+    formData.dob &&
+    formData.gender &&
+    formData.bloodGroup &&
+    formData.state &&
+    formData.city;
+
+  const labelClass = "block mb-2 text-[12px] font-normal text-[#202020]";
+
+  // ── Render ────────────────────────────────────────────────────────────────────
   return (
-    <div className="px-10 mt-12">
+    <div className="px-7 md:px-10 mt-6 md:mt-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
         {/* Full Name */}
         <div>
-          <label className={labelClass}>
-            Full Name <span className="text-[#EF4444]">*</span>
-          </label>
-
-          <div className="relative">
-            <img
-              src={user}
-              alt="user"
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-3 h-3"
-            />
-
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="Enter your full name"
-              className={`${inputClass} pl-12 placeholder:text-[#666666]`}
-            />
-          </div>
+          <label className={labelClass}>Full Name <span className="text-[#EF4444]">*</span></label>
+          <FormInput
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+            onBlur={(e) => handleBlur("fullName", e.target.value)}
+            placeholder="Enter your full name"
+            icon={user}
+            iconAlt="user"
+            error={errors.fullName}
+            showError={showError("fullName")}
+          />
         </div>
 
-        {/* DOB */}
+        {/* Date of Birth */}
         <div>
-          <label className={labelClass}>
-            Date of Birth <span className="text-[#EF4444]">*</span>
-          </label>
-
+          <label className={labelClass}>Date of Birth <span className="text-[#EF4444]">*</span></label>
           <div className="relative">
             <img
-              src={dob}
+              src={formData.dob ? dob : calender1}
               alt="dob"
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 z-10"
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 z-10 pointer-events-none"
             />
-
-            <input
-              ref={dobInputRef}
-              type="date"
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
-              onClick={openDatePicker}
-              className={`${inputClass} date-input ${
-                !formData.dob ? "date-input-empty" : "text-[#141414]"
-              }`}
+            <DatePicker
+              selected={formData.dob ? new Date(formData.dob) : null}
+              onChange={(date) => {
+                const value = date ? date.toISOString().split("T")[0] : "";
+                handleChange({ target: { name: "dob", value } });
+                setTouched((prev) => ({ ...prev, dob: true }));
+                setErrors((prev) => ({ ...prev, dob: validateField("dob", value) }));
+              }}
+              onCalendarClose={() => {
+                if (!formData.dob) {
+                  setTouched((prev) => ({ ...prev, dob: true }));
+                  setErrors((prev) => ({ ...prev, dob: validateField("dob", formData.dob) }));
+                }
+              }}
+              dateFormat="d MMMM yyyy"
+              placeholderText="Select date of birth"
+              wrapperClassName="w-full"
+              className={`w-full h-10 rounded-lg border border-[#E5E7EB] pl-12 pr-12 text-xs font-normal text-[#141414] outline-none placeholder:text-[#666666] focus:border-[#096B58] transition-colors ${showError("dob") && errors.dob ? "border-[#EF4444]" : ""}`}
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={100}
             />
-
-            {!formData.dob && (
-              <span className="pointer-events-none absolute left-12 top-1/2 -translate-y-1/2 text-xs font-normal text-[#666666]">
-                Select date of birth
-              </span>
-            )}
-
-            <button
-              type="button"
-              onClick={openDatePicker}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10"
-            >
-              <img src={calender} alt="calendar" className="w-4 h-4" />
+            <button type="button" className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+              <img src={calender} alt="calendar" className="w-6 h-6" />
             </button>
+            {showError("dob") && errors.dob && (
+              <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-[#EF4444]">{errors.dob}</p>
+            )}
           </div>
         </div>
 
-        {/* Phone */}
+        {/* Phone Number */}
         <div>
           <label className={labelClass}>Phone Number</label>
-
-          <div className="relative">
-            <img
-              src={phone}
-              alt="phone"
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-3"
-            />
-
-            <input
-              type="text"
-              value={formData.phone}
-              disabled
-              className={`${inputClass} pl-12 bg-[#F5F5F5] text-[#666666]`}
-            />
-          </div>
+          <FormInput
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="+91 9876 543 210"
+            icon={phone}
+            iconAlt="phone"
+          />
         </div>
 
-        {/* Email */}
+        {/* Email Address */}
         <div>
           <label className={labelClass}>Email Address</label>
-
-          <div className="relative">
-            <img
-              src={email}
-              alt="email"
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-3"
-            />
-
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email (optional)"
-              className={`${inputClass} pl-12 placeholder:text-[#666666]`}
-            />
-          </div>
+          <FormInput
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            onBlur={(e) => handleBlur("email", e.target.value)}
+            placeholder="Enter your email (optional)"
+            icon={email}
+            iconAlt="email"
+            error={errors.email}
+            showError={showError("email")}
+          />
         </div>
 
         {/* Gender */}
         <div>
-          <label className={labelClass}>
-            Gender <span className="text-[#EF4444]">*</span>
-          </label>
-
-          <CustomSelect
+          <label className={labelClass}>Gender <span className="text-[#EF4444]">*</span></label>
+          <FormSelect
             name="gender"
             value={formData.gender}
             options={genders}
             placeholder="Select your gender"
-            searchPlaceholder="Search Gender"
+            searchPlaceholder="Search gender"
             icon={gender}
-            inputClass={inputClass}
             onSelect={handleSelectChange}
+            onBlur={handleSelectBlur}
+            error={errors.gender}
+            showError={showError("gender")}
           />
         </div>
 
         {/* Blood Group */}
         <div>
-          <label className={labelClass}>
-            Blood Group <span className="text-[#EF4444]">*</span>
-          </label>
-
-          <CustomSelect
+          <label className={labelClass}>Blood Group <span className="text-[#EF4444]">*</span></label>
+          <FormSelect
             name="bloodGroup"
             value={formData.bloodGroup}
             options={bloodGroups}
             placeholder="Select your blood group"
-            searchPlaceholder="Search Blood Group"
+            searchPlaceholder="Search blood group"
             icon={bloodgrp}
-            inputClass={inputClass}
             onSelect={handleSelectChange}
+            onBlur={handleSelectBlur}
+            error={errors.bloodGroup}
+            showError={showError("bloodGroup")}
           />
         </div>
 
         {/* State */}
         <div>
-          <label className={labelClass}>
-            State <span className="text-[#EF4444]">*</span>
-          </label>
-
-          <CustomSelect
+          <label className={labelClass}>State <span className="text-[#EF4444]">*</span></label>
+          <FormSelect
             name="state"
             value={formData.state}
             options={states}
             placeholder="Select state"
-            searchPlaceholder="Search State"
+            searchPlaceholder="Search state"
             icon={location}
-            inputClass={inputClass}
             onSelect={handleSelectChange}
+            onBlur={handleSelectBlur}
+            error={errors.state}
+            showError={showError("state")}
           />
         </div>
 
-        {/* City */}
+        {/* Current City */}
         <div>
-          <label className={labelClass}>
-            Current City <span className="text-[#EF4444]">*</span>
-          </label>
-
-          <CustomSelect
+          <label className={labelClass}>Current City <span className="text-[#EF4444]">*</span></label>
+          <FormSelect
             name="city"
             value={formData.city}
             options={formData.state ? stateCities[formData.state] || [] : []}
             placeholder="Select your current city"
-            searchPlaceholder="Search City"
+            searchPlaceholder="Search city"
             icon={location}
-            inputClass={inputClass}
             onSelect={handleSelectChange}
+            onBlur={handleSelectBlur}
+            error={errors.city}
+            showError={showError("city")}
           />
         </div>
       </div>
 
-      
-      <div className="mt-12 w-136.25 h-10 border border-[#E5E7EB] rounded-lg px-4 flex items-center gap-2 bg-[#FBFBFB] relative">
-        <img
-          src={star}
-          alt="star"
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-3 h-3"
-        />
-        <span className="text-xs font-medium text-[#141414] pl-5">
-          These fields are required!
-        </span>
-      </div>
-      {/* Personal Information Fields */}
+      <RequiredNotice />
 
-<div className="mt-25 flex justify-end">
-  <button
-    type="button"
-    className="w-[223px] h-[56px] rounded-lg bg-[#096B58] px-6 text-xs font-medium text-white flex items-center justify-center cursor-pointer 
-    shadow-[0px_1px_1px_0px_rgba(9,107,88,0.24),0px_2px_2px_0px_rgba(9,107,88,0.07),0px_4px_4px_0px_rgba(9,107,88,0.07),0px_8px_8px_0px_rgba(9,107,88,0.07)]"
-  >
-    Add Additional Information
-  </button>
-</div>
+      {/* CTA */}
+      <div className="mt-16 md:mt-40 flex justify-end pb-10 md:pb-0">
+        <PrimaryButton onClick={handleNext} disabled={!isFormValid}>
+          Add Additional Information
+        </PrimaryButton>
+      </div>
     </div>
-    
   );
 };
 
