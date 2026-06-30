@@ -104,7 +104,8 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group flex flex-col bg-white border border-[#E5E7EB] rounded-[16px] overflow-hidden shadow-sm hover:shadow-xl hover:border-[#14937B]/20 transition-all duration-300 h-full"
+              className="w-full max-w-[285px] h-[580px] mx-auto flex flex-col rounded-[20px] border border-gray-200 overflow-hidden bg-white"
+              style={{ boxShadow: '0 8px 30px -10px rgba(0,0,0,0.06)' }}
             >
               {/* Image Section */}
               <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] xl:aspect-[4/3] flex items-center justify-center p-6 overflow-hidden">
