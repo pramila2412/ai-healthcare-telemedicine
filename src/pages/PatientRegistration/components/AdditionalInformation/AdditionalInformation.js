@@ -1,11 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import FormInput from "../../../../shared/components/FormInput/FormInput";
-import FormSelect from "../../../../shared/components/FormSelect/FormSelect";
-import UnitToggle from "../../../../shared/components/UnitToggle/UnitToggle";
-import PrimaryButton from "../../../../shared/components/PrimaryButton/PrimaryButton";
-import SecondaryButton from "../../../../shared/components/SecondaryButton/SecondaryButton";
+import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
+import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
+import UnitToggle from "@/shared/components/PatientRegistration/form/UnitToggle";
+import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
 import {
   heightUnits,
   weightUnits,
@@ -14,15 +13,15 @@ import {
   smokingStatuses,
   alcoholOptions,
   relationships,
-} from "../../../../shared/constants/patientRegistration/dropdownOptions";
+} from "@/shared/constants/patientRegistration/registrationConfig.js";
 
 import {
   setAdditionalInfo,
   setActiveStep,
-} from "../../../../state-management/modules/patientRegistration/patientRegistrationActions";
-import { selectAdditionalInfo } from "../../../../state-management/modules/patientRegistration/patientRegistrationSelectors";
+} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+import { selectAdditionalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 
-import phone from "../../../../assets/patientRegistration/phone.svg";
+import phone from "@assets/patientRegistration/phone.svg";
 
 // ── Validation ────────────────────────────────────────────────────────────────
 const validateField = (name, value, data = {}) => {
@@ -351,18 +350,15 @@ const AdditionalInformation = () => {
 
       {/* CTA Buttons */}
       <div className="mt-16 md:mt-30.5 flex flex-col-reverse sm:flex-row gap-4 items-stretch sm:items-center sm:justify-between pb-10 md:pb-0">
-        <SecondaryButton variant="skip" onClick={handleSkip}>
-          Skip for now
-        </SecondaryButton>
-
-        <div className="flex flex-col-reverse sm:flex-row gap-4 items-stretch sm:items-center">
-          <SecondaryButton variant="back" onClick={handleGoBack}>
-            Go Back
-          </SecondaryButton>
-          <PrimaryButton onClick={handleNext} disabled={!isFormValid}>
-            Add Medical History
-          </PrimaryButton>
-        </div>
+        <ActionButtons
+          skip={{ label: "Skip for now", onClick: handleSkip }}
+          back={{ label: "Go Back", onClick: handleGoBack }}
+          next={{
+            label: "Add Medical History",
+            onClick: handleNext,
+            disabled: !isFormValid,
+          }}
+        />
       </div>
     </div>
   );

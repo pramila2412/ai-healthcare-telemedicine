@@ -3,28 +3,27 @@ import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import FormInput from "../../../../shared/components/FormInput/FormInput";
-import FormSelect from "../../../../shared/components/FormSelect/FormSelect";
-import PrimaryButton from "../../../../shared/components/PrimaryButton/PrimaryButton";
-import RequiredNotice from "../../../../shared/components/RequiredNotice/RequiredNotice";
-import { genders, bloodGroups } from "../../../../shared/constants/patientRegistration/dropdownOptions";
-import { states, stateCities } from "../../../../shared/constants/patientRegistration/indianStates";
+import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
+import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
+import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
+import RequiredNotice from "@/shared/components/PatientRegistration/common/RequiredNotice";
+import { genders, bloodGroups, states, stateCities } from "../../../../shared/constants/patientRegistration/registrationConfig";
 
 import {
   setPersonalInfo,
   setActiveStep,
-} from "../../../../state-management/modules/patientRegistration/patientRegistrationActions";
-import { selectPersonalInfo } from "../../../../state-management/modules/patientRegistration/patientRegistrationSelectors";
+} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+import { selectPersonalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 
-import user from "../../../../assets/patientRegistration/user.svg";
-import phone from "../../../../assets/patientRegistration/phone.svg";
-import email from "../../../../assets/patientRegistration/email.svg";
-import location from "../../../../assets/patientRegistration/location.svg";
-import gender from "../../../../assets/patientRegistration/gender.svg";
-import bloodgrp from "../../../../assets/patientRegistration/bloodgrp.svg";
-import calender1 from "../../../../assets/patientRegistration/calender1.svg";
-import calender from "../../../../assets/patientRegistration/calender.svg";
-import dob from "../../../../assets/patientRegistration/dob.svg";
+import user from "@assets/patientRegistration/user.svg";
+import phone from "@assets/patientRegistration/phone.svg";
+import email from "@assets/patientRegistration/email.svg";
+import location from "@assets/patientRegistration/location.svg";
+import gender from "@assets/patientRegistration/gender.svg";
+import bloodgrp from "@assets/patientRegistration/bloodgrp.svg";
+import calender1 from "@assets/patientRegistration/calender1.svg";
+import calender from "@assets/patientRegistration/calender.svg";
+import dob from "@assets/patientRegistration/dob.svg";
 
 // ── Validation ────────────────────────────────────────────────────────────────
 const validateField = (name, value) => {
@@ -293,9 +292,13 @@ const PersonalInformation = () => {
 
       {/* CTA */}
       <div className="mt-16 md:mt-40 flex justify-end pb-10 md:pb-0">
-        <PrimaryButton onClick={handleNext} disabled={!isFormValid}>
-          Add Additional Information
-        </PrimaryButton>
+        <ActionButtons
+          next={{
+            label: "Add Additional Information",
+            onClick: handleNext,
+            disabled: !isFormValid,
+          }}
+        />
       </div>
     </div>
   );

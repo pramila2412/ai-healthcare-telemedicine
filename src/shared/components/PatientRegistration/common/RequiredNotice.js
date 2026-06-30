@@ -1,9 +1,9 @@
 import React from "react";
-import star from "../../../assets/patientRegistration/star.svg";
+import star from "@assets/patientRegistration/star.svg";
 
 /**
  * RequiredNotice — the "★ These fields are required!" notice bar
- * rendered at the bottom of each form step above the CTA.
+ * rendered at the bottom of a form step above the CTA row.
  *
  * Props:
  *   message {string} — override the default message (optional)

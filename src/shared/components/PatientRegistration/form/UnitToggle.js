@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import downArrow from "../../../assets/patientRegistration/downarrow.svg";
+import downArrow from "@assets/patientRegistration/downarrow.svg";
 
 /**
  * UnitToggle — small inline dropdown for switching units (cm/ft, kg/lb).

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
-import downArrow from "../../../assets/patientRegistration/downarrow.svg";
+import downArrow from "@assets/patientRegistration/downarrow.svg";
 
 /**
  * FormSelect — searchable custom dropdown, shared across all registration steps.

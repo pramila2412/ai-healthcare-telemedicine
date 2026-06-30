@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import RefreshIcon from "../../../../assets/patientRegistration/refresh.svg";
-import LockIcon from "../../../../assets/patientRegistration/lock.svg";
-import EyeIcon from "../../../../assets/patientRegistration/eye.svg";
-import AvailableIcon from "../../../../assets/patientRegistration/AvailableIcon.svg";
-import TakenIcon from "../../../../assets/patientRegistration/TakenIcon.svg";
-import WarningIcon from "../../../../assets/patientRegistration/WarningIcon.svg";
-import XCircleIcon from "../../../../assets/patientRegistration/XCircleIcon.svg";
-import CheckCircleIcon from "../../../../assets/patientRegistration/CheckCircleIcon.svg";
-import CircleIcon from "../../../../assets/patientRegistration/CircleIcon.svg";
+import RefreshIcon from "@assets/patientRegistration/refresh.svg";
+import LockIcon from "@assets/patientRegistration/lock.svg";
+import EyeIcon from "@assets/patientRegistration/eye.svg";
+import AvailableIcon from "@assets/patientRegistration/AvailableIcon.svg";
+import TakenIcon from "@assets/patientRegistration/TakenIcon.svg";
+import WarningIcon from "@assets/patientRegistration/WarningIcon.svg";
+import XCircleIcon from "@assets/patientRegistration/XCircleIcon.svg";
+import CheckCircleIcon from "@assets/patientRegistration/CheckCircleIcon.svg";
+import CircleIcon from "@assets/patientRegistration/CircleIcon.svg";
+
+import InfoChip from "@/shared/components/PatientRegistration/common/InfoChip";
+import SectionHeader from "@/shared/components/PatientRegistration/common/SectionHeader";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const randomSuffix = () => {
@@ -292,17 +295,6 @@ const PasswordInput = ({
   );
 };
 
-// ─── SuggestionChip ───────────────────────────────────────────────────────────
-const SuggestionChip = ({ id, onSelect }) => (
-  <button
-    type="button"
-    onClick={() => onSelect(id)}
-    className="h-9 whitespace-nowrap rounded-lg border border-[#D0D0D0] bg-white px-3.5 text-xs font-normal text-[#141414] cursor-pointer transition-colors duration-150 hover:border-[#096B58] font-TypeFace"
-  >
-    {id}
-  </button>
-);
-
 // ─── Main Component ───────────────────────────────────────────────────────────
 const ReviewAndComplete = ({ setActiveStep }) => {
   const [idSuffix, setIdSuffix] = useState("7G3H81");
@@ -388,17 +380,15 @@ const ReviewAndComplete = ({ setActiveStep }) => {
             SECTION 1 — Create Your Unique Patient ID
         ══════════════════════════════════════════════════════════════════ */}
         <div>
-          {/* H4 / 16px / SemiBold 600 */}
-          <h2 className="mb-1.5 text-base font-semibold text-[#141414] leading-none font-TypeFace">
-            Create Your Unique Patient ID
-          </h2>
-
-          {/* H5 / 12px / Regular 400 */}
-          <p className="mb-2 text-xs font-normal leading-relaxed text-[#666666] font-TypeFace">
-            {idStatus === "available"
-              ? "Your MediConnect ID is a unique username that lets you securely sign in and access appointments, reports, prescriptions, and healthcare services."
-              : "This ID will be used to access your health records and services securely"}
-          </p>
+          <SectionHeader
+            size="sm"
+            title="Create Your Unique Patient ID"
+            description={
+              idStatus === "available"
+                ? "Your MediConnect ID is a unique username that lets you securely sign in and access appointments, reports, prescriptions, and healthcare services."
+                : "This ID will be used to access your health records and services securely"
+            }
+          />
 
           {/* ID field */}
           <div>
@@ -431,9 +421,9 @@ const ReviewAndComplete = ({ setActiveStep }) => {
           {/* Chips */}
           <div className="flex flex-wrap gap-2.5">
             {suggestions.map((s) => (
-              <SuggestionChip
+              <InfoChip
                 key={s}
-                id={s}
+                label={s}
                 onSelect={handleSuggestionSelect}
               />
             ))}
@@ -447,15 +437,12 @@ const ReviewAndComplete = ({ setActiveStep }) => {
             SECTION 2 — Create a strong password
         ══════════════════════════════════════════════════════════════════ */}
         <div>
-          {/* H4 / 16px / SemiBold 600 */}
-          <h2 className="mb-1.5 text-base font-semibold text-[#141414] leading-none font-TypeFace">
-            Create a strong password
-          </h2>
-
-          {/* H5 / 12px / Regular 400 */}
-          <p className="mb-4 text-xs font-normal leading-relaxed text-[#666666] font-TypeFace">
-            Create a strong password with a mix of letters, numbers and symbols
-          </p>
+          <SectionHeader
+            size="sm"
+            title="Create a strong password"
+            description="Create a strong password with a mix of letters, numbers and symbols"
+            descriptionClassName="mb-4 text-xs font-normal leading-relaxed text-[#666666] font-TypeFace"
+          />
 
           {/* Two equal columns — stack on mobile, side-by-side on md+ */}
           <div className="flex w-full flex-col gap-6 md:flex-row md:items-start md:gap-6">
