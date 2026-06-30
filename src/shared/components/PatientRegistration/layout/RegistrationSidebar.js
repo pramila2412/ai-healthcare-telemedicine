@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import {
   profileProgressByStep,
   registrationSteps,
-} from "../../data/registrationSteps";
+} from "../../../constants/PatientRegistration/registrationSteps";
 import ProfileProgressCard from "./ProfileProgressCard";
 
 const RegistrationSidebar = ({ currentStep }) => {

@@ -1,13 +1,8 @@
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import React from "react";
-import RegistrationShell from "./components/layout/RegistrationShell";
-import { STEP_INDEXES } from "./data/registrationSteps";
-import usePatientRegistration from "./hooks/usePatientRegistration";
-import "./PatientRegistration.css";
-import HealthRecordsUpload from "./screens/HealthRecordsUpload";
-import InsuranceDetails from "./screens/InsuranceDetails";
-import MedicalHistory from "./screens/MedicalHistory";
+import RegistrationShell from "../../shared/components/PatientRegistration/layout/RegistrationShell";
+import { STEP_INDEXES } from "../../shared/constants/PatientRegistration/registrationSteps";
+import HealthRecordsUpload from "./components/HealthRecordsUpload/HealthRecordsUpload";
+import InsuranceDetails from "./components/InsuranceDetails/InsuranceDetails";
+import MedicalHistory from "./components/MedicalHistory/MedicalHistory";
 
 const PatientRegistration = () => {
   const {

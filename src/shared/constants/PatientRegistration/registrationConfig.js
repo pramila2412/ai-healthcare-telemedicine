@@ -9,3 +9,6 @@ export const registrationConfig = {
   // Future options: "compact-grid", "horizontal-scroll".
   mobileStepperVariant: "compact-grid",
 };
+export const insuranceProviders = registrationConfig.insuranceProviders;
+export const documentTypes = registrationConfig.documentTypes;
+export const healthRecordTypes = registrationConfig.healthRecordTypes;

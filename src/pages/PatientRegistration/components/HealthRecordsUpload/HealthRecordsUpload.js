@@ -4,11 +4,14 @@ import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import Alert from "@mui/material/Alert";
 import React, { useState } from "react";
-import ActionButtons from "../components/common/ActionButtons";
-import SectionHeader from "../components/common/SectionHeader";
-import FilePreviewCard from "../components/upload/FilePreviewCard";
-import UploadBox from "../components/upload/UploadBox";
-import { createFileRecord, validateFiles } from "../utils/fileUtils";
+import ActionButtons from "../../../../shared/components/PatientRegistration/common/ActionButtons";
+import SectionHeader from "../../../../shared/components/PatientRegistration/common/SectionHeader";
+import FilePreviewCard from "../../../../shared/components/PatientRegistration/upload/FilePreviewCard";
+import UploadBox from "../../../../shared/components/PatientRegistration/upload/UploadBox";
+import {
+  createFileRecord,
+  validateFiles,
+} from "../../../../shared/utils/PatientRegistration/fileUtils";
 
 const supportedDocuments = [
   {

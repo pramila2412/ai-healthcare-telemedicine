@@ -2,7 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import LinearProgress from "@mui/material/LinearProgress";
 import React, { useEffect, useState } from "react";
-import { formatFileSize } from "../../utils/fileUtils";
+import { formatFileSize } from "../../../utils/PatientRegistration/fileUtils";
 
 const FilePreviewCard = ({
   file,

@@ -3,9 +3,9 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import MedicationIcon from "@mui/icons-material/Medication";
 import WarningIcon from "@mui/icons-material/Warning";
 import React from "react";
-import ActionButtons from "../components/common/ActionButtons";
-import SectionHeader from "../components/common/SectionHeader";
-import FormTextArea from "../components/form/FormTextArea";
+import ActionButtons from "../../../../shared/components/PatientRegistration/common/ActionButtons";
+import SectionHeader from "../../../../shared/components/PatientRegistration/common/SectionHeader";
+import FormTextArea from "../../../../shared/components/PatientRegistration/form/FormTextArea";
 
 const MedicalHistory = ({ data, updateData, onNext, onBack, onSkip }) => {
   const handleChange = (event) => {

@@ -1,6 +1,6 @@
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import React from "react";
-import { ALLOWED_FILE_EXTENSIONS } from "../../utils/fileUtils";
+import { ALLOWED_FILE_EXTENSIONS } from "../../../utils/PatientRegistration/fileUtils";
 
 const UploadBox = ({
   title,

@@ -3,14 +3,17 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import Alert from "@mui/material/Alert";
 import React, { useState } from "react";
-import ActionButtons from "../components/common/ActionButtons";
-import SectionHeader from "../components/common/SectionHeader";
-import FormInput from "../components/form/FormInput";
-import FormSelect from "../components/form/FormSelect";
-import FilePreviewCard from "../components/upload/FilePreviewCard";
-import UploadBox from "../components/upload/UploadBox";
-import { insuranceProviders } from "../data/registrationOptions";
-import { isValidFileSize, isValidFileType } from "../utils/fileUtils";
+import ActionButtons from "../../../../shared/components/PatientRegistration/common/ActionButtons";
+import SectionHeader from "../../../../shared/components/PatientRegistration/common/SectionHeader";
+import FormInput from "../../../../shared/components/PatientRegistration/form/FormInput";
+import FormSelect from "../../../../shared/components/PatientRegistration/form/FormSelect";
+import FilePreviewCard from "../../../../shared/components/PatientRegistration/upload/FilePreviewCard";
+import UploadBox from "../../../../shared/components/PatientRegistration/upload/UploadBox";
+import { insuranceProviders } from "../../../../shared/constants/PatientRegistration/registrationConfig";
+import {
+  isValidFileSize,
+  isValidFileType,
+} from "../../../../shared/utils/PatientRegistration/fileUtils";
 
 const InsuranceDetails = ({ data, updateData, onNext, onBack, onSkip }) => {
   const [errorMessage, setErrorMessage] = useState("");
