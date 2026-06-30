@@ -1,48 +1,50 @@
-export const PATIENT_REGISTRATION_ACTION_TYPES = {
-  UPDATE_FORM_SECTION: "PATIENT_REGISTRATION/UPDATE_FORM_SECTION",
-  SET_FORM_DATA: "PATIENT_REGISTRATION/SET_FORM_DATA",
-  SET_CURRENT_STEP: "PATIENT_REGISTRATION/SET_CURRENT_STEP",
-  GO_TO_NEXT_STEP: "PATIENT_REGISTRATION/GO_TO_NEXT_STEP",
-  GO_TO_PREVIOUS_STEP: "PATIENT_REGISTRATION/GO_TO_PREVIOUS_STEP",
-  OPEN_NOTIFICATION: "PATIENT_REGISTRATION/OPEN_NOTIFICATION",
-  CLOSE_NOTIFICATION: "PATIENT_REGISTRATION/CLOSE_NOTIFICATION",
-  RESET_REGISTRATION: "PATIENT_REGISTRATION/RESET_REGISTRATION",
-};
+// ── Action Types ──────────────────────────────────────────────────────────────
+export const SET_PERSONAL_INFO = "patientRegistration/SET_PERSONAL_INFO";
+export const SET_ADDITIONAL_INFO = "patientRegistration/SET_ADDITIONAL_INFO";
+export const SET_MEDICAL_HISTORY = "patientRegistration/SET_MEDICAL_HISTORY";
+export const SET_INSURANCE_INFO = "patientRegistration/SET_INSURANCE_INFO";
+export const SET_HEALTH_RECORDS = "patientRegistration/SET_HEALTH_RECORDS";
+export const SET_REVIEW_COMPLETE = "patientRegistration/SET_REVIEW_COMPLETE";
+export const SET_ACTIVE_STEP = "patientRegistration/SET_ACTIVE_STEP";
+export const RESET_REGISTRATION = "patientRegistration/RESET_REGISTRATION";
 
-export const updatePatientRegistrationFormSection = (section, sectionData) => ({
-  type: PATIENT_REGISTRATION_ACTION_TYPES.UPDATE_FORM_SECTION,
-  payload: {
-    section,
-    sectionData,
-  },
+// ── Action Creators ───────────────────────────────────────────────────────────
+
+export const setPersonalInfo = (data) => ({
+  type: SET_PERSONAL_INFO,
+  payload: data,
 });
 
-export const setPatientRegistrationFormData = (formData) => ({
-  type: PATIENT_REGISTRATION_ACTION_TYPES.SET_FORM_DATA,
-  payload: formData,
+export const setAdditionalInfo = (data) => ({
+  type: SET_ADDITIONAL_INFO,
+  payload: data,
 });
 
-export const setPatientRegistrationCurrentStep = (stepIndex) => ({
-  type: PATIENT_REGISTRATION_ACTION_TYPES.SET_CURRENT_STEP,
-  payload: stepIndex,
+export const setMedicalHistory = (data) => ({
+  type: SET_MEDICAL_HISTORY,
+  payload: data,
 });
 
-export const goToNextPatientRegistrationStep = () => ({
-  type: PATIENT_REGISTRATION_ACTION_TYPES.GO_TO_NEXT_STEP,
+export const setInsuranceInfo = (data) => ({
+  type: SET_INSURANCE_INFO,
+  payload: data,
 });
 
-export const goToPreviousPatientRegistrationStep = () => ({
-  type: PATIENT_REGISTRATION_ACTION_TYPES.GO_TO_PREVIOUS_STEP,
+export const setHealthRecords = (data) => ({
+  type: SET_HEALTH_RECORDS,
+  payload: data,
 });
 
-export const openPatientRegistrationNotification = () => ({
-  type: PATIENT_REGISTRATION_ACTION_TYPES.OPEN_NOTIFICATION,
+export const setReviewComplete = (data) => ({
+  type: SET_REVIEW_COMPLETE,
+  payload: data,
 });
 
-export const closePatientRegistrationNotification = () => ({
-  type: PATIENT_REGISTRATION_ACTION_TYPES.CLOSE_NOTIFICATION,
+export const setActiveStep = (step) => ({
+  type: SET_ACTIVE_STEP,
+  payload: step,
 });
 
-export const resetPatientRegistration = () => ({
-  type: PATIENT_REGISTRATION_ACTION_TYPES.RESET_REGISTRATION,
+export const resetRegistration = () => ({
+  type: RESET_REGISTRATION,
 });

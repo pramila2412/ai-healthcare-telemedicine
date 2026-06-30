@@ -1,43 +1,68 @@
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import React from "react";
-import { ALLOWED_FILE_EXTENSIONS } from "../../../utils/PatientRegistration/fileUtils";
+import React, { useRef, useState } from "react";
 
+/**
+ * UploadBox — drag-and-drop / click-to-browse file upload dropzone.
+ * Styled to match the rest of the registration form (teal accent, rounded
+ * borders). Not yet wired into a step — Health Records is still a
+ * placeholder page — but ready to use once that step is built out.
+ *
+ * Props:
+ *   onFilesSelected {fn}       — (File[]) => void
+ *   accept          {string}   — input "accept" attribute
+ *   multiple        {boolean}  — allow selecting multiple files (default: true)
+ *   label           {string}   — primary instruction text
+ *   hint            {string}   — secondary helper text (file types / size limit)
+ */
 const UploadBox = ({
-  title,
-  browseText = "browse",
-  supportText,
-  multiple = false,
-  onFilesSelect,
+  onFilesSelected,
+  accept = ".pdf,.jpg,.jpeg,.png",
+  multiple = true,
+  label = "Click to upload or drag and drop",
+  hint = "PDF, JPG or PNG (max. 10MB each)",
 }) => {
-  const handleFileChange = (event) => {
-    const selectedFiles = Array.from(event.target.files || []);
+  const inputRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
 
-    if (selectedFiles.length > 0) {
-      onFilesSelect(selectedFiles);
-    }
-
-    event.target.value = "";
+  const handleFiles = (fileList) => {
+    const files = Array.from(fileList || []);
+    if (files.length) onFilesSelected?.(files);
   };
 
   return (
-    <label className="pr-upload-box">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => inputRef.current?.click()}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
+      }}
+      onDragOver={(e) => {
+        e.preventDefault();
+        setIsDragging(true);
+      }}
+      onDragLeave={() => setIsDragging(false)}
+      onDrop={(e) => {
+        e.preventDefault();
+        setIsDragging(false);
+        handleFiles(e.dataTransfer.files);
+      }}
+      className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-6 py-10 text-center cursor-pointer transition-colors duration-150 ${
+        isDragging
+          ? "border-[#096B58] bg-[#F4FAF7]"
+          : "border-[#E5E7EB] bg-[#FBFBFB] hover:border-[#096B58]"
+      }`}
+    >
       <input
+        ref={inputRef}
         type="file"
-        className="pr-upload-input"
+        accept={accept}
         multiple={multiple}
-        accept={ALLOWED_FILE_EXTENSIONS}
-        onChange={handleFileChange}
+        className="hidden"
+        onChange={(e) => handleFiles(e.target.files)}
       />
-
-      <CloudUploadOutlinedIcon className="pr-upload-icon" />
-
-      <p className="pr-upload-title">
-        {title}
-        <span>{browseText}</span>
-      </p>
-
-      <small className="pr-upload-support-text">{supportText}</small>
-    </label>
+      <span className="text-xs font-medium text-[#096B58]">{label}</span>
+      <span className="text-[11px] font-normal text-[#666666]">{hint}</span>
+    </div>
   );
 };
 

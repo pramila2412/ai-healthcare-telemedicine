@@ -1,152 +1,74 @@
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import React, { useReducer } from "react";
-import RegistrationShell from "../../shared/components/PatientRegistration/layout/RegistrationShell";
-import { STEP_INDEXES } from "../../shared/constants/PatientRegistration/registrationSteps";
-import {
-  closePatientRegistrationNotification,
-  goToNextPatientRegistrationStep,
-  goToPreviousPatientRegistrationStep,
-  setPatientRegistrationCurrentStep,
-  setPatientRegistrationFormData,
-  updatePatientRegistrationFormSection,
-} from "../../state-management/modules/patientRegistration/patientRegistrationActions";
-import patientRegistrationReducer, {
-  initialPatientRegistrationState,
-} from "../../state-management/modules/patientRegistration/patientRegistrationReducer";
-import {
-  selectCurrentStep,
-  selectFormData,
-  selectNotificationOpen,
-} from "../../state-management/modules/patientRegistration/patientRegistrationSelectors";
-import HealthRecordsUpload from "./components/HealthRecordsUpload/HealthRecordsUpload";
-import InsuranceDetails from "./components/InsuranceDetails/InsuranceDetails";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import RegistrationShell from "@/shared/components/PatientRegistration/layout/RegistrationShell";
+import { getStepMeta } from "@/shared/constants/PatientRegistration/registrationSteps";
+
+import PersonalInformation from "./components/PersonalInformation/PersonalInformation";
+import AdditionalInformation from "./components/AdditionalInformation/AdditionalInformation";
 import MedicalHistory from "./components/MedicalHistory/MedicalHistory";
+import InsuranceInformation from "./components/InsuranceInformation/InsuranceInformation";
+import HealthRecord from "./components/HealthRecord/HealthRecord";
+import ReviewAndComplete from "./components/ReviewAndComplete/ReviewAndComplete";
+
+import {
+  setActiveStep,
+} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+import {
+  selectActiveStep,
+  selectProgress,
+} from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+
 import "./PatientRegistration.css";
 
-const navigablePatientRegistrationSteps = [
-  STEP_INDEXES.MEDICAL_HISTORY,
-  STEP_INDEXES.INSURANCE_INFORMATION,
-  STEP_INDEXES.HEALTH_RECORDS,
-];
 
 const PatientRegistration = () => {
-  const [patientRegistrationState, dispatch] = useReducer(
-    patientRegistrationReducer,
-    initialPatientRegistrationState
-  );
+  const dispatch = useDispatch();
+  const activeStep = useSelector(selectActiveStep);
+  const progress = useSelector(selectProgress);
 
-  const currentStep = selectCurrentStep(patientRegistrationState);
-  const formData = selectFormData(patientRegistrationState);
-  const notificationOpen = selectNotificationOpen(patientRegistrationState);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const scrollToPageTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    document.body.style.overflow = isSidebarOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isSidebarOpen]);
 
-  const updateFormSection = (section, updatedData) => {
-    dispatch(updatePatientRegistrationFormSection(section, updatedData));
-  };
+  // Close drawer whenever the active step changes (user tapped a step in drawer)
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [activeStep]);
 
-  const setFormData = (updatedFormData) => {
-    dispatch(setPatientRegistrationFormData(updatedFormData));
-  };
+  const handleSetActiveStep = (step) => dispatch(setActiveStep(step));
 
-  const goToNextStep = () => {
-    dispatch(goToNextPatientRegistrationStep());
-    scrollToPageTop();
-  };
-
-  const goToPreviousStep = () => {
-    if (currentStep > STEP_INDEXES.MEDICAL_HISTORY) {
-      dispatch(goToPreviousPatientRegistrationStep());
-      scrollToPageTop();
-      return;
-    }
-
-    window.history.back();
-  };
-
-  const goToSelectedStep = (stepIndex) => {
-    if (!navigablePatientRegistrationSteps.includes(stepIndex)) {
-      return;
-    }
-
-    dispatch(setPatientRegistrationCurrentStep(stepIndex));
-    scrollToPageTop();
-  };
-
-  const closeNotification = () => {
-    dispatch(closePatientRegistrationNotification());
-  };
-
-  const renderCurrentScreen = () => {
-    switch (currentStep) {
-      case STEP_INDEXES.MEDICAL_HISTORY:
-        return (
-          <MedicalHistory
-            data={formData.medicalHistory}
-            updateData={(updatedData) =>
-              updateFormSection("medicalHistory", updatedData)
-            }
-            onNext={goToNextStep}
-            onBack={goToPreviousStep}
-            onSkip={goToNextStep}
-          />
-        );
-
-      case STEP_INDEXES.INSURANCE_INFORMATION:
-        return (
-          <InsuranceDetails
-            data={formData.insurance}
-            updateData={(updatedData) =>
-              updateFormSection("insurance", updatedData)
-            }
-            onNext={goToNextStep}
-            onBack={goToPreviousStep}
-            onSkip={goToNextStep}
-          />
-        );
-
-      case STEP_INDEXES.HEALTH_RECORDS:
-        return (
-          <HealthRecordsUpload
-            records={formData.healthRecords}
-            setFormData={setFormData}
-            onBack={goToPreviousStep}
-            onSubmit={goToNextStep}
-            onSkip={goToNextStep}
-          />
-        );
-
-      default:
-        return null;
+  const renderStep = () => {
+    switch (activeStep) {
+      case "personal":   return <PersonalInformation />;
+      case "additional": return <AdditionalInformation />;
+      case "medical":    return <MedicalHistory setActiveStep={handleSetActiveStep} />;
+      case "insurance":  return <InsuranceInformation setActiveStep={handleSetActiveStep} />;
+      case "records":    return <HealthRecord setActiveStep={handleSetActiveStep} />;
+      case "review":     return <ReviewAndComplete setActiveStep={handleSetActiveStep} />;
+      default:           return <PersonalInformation />;
     }
   };
+
+  const { title, description } = getStepMeta(activeStep);
 
   return (
-    <>
-      <RegistrationShell
-        currentStep={currentStep}
-        onStepChange={goToSelectedStep}
-      >
-        {renderCurrentScreen()}
-      </RegistrationShell>
-
-      <Snackbar
-        open={notificationOpen}
-        autoHideDuration={3000}
-        onClose={closeNotification}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert severity="success" variant="filled" onClose={closeNotification}>
-          Patient registration details saved successfully.
-        </Alert>
-      </Snackbar>
-    </>
+    <RegistrationShell
+      activeStep={activeStep}
+      setActiveStep={handleSetActiveStep}
+      isSidebarOpen={isSidebarOpen}
+      onOpenSidebar={() => setIsSidebarOpen(true)}
+      onCloseSidebar={() => setIsSidebarOpen(false)}
+      progress={progress}
+      title={title}
+      description={description}
+    >
+      {renderStep()}
+    </RegistrationShell>
   );
 };
 

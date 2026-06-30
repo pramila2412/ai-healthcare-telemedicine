@@ -1,110 +1,100 @@
-import Button from "@mui/material/Button";
 import React from "react";
 
-const ActionButtons = ({
-  onSkip,
-  onBack,
-  onNext,
-  nextLabel,
-  skipLabel = "Skip for now",
-  backLabel = "Go Back",
-  isBackDisabled = false,
-  isNextDisabled = false,
-}) => {
-  const handleSkip = () => {
-    if (typeof onSkip === "function") {
-      onSkip();
-    }
-  };
+/**
+ * PrimaryButton — the main green CTA button used across all registration steps.
+ * (internal — not exported; only ever used inside ActionButtons)
+ */
+const PrimaryButton = ({ children, onClick, disabled = false, type = "button", className = "" }) => (
+  <button
+    type={type}
+    onClick={!disabled ? onClick : undefined}
+    disabled={disabled}
+    className={`
+      h-14 rounded-lg px-6 text-xs font-medium font-TypeFace
+      flex items-center justify-center transition-colors duration-150
+      w-full sm:w-auto
+      ${
+        disabled
+          ? "bg-[#F4F4F4] text-[#838383] cursor-not-allowed"
+          : "bg-[#096B58] text-white cursor-pointer hover:bg-[#074f40]"
+      }
+      ${className}
+    `}
+  >
+    {children}
+  </button>
+);
 
-  const handleBack = () => {
-    if (typeof onBack === "function") {
-      onBack();
-    }
-  };
-
-  const handleNext = () => {
-    if (typeof onNext === "function") {
-      onNext();
-    }
-  };
+/**
+ * SecondaryButton — ghost/subtle button for "Go Back" / "Skip for now".
+ * (internal — not exported; only ever used inside ActionButtons)
+ */
+const SecondaryButton = ({ children, onClick, variant = "back", type = "button" }) => {
+  const variantClass =
+    variant === "skip"
+      ? "bg-[#EEF4F3] text-[#096B58] hover:bg-[#ddf0ec]"
+      : "bg-[#F5F5F5] text-[#096B58] hover:bg-[#EAEAEA] sm:bg-white";
 
   return (
-    <div className="pr-action-buttons">
-      <Button
-        type="button"
-        variant="contained"
-        onClick={handleSkip}
-        sx={{
-          backgroundColor: "#EDF8F6",
-          color: "#00856F",
-          boxShadow: "none",
-          borderRadius: "8px",
-          fontSize: "11px",
-          fontWeight: 700,
-          padding: "11px 20px",
-          textTransform: "none",
-          minWidth: "120px",
-          "&:hover": {
-            backgroundColor: "#DFF1ED",
-            boxShadow: "none",
-          },
-        }}
-      >
-        {skipLabel}
-      </Button>
+    <button
+      type={type}
+      onClick={onClick}
+      className={`
+        h-14 w-full sm:w-auto rounded-lg px-6 text-xs font-medium font-TypeFace
+        cursor-pointer transition-colors duration-150
+        ${variantClass}
+      `}
+    >
+      {children}
+    </button>
+  );
+};
 
-      <div className="pr-action-right">
-        <Button
-          type="button"
-          variant="text"
-          onClick={handleBack}
-          disabled={isBackDisabled}
-          sx={{
-            color: "#172B2B",
-            fontSize: "11px",
-            fontWeight: 700,
-            textTransform: "none",
-            padding: "10px 12px",
-            minWidth: "90px",
-            "&:hover": {
-              color: "#00856F",
-              backgroundColor: "transparent",
-            },
-          }}
-        >
-          {backLabel}
-        </Button>
+/**
+ * ActionButtons — the Skip / Go Back / Next row shared by every registration
+ * step's footer. Each slot is optional so a step can render just a single
+ * "Next" CTA (Personal Information) or the full skip + back + next row
+ * (Additional Information).
+ *
+ * Props:
+ *   skip {{ label, onClick }}                  — optional "Skip for now" button
+ *   back {{ label, onClick }}                  — optional "Go Back" button
+ *   next {{ label, onClick, disabled }}        — the primary forward action
+ *
+ * The wrapping layout (margins, justify-between vs justify-end) is left to
+ * the parent step, since spacing differs slightly per step — this component
+ * only owns the buttons themselves and their grouping.
+ */
+const ActionButtons = ({ skip, back, next }) => {
+  const nextButton = next && (
+    <PrimaryButton onClick={next.onClick} disabled={next.disabled}>
+      {next.label}
+    </PrimaryButton>
+  );
 
-        <Button
-          type="button"
-          variant="contained"
-          onClick={handleNext}
-          disabled={isNextDisabled}
-          sx={{
-            backgroundColor: "#007F68",
-            color: "#FFFFFF",
-            boxShadow: "none",
-            borderRadius: "8px",
-            fontSize: "11px",
-            fontWeight: 700,
-            padding: "11px 20px",
-            textTransform: "none",
-            minWidth: "170px",
-            "&:hover": {
-              backgroundColor: "#006C59",
-              boxShadow: "none",
-            },
-            "&.Mui-disabled": {
-              backgroundColor: "#CBD5E1",
-              color: "#FFFFFF",
-            },
-          }}
-        >
-          {nextLabel}
-        </Button>
+  // Single button (no skip/back) — render with no extra wrapper so the
+  // parent's `justify-end` / `justify-between` layout is unaffected.
+  if (!skip && !back) {
+    return nextButton || null;
+  }
+
+  return (
+    <>
+      {skip && (
+        <SecondaryButton variant="skip" onClick={skip.onClick}>
+          {skip.label}
+        </SecondaryButton>
+      )}
+
+      <div className="flex flex-col-reverse sm:flex-row gap-4 items-stretch sm:items-center">
+        {back && (
+          <SecondaryButton variant="back" onClick={back.onClick}>
+            {back.label}
+          </SecondaryButton>
+        )}
+        {nextButton}
       </div>
-    </div>
+    </>
   );
 };
 

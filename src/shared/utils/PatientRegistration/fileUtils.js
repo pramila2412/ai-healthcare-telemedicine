@@ -1,56 +1,44 @@
-export const ALLOWED_FILE_TYPES = [
-  "application/pdf",
-  "image/jpeg",
-  "image/png",
-];
+/**
+ * fileUtils — small helpers for working with uploaded files. Used by
+ * UploadBox / FilePreviewCard and ready for the Health Records Upload step.
+ */
 
-export const ALLOWED_FILE_EXTENSIONS = ".pdf,.jpg,.jpeg,.png";
+/**
+ * Formats a byte count as a human-readable size string, e.g. 1536 -> "1.5 KB".
+ */
+export const formatFileSize = (bytes) => {
+  if (bytes === null || bytes === undefined || Number.isNaN(bytes)) return "";
+  if (bytes === 0) return "0 B";
 
-export const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
+  const units = ["B", "KB", "MB", "GB"];
+  const exponent = Math.min(
+    units.length - 1,
+    Math.floor(Math.log(bytes) / Math.log(1024)),
+  );
+  const value = bytes / 1024 ** exponent;
 
-export const isValidFileType = (file) => {
-  return ALLOWED_FILE_TYPES.includes(file.type);
+  return `${value % 1 === 0 ? value : value.toFixed(1)} ${units[exponent]}`;
 };
 
-export const isValidFileSize = (file) => {
-  return file.size <= MAX_FILE_SIZE_BYTES;
+/**
+ * Returns the lowercase file extension (without the dot), or "" if none.
+ */
+export const getFileExtension = (fileName = "") => {
+  const parts = fileName.split(".");
+  return parts.length > 1 ? parts.pop().toLowerCase() : "";
 };
 
-export const formatFileSize = (size) => {
-  if (!size) return "0 KB";
+/**
+ * Checks a file's extension against an allow-list (default: common
+ * document/image types accepted for health records).
+ */
+export const isAllowedFileType = (
+  fileName,
+  allowedExtensions = ["pdf", "jpg", "jpeg", "png"],
+) => allowedExtensions.includes(getFileExtension(fileName));
 
-  const sizeInKb = size / 1024;
-
-  if (sizeInKb < 1024) {
-    return `${sizeInKb.toFixed(2)} KB`;
-  }
-
-  return `${(sizeInKb / 1024).toFixed(2)} MB`;
-};
-
-export const createFileRecord = (file, documentType = "Medical Record") => {
-  return {
-    id: `${Date.now()}-${Math.random()}`,
-    file,
-    documentType,
-    progress: 100,
-  };
-};
-
-export const validateFiles = (files) => {
-  const validFiles = [];
-  const invalidFiles = [];
-
-  files.forEach((file) => {
-    if (isValidFileType(file) && isValidFileSize(file)) {
-      validFiles.push(file);
-    } else {
-      invalidFiles.push(file);
-    }
-  });
-
-  return {
-    validFiles,
-    invalidFiles,
-  };
-};
+/**
+ * Checks a File object is within a maximum size, in MB (default: 10MB).
+ */
+export const isWithinMaxSize = (file, maxSizeMB = 10) =>
+  !!file && file.size <= maxSizeMB * 1024 * 1024;

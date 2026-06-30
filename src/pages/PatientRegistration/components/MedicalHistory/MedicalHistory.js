@@ -1,75 +1,127 @@
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
-import MedicationIcon from "@mui/icons-material/Medication";
-import WarningIcon from "@mui/icons-material/Warning";
-import React from "react";
-import ActionButtons from "../../../../shared/components/PatientRegistration/common/ActionButtons";
-import SectionHeader from "../../../../shared/components/PatientRegistration/common/SectionHeader";
-import FormTextArea from "../../../../shared/components/PatientRegistration/form/FormTextArea";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const MedicalHistory = ({ data, updateData, onNext, onBack, onSkip }) => {
+import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
+import FormTextArea from "@/shared/components/PatientRegistration/form/FormTextArea";
+
+import {
+  setActiveStep,
+  setMedicalHistory,
+} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+
+import { selectMedicalHistory } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+
+const MedicalHistory = () => {
+  const dispatch = useDispatch();
+  const saved = useSelector(selectMedicalHistory);
+
+  const [formData, setFormData] = useState(
+    saved || {
+      allergies: "",
+      currentMedications: "",
+      existingConditions: "",
+      previousSurgeries: "",
+    }
+  );
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    updateData({
+    setFormData((previousData) => ({
+      ...previousData,
       [name]: value,
-    });
+    }));
   };
 
+  const saveData = () => {
+    dispatch(setMedicalHistory(formData));
+  };
+
+  const handleNext = () => {
+    saveData();
+    dispatch(setActiveStep("insurance"));
+  };
+
+  const handleBack = () => {
+    saveData();
+    dispatch(setActiveStep("additional"));
+  };
+
+  const handleSkip = () => {
+    dispatch(setActiveStep("insurance"));
+  };
+
+  const labelClass = "block mb-2 text-[12px] font-normal text-[#202020]";
+
   return (
-    <section className="pr-screen">
-      <SectionHeader
-        title="Medical History"
-        description="Add information about your past treatments, medications, and health conditions."
-      />
+    <div className="px-7 md:px-10 mt-6 md:mt-12 pb-8">
+      <div className="max-w-[880px] space-y-8">
+        <div>
+          <label className={labelClass}>Allergies</label>
+          <FormTextArea
+            name="allergies"
+            value={formData.allergies}
+            onChange={handleChange}
+            placeholder="List any allergies you have (if any)"
+            rows={4}
+            className="min-h-[120px]"
+          />
+        </div>
 
-      <FormTextArea
-        label="Allergies"
-        name="allergies"
-        value={data.allergies}
-        onChange={handleChange}
-        placeholder="List any allergies you have (if any)"
-        icon={<WarningIcon sx={{ fontSize: 14, color: "#00856F" }} />}
-        maxLength={500}
-      />
+        <div>
+          <label className={labelClass}>Current Medications</label>
+          <FormTextArea
+            name="currentMedications"
+            value={formData.currentMedications}
+            onChange={handleChange}
+            placeholder="List your current medications with dosage"
+            rows={4}
+            className="min-h-[120px]"
+          />
+        </div>
 
-      <FormTextArea
-        label="Current Medications"
-        name="currentMedications"
-        value={data.currentMedications}
-        onChange={handleChange}
-        placeholder="List your current medications with dosage"
-        icon={<MedicationIcon sx={{ fontSize: 14, color: "#00856F" }} />}
-        maxLength={500}
-      />
+        <div>
+          <label className={labelClass}>Existing Conditions</label>
+          <FormTextArea
+            name="existingConditions"
+            value={formData.existingConditions}
+            onChange={handleChange}
+            placeholder="Enter any Conditions (e.g., diabetes, hypertension, asthma, etc.)"
+            rows={4}
+            className="min-h-[120px]"
+          />
+        </div>
 
-      <FormTextArea
-        label="Existing Conditions"
-        name="existingConditions"
-        value={data.existingConditions}
-        onChange={handleChange}
-        placeholder="Enter any Conditions (e.g., diabetes, hypertension, asthma, etc.)"
-        icon={<FavoriteBorderIcon sx={{ fontSize: 14, color: "#00856F" }} />}
-        maxLength={500}
-      />
+        <div>
+          <label className={labelClass}>Previous Surgeries</label>
+          <FormTextArea
+            name="previousSurgeries"
+            value={formData.previousSurgeries}
+            onChange={handleChange}
+            placeholder="Enter details of any past surgeries (if any)"
+            rows={4}
+            className="min-h-[120px]"
+          />
+        </div>
+      </div>
 
-      <FormTextArea
-        label="Previous Surgeries"
-        name="previousSurgeries"
-        value={data.previousSurgeries}
-        onChange={handleChange}
-        placeholder="Enter details of any past surgeries (if any)"
-        icon={<LocalHospitalIcon sx={{ fontSize: 14, color: "#00856F" }} />}
-        maxLength={500}
-      />
-
-      <ActionButtons
-        onSkip={onSkip}
-        onBack={onBack}
-        onNext={onNext}
-        nextLabel="Add Insurance Information"
-      />
-    </section>
+      <div className="mt-16 flex items-center justify-between">
+        <ActionButtons
+          skip={{
+            label: "Skip for now",
+            onClick: handleSkip,
+          }}
+          back={{
+            label: "Go Back",
+            onClick: handleBack,
+          }}
+          next={{
+            label: "Add Insurance Information",
+            onClick: handleNext,
+          }}
+        />
+      </div>
+    </div>
   );
 };
 

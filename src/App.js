@@ -1,13 +1,14 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LandingPage from "./pages/LandingPage/LandingPage";
 import Login from "./pages/Login";
-import PatientRegistration from "./pages/PatientRegistration";
+import LandingPage from "./pages/LandingPage/LandingPage";
 import GlobalConfigView from "./shared/components/GlobalConfigView/GlobalConfigView.js";
 import LoadingOverlay from "./shared/components/LoadingOverlay/LoadingOverlay";
 import NotificationView from "./shared/components/Notification/NotificationView.jsx";
 import withSecurity from "./shared/components/WithSecurity/WithSecurity.js";
 import ScrollToTop from "./shared/ScrollToTop/ScrollToTop.jsx";
+import PatientRegistration from "./pages/PatientRegistration/PatientRegistration";
+
 
 function App() {
   return (

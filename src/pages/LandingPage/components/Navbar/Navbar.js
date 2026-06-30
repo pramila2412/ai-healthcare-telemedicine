@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <AppBar position="sticky" color="inherit" elevation={0} className="border-b border-gray-200">
       <Container maxWidth="lg">
-        <Toolbar disableGutters className="justify-between h-[80px]">
+        <Toolbar disableGutters className="justify-between h-20">
           
           {/* Logo Section */}
           <div className="flex items-center cursor-pointer">
