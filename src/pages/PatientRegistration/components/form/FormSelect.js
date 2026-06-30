@@ -1,8 +1,8 @@
-import React from "react";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import React from "react";
 
 const FormSelect = ({
   label,
@@ -16,8 +16,8 @@ const FormSelect = ({
   helperText = "",
 }) => {
   return (
-    <div className="mb-6">
-      <label className="mb-2 flex items-center gap-2 text-xs font-semibold text-slate-700">
+    <div className="pr-form-group">
+      <label className="pr-form-label">
         {icon}
         {label}
       </label>
@@ -31,11 +31,24 @@ const FormSelect = ({
           sx={{
             borderRadius: "8px",
             fontSize: "12px",
-            "& .MuiSelect-select": { padding: "13px 14px" },
+            backgroundColor: "#FFFFFF",
+            height: "44px",
+            "& .MuiSelect-select": {
+              padding: "12px 14px",
+            },
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#E6E8EC",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#D5D9DF",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#00856F",
+            },
           }}
         >
           <MenuItem value="">
-            <span className="text-slate-400">{placeholder}</span>
+            <span className="pr-select-placeholder">{placeholder}</span>
           </MenuItem>
 
           {options.map((option) => (

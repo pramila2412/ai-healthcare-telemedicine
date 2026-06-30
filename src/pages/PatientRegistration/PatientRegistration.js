@@ -4,6 +4,7 @@ import React from "react";
 import RegistrationShell from "./components/layout/RegistrationShell";
 import { STEP_INDEXES } from "./data/registrationSteps";
 import usePatientRegistration from "./hooks/usePatientRegistration";
+import "./PatientRegistration.css";
 import HealthRecordsUpload from "./screens/HealthRecordsUpload";
 import InsuranceDetails from "./screens/InsuranceDetails";
 import MedicalHistory from "./screens/MedicalHistory";
@@ -12,13 +13,12 @@ const PatientRegistration = () => {
   const {
     currentStep,
     formData,
-    setFormData,
-    updateFormSection,
-    goNext,
-    goBack,
-    skipStep,
     notificationOpen,
-    setNotificationOpen,
+    updateFormSection,
+    setFormData,
+    goToNextStep,
+    goToPreviousStep,
+    closeNotification,
   } = usePatientRegistration();
 
   const renderCurrentScreen = () => {
@@ -27,10 +27,12 @@ const PatientRegistration = () => {
         return (
           <MedicalHistory
             data={formData.medicalHistory}
-            updateData={(data) => updateFormSection("medicalHistory", data)}
-            onNext={goNext}
-            onBack={goBack}
-            onSkip={skipStep}
+            updateData={(updatedData) =>
+              updateFormSection("medicalHistory", updatedData)
+            }
+            onNext={goToNextStep}
+            onBack={goToPreviousStep}
+            onSkip={goToNextStep}
           />
         );
 
@@ -38,21 +40,23 @@ const PatientRegistration = () => {
         return (
           <InsuranceDetails
             data={formData.insurance}
-            updateData={(data) => updateFormSection("insurance", data)}
-            onNext={goNext}
-            onBack={goBack}
-            onSkip={skipStep}
+            updateData={(updatedData) =>
+              updateFormSection("insurance", updatedData)
+            }
+            onNext={goToNextStep}
+            onBack={goToPreviousStep}
+            onSkip={goToNextStep}
           />
         );
 
       case STEP_INDEXES.HEALTH_RECORDS:
         return (
           <HealthRecordsUpload
-            data={formData.healthRecords}
+            records={formData.healthRecords}
             setFormData={setFormData}
-            onBack={goBack}
-            onSubmit={goNext}
-            onSkip={skipStep}
+            onBack={goToPreviousStep}
+            onSubmit={goToNextStep}
+            onSkip={goToNextStep}
           />
         );
 
@@ -63,15 +67,17 @@ const PatientRegistration = () => {
 
   return (
     <>
-      <RegistrationShell currentStep={currentStep}>{renderCurrentScreen()}</RegistrationShell>
+      <RegistrationShell currentStep={currentStep}>
+        {renderCurrentScreen()}
+      </RegistrationShell>
 
       <Snackbar
         open={notificationOpen}
         autoHideDuration={3000}
-        onClose={() => setNotificationOpen(false)}
+        onClose={closeNotification}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <Alert severity="success" variant="filled" onClose={() => setNotificationOpen(false)}>
+        <Alert severity="success" variant="filled" onClose={closeNotification}>
           Patient registration details saved successfully.
         </Alert>
       </Snackbar>

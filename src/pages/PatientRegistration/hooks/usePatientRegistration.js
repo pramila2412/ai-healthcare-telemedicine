@@ -8,19 +8,15 @@ const initialFormData = {
     existingConditions: "",
     previousSurgeries: "",
   },
+
   insurance: {
     provider: "",
     policyNumber: "",
     insuranceCard: null,
     confirmation: false,
   },
-  healthRecords: [],
-};
 
-const scrollToTop = () => {
-  window.requestAnimationFrame(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
+  healthRecords: [],
 };
 
 const usePatientRegistration = () => {
@@ -38,38 +34,56 @@ const usePatientRegistration = () => {
     }));
   };
 
-  const goNext = () => {
+  const scrollToPageTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const goToNextStep = () => {
     if (currentStep < STEP_INDEXES.HEALTH_RECORDS) {
       setCurrentStep((previousStep) => previousStep + 1);
-      scrollToTop();
+      scrollToPageTop();
       return;
     }
 
-    // TODO: Replace this with API integration once backend endpoint is available.
+    // TODO: Replace with API call later.
     setNotificationOpen(true);
   };
 
-  const goBack = () => {
+  const goToPreviousStep = () => {
     if (currentStep > STEP_INDEXES.MEDICAL_HISTORY) {
       setCurrentStep((previousStep) => previousStep - 1);
-      scrollToTop();
+      scrollToPageTop();
       return;
     }
 
     window.history.back();
   };
 
+  const closeNotification = () => {
+    setNotificationOpen(false);
+  };
+
   return {
     currentStep,
     formData,
     setFormData,
-    updateFormSection,
-    goNext,
-    goBack,
-    skipStep: goNext,
     notificationOpen,
+
+    updateFormSection,
+    goToNextStep,
+    goToPreviousStep,
+    closeNotification,
+
+    // Extra aliases to avoid future mismatch issues
+    goNext: goToNextStep,
+    goBack: goToPreviousStep,
+    skipStep: goToNextStep,
     setNotificationOpen,
   };
 };
 
+export { usePatientRegistration };
 export default usePatientRegistration;

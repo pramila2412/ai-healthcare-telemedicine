@@ -1,13 +1,5 @@
-import React from "react";
 import Button from "@mui/material/Button";
-
-const sharedButtonStyles = {
-  borderRadius: "8px",
-  fontSize: "11px",
-  fontWeight: 700,
-  padding: "11px 20px",
-  textTransform: "none",
-};
+import React from "react";
 
 const ActionButtons = ({
   onSkip,
@@ -19,33 +11,66 @@ const ActionButtons = ({
   isBackDisabled = false,
   isNextDisabled = false,
 }) => {
+  const handleSkip = () => {
+    if (typeof onSkip === "function") {
+      onSkip();
+    }
+  };
+
+  const handleBack = () => {
+    if (typeof onBack === "function") {
+      onBack();
+    }
+  };
+
+  const handleNext = () => {
+    if (typeof onNext === "function") {
+      onNext();
+    }
+  };
+
   return (
-    <div className="mt-9 flex flex-col items-stretch gap-4 md:flex-row md:items-center md:justify-between">
+    <div className="pr-action-buttons">
       <Button
         type="button"
         variant="contained"
-        onClick={onSkip}
+        onClick={handleSkip}
         sx={{
-          ...sharedButtonStyles,
           backgroundColor: "#EDF8F6",
           color: "#00856F",
           boxShadow: "none",
-          "&:hover": { backgroundColor: "#DFF1ED", boxShadow: "none" },
+          borderRadius: "8px",
+          fontSize: "11px",
+          fontWeight: 700,
+          padding: "11px 20px",
+          textTransform: "none",
+          minWidth: "120px",
+          "&:hover": {
+            backgroundColor: "#DFF1ED",
+            boxShadow: "none",
+          },
         }}
       >
         {skipLabel}
       </Button>
 
-      <div className="flex flex-col items-stretch gap-3 md:flex-row md:items-center md:gap-4">
+      <div className="pr-action-right">
         <Button
           type="button"
           variant="text"
-          onClick={onBack}
+          onClick={handleBack}
           disabled={isBackDisabled}
           sx={{
-            ...sharedButtonStyles,
             color: "#172B2B",
-            "&:hover": { color: "#00856F", backgroundColor: "transparent" },
+            fontSize: "11px",
+            fontWeight: 700,
+            textTransform: "none",
+            padding: "10px 12px",
+            minWidth: "90px",
+            "&:hover": {
+              color: "#00856F",
+              backgroundColor: "transparent",
+            },
           }}
         >
           {backLabel}
@@ -54,13 +79,26 @@ const ActionButtons = ({
         <Button
           type="button"
           variant="contained"
-          onClick={onNext}
+          onClick={handleNext}
           disabled={isNextDisabled}
           sx={{
-            ...sharedButtonStyles,
             backgroundColor: "#007F68",
+            color: "#FFFFFF",
             boxShadow: "none",
-            "&:hover": { backgroundColor: "#006C59", boxShadow: "none" },
+            borderRadius: "8px",
+            fontSize: "11px",
+            fontWeight: 700,
+            padding: "11px 20px",
+            textTransform: "none",
+            minWidth: "170px",
+            "&:hover": {
+              backgroundColor: "#006C59",
+              boxShadow: "none",
+            },
+            "&.Mui-disabled": {
+              backgroundColor: "#CBD5E1",
+              color: "#FFFFFF",
+            },
           }}
         >
           {nextLabel}

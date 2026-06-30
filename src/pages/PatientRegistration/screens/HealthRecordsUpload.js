@@ -1,29 +1,57 @@
-import React, { useState } from "react";
-import Alert from "@mui/material/Alert";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import BiotechIcon from "@mui/icons-material/Biotech";
 import DescriptionIcon from "@mui/icons-material/Description";
-import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
+import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+import Alert from "@mui/material/Alert";
+import React, { useState } from "react";
 import ActionButtons from "../components/common/ActionButtons";
-import InfoChip from "../components/common/InfoChip";
 import SectionHeader from "../components/common/SectionHeader";
 import FilePreviewCard from "../components/upload/FilePreviewCard";
 import UploadBox from "../components/upload/UploadBox";
-import { documentTypes, healthRecordTypes } from "../data/registrationOptions";
 import { createFileRecord, validateFiles } from "../utils/fileUtils";
 
-const HealthRecordsUpload = ({ data = [], setFormData, onBack, onSubmit, onSkip }) => {
+const supportedDocuments = [
+  {
+    label: "Prescription",
+    icon: <DescriptionIcon sx={{ fontSize: 14 }} />,
+  },
+  {
+    label: "Lab reports",
+    icon: <BiotechIcon sx={{ fontSize: 14 }} />,
+  },
+  {
+    label: "Scan",
+    icon: <DocumentScannerIcon sx={{ fontSize: 14 }} />,
+  },
+  {
+    label: "Discharge summary",
+    icon: <InsertDriveFileOutlinedIcon sx={{ fontSize: 14 }} />,
+  },
+];
+
+const HealthRecordsUpload = ({
+  records = [],
+  setFormData,
+  onBack,
+  onSubmit,
+  onSkip,
+}) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleFilesUpload = (files) => {
     const { validFiles, invalidFiles } = validateFiles(files);
 
     if (invalidFiles.length > 0) {
-      setErrorMessage("Some files were skipped. Please upload only PDF, JPG, or PNG files below 5MB.");
+      setErrorMessage(
+        "Some files were skipped. Please upload only PDF, JPG, or PNG files below 5MB."
+      );
     } else {
       setErrorMessage("");
     }
 
-    const formattedFiles = validFiles.map((file) => createFileRecord(file, "Medical Record"));
+    const formattedFiles = validFiles.map((file) =>
+      createFileRecord(file, "Prescription")
+    );
 
     if (!formattedFiles.length) return;
 
@@ -36,77 +64,74 @@ const HealthRecordsUpload = ({ data = [], setFormData, onBack, onSubmit, onSkip 
   const removeFile = (fileId) => {
     setFormData((previousData) => ({
       ...previousData,
-      healthRecords: previousData.healthRecords.filter((item) => item.id !== fileId),
-    }));
-  };
-
-  const updateDocumentType = (fileId, documentType) => {
-    setFormData((previousData) => ({
-      ...previousData,
-      healthRecords: previousData.healthRecords.map((item) =>
-        item.id === fileId ? { ...item, documentType } : item
+      healthRecords: previousData.healthRecords.filter(
+        (item) => item.id !== fileId
       ),
     }));
   };
 
-  const getSupportIcon = (type) => {
-    if (type === "Lab Reports") return <AssignmentIcon sx={{ fontSize: 14 }} />;
-    if (type === "X-rays / Scans") return <FolderOpenIcon sx={{ fontSize: 14 }} />;
-    return <DescriptionIcon sx={{ fontSize: 14 }} />;
-  };
-
   return (
-    <section className="max-w-[930px]">
+    <section className="pr-screen">
       <SectionHeader
         title="Upload Health Records"
-        description="Upload your prescriptions, lab reports, scans, or discharge summaries."
+        description="Keep all your medical documents in one secure and convenient place."
       />
 
       {errorMessage && (
-        <Alert severity="warning" className="mb-5">
+        <Alert severity="warning" className="pr-alert-message">
           {errorMessage}
         </Alert>
       )}
 
-      <UploadBox
-        title="Drag and drop files here or click to browse"
-        description="Upload your health records securely"
-        multiple
-        onFilesSelect={handleFilesUpload}
-      />
+      <div className="pr-health-upload-section">
+        <label className="pr-form-label">Upload your health records</label>
 
-      <div className="my-4 flex flex-wrap items-center gap-5">
-        {healthRecordTypes.map((type) => (
-          <InfoChip key={type} icon={getSupportIcon(type)} label={type} />
-        ))}
+        <UploadBox
+          title="Drag and drop your health records here, or"
+          browseText="browse"
+          supportText="JPG, PNG or PDF (Max. 20MB)"
+          multiple
+          onFilesSelect={handleFilesUpload}
+        />
       </div>
 
-      {data.length > 0 ? (
-        <div>
-          <h3 className="mb-3 text-sm font-semibold text-slate-700">Uploaded Documents</h3>
+      <div className="pr-supported-documents">
+        <h4>Supported Documents</h4>
 
-          <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {data.map((item) => (
+        <div className="pr-supported-documents-list">
+          {supportedDocuments.map((item) => (
+            <span key={item.label} className="pr-supported-document-item">
+              {item.icon}
+              {item.label}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {records.length > 0 && (
+        <div className="pr-health-records-scroll">
+          <div className="pr-health-records-grid">
+            {records.map((item) => (
               <FilePreviewCard
                 key={item.id}
                 file={item.file}
-                documentType={item.documentType}
-                documentTypes={documentTypes}
-                showDocumentType
+                title={item.documentType || "Prescription"}
+                status="Upload Successful"
                 progress={item.progress}
-                onDocumentTypeChange={(value) => updateDocumentType(item.id, value)}
+                showProgress
                 onRemove={() => removeFile(item.id)}
               />
             ))}
           </div>
         </div>
-      ) : (
-        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-center text-xs text-slate-400">
-          No health records uploaded yet.
-        </div>
       )}
 
-      <ActionButtons onSkip={onSkip} onBack={onBack} onNext={onSubmit} nextLabel="Create Unique ID" />
+      <ActionButtons
+        onSkip={onSkip}
+        onBack={onBack}
+        onNext={onSubmit}
+        nextLabel="Create Unique ID"
+      />
     </section>
   );
 };

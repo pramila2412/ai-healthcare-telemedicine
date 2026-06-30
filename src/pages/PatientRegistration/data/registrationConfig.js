@@ -1,7 +1,11 @@
 export const registrationConfig = {
-  // Keep this true to match Figma stepper. Change to false if Review screen should be hidden.
+  // Review screen is owned by another teammate, but we keep the step visible
+  // to match the Figma stepper.
   showReviewStepInSidebar: true,
 
-  // Future option: change to "horizontal-scroll" if mobile stepper should scroll horizontally.
+  // Mobile/sidebar compact mode is enabled when the viewport is reduced.
+  enableMobileStepToggle: true,
+
+  // Future options: "compact-grid", "horizontal-scroll".
   mobileStepperVariant: "compact-grid",
 };

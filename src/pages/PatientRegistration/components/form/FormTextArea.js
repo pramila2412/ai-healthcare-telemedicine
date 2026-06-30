@@ -1,5 +1,5 @@
-import React from "react";
 import TextField from "@mui/material/TextField";
+import React from "react";
 
 const FormTextArea = ({
   label,
@@ -8,11 +8,11 @@ const FormTextArea = ({
   onChange,
   placeholder,
   icon,
-  maxLength = 300,
+  maxLength = 500,
 }) => {
   return (
-    <div className="mb-6">
-      <label className="mb-2 flex items-center gap-2 text-xs font-semibold text-slate-700">
+    <div className="pr-form-group">
+      <label className="pr-form-label">
         {icon}
         {label}
       </label>
@@ -25,15 +25,36 @@ const FormTextArea = ({
         value={value || ""}
         onChange={onChange}
         placeholder={placeholder}
-        slotProps={{ htmlInput: { maxLength } }}
+        slotProps={{
+          htmlInput: {
+            maxLength,
+          },
+        }}
         sx={{
-          "& .MuiOutlinedInput-root": { borderRadius: "8px", fontSize: "12px" },
-          "& .MuiOutlinedInput-input": { lineHeight: 1.5 },
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "8px",
+            fontSize: "12px",
+            backgroundColor: "#FFFFFF",
+            minHeight: "112px",
+          },
+          "& .MuiOutlinedInput-input": {
+            lineHeight: 1.5,
+            padding: "4px 0",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#E6E8EC",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#D5D9DF",
+          },
+          "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#00856F",
+          },
         }}
       />
 
-      <div className="mt-1 text-right text-[10px] text-slate-400">
-        {(value || "").length}/{maxLength} characters
+      <div className="pr-character-count">
+        {(value || "").length}/{maxLength} Characters left
       </div>
     </div>
   );

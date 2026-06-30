@@ -1,5 +1,5 @@
-import React from "react";
 import TextField from "@mui/material/TextField";
+import React from "react";
 
 const FormInput = ({
   label,
@@ -13,8 +13,8 @@ const FormInput = ({
   helperText = "",
 }) => {
   return (
-    <div className="mb-6">
-      <label className="mb-2 flex items-center gap-2 text-xs font-semibold text-slate-700">
+    <div className="pr-form-group">
+      <label className="pr-form-label">
         {icon}
         {label}
       </label>
@@ -30,8 +30,24 @@ const FormInput = ({
         error={error}
         helperText={helperText}
         sx={{
-          "& .MuiOutlinedInput-root": { borderRadius: "8px", fontSize: "12px" },
-          "& .MuiOutlinedInput-input": { padding: "13px 14px" },
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "8px",
+            fontSize: "12px",
+            backgroundColor: "#FFFFFF",
+            height: "44px",
+          },
+          "& .MuiOutlinedInput-input": {
+            padding: "12px 14px",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#E6E8EC",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#D5D9DF",
+          },
+          "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#00856F",
+          },
         }}
       />
     </div>

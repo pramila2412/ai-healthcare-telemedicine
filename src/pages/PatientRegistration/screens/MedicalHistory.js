@@ -1,8 +1,8 @@
-import React from "react";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import DescriptionIcon from "@mui/icons-material/Description";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import MedicationIcon from "@mui/icons-material/Medication";
 import WarningIcon from "@mui/icons-material/Warning";
+import React from "react";
 import ActionButtons from "../components/common/ActionButtons";
 import SectionHeader from "../components/common/SectionHeader";
 import FormTextArea from "../components/form/FormTextArea";
@@ -10,14 +10,17 @@ import FormTextArea from "../components/form/FormTextArea";
 const MedicalHistory = ({ data, updateData, onNext, onBack, onSkip }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
-    updateData({ [name]: value });
+
+    updateData({
+      [name]: value,
+    });
   };
 
   return (
-    <section className="max-w-[930px]">
+    <section className="pr-screen">
       <SectionHeader
         title="Medical History"
-        description="Help us understand your medical background for better healthcare support."
+        description="Add information about your past treatments, medications, and health conditions."
       />
 
       <FormTextArea
@@ -25,8 +28,9 @@ const MedicalHistory = ({ data, updateData, onNext, onBack, onSkip }) => {
         name="allergies"
         value={data.allergies}
         onChange={handleChange}
-        placeholder="List any allergies such as medicine, food, dust, pollen, etc."
+        placeholder="List any allergies you have (if any)"
         icon={<WarningIcon sx={{ fontSize: 14, color: "#00856F" }} />}
+        maxLength={500}
       />
 
       <FormTextArea
@@ -34,8 +38,9 @@ const MedicalHistory = ({ data, updateData, onNext, onBack, onSkip }) => {
         name="currentMedications"
         value={data.currentMedications}
         onChange={handleChange}
-        placeholder="Mention medicines you are currently taking"
-        icon={<DescriptionIcon sx={{ fontSize: 14, color: "#00856F" }} />}
+        placeholder="List your current medications with dosage"
+        icon={<MedicationIcon sx={{ fontSize: 14, color: "#00856F" }} />}
+        maxLength={500}
       />
 
       <FormTextArea
@@ -43,8 +48,9 @@ const MedicalHistory = ({ data, updateData, onNext, onBack, onSkip }) => {
         name="existingConditions"
         value={data.existingConditions}
         onChange={handleChange}
-        placeholder="Example: Diabetes, blood pressure, asthma, thyroid, heart disease"
+        placeholder="Enter any Conditions (e.g., diabetes, hypertension, asthma, etc.)"
         icon={<FavoriteBorderIcon sx={{ fontSize: 14, color: "#00856F" }} />}
+        maxLength={500}
       />
 
       <FormTextArea
@@ -52,8 +58,9 @@ const MedicalHistory = ({ data, updateData, onNext, onBack, onSkip }) => {
         name="previousSurgeries"
         value={data.previousSurgeries}
         onChange={handleChange}
-        placeholder="Mention previous surgeries or hospitalizations if any"
-        icon={<AssignmentIcon sx={{ fontSize: 14, color: "#00856F" }} />}
+        placeholder="Enter details of any past surgeries (if any)"
+        icon={<LocalHospitalIcon sx={{ fontSize: 14, color: "#00856F" }} />}
+        maxLength={500}
       />
 
       <ActionButtons
