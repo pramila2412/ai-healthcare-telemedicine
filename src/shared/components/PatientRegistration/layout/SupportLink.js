@@ -19,13 +19,14 @@ const SupportLink = ({ variant = "desktop" }) => {
   if (variant === "mobile") {
     return (
       <>
+        {/* Mobile circular support button next to title */}
         <button
           type="button"
           onClick={() => setShowSupportModal(true)}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F4FAF7] text-[#096B58] border border-[#E0F0EB] md:hidden cursor-pointer shrink-0"
+          className="flex h-9.5 w-9.5 items-center justify-center rounded-full bg-[#F4FAF7] text-[#096B58] border border-[#E0F0EB] md:hidden cursor-pointer shrink-0"
           aria-label="Contact Support"
         >
-          <img src={headphone} alt="Support" className="w-5.5 h-5.5" />
+          <img src={headphone} alt="Support" className="w-5 h-5" />
         </button>
 
         {showSupportModal && (

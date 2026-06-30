@@ -375,7 +375,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
     // Outer wrapper: relative so footer can be absolute-positioned at bottom
     <div className="relative flex min-h-full w-full flex-col bg-white font-TypeFace">
       {/* ── Scrollable content area — padded bottom so footer never overlaps ── */}
-      <div className="flex-1 overflow-y-auto px-7 md:px-8 pt-6 md:pt-12 pb-14 md:pb-18">
+      <div className="flex-1 overflow-y-auto px-7 md:px-10 pt-6 md:pt-12 pb-14 md:pb-18">
         {/* ══════════════════════════════════════════════════════════════════
             SECTION 1 — Create Your Unique Patient ID
         ══════════════════════════════════════════════════════════════════ */}
@@ -492,7 +492,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
       {/* ══════════════════════════════════════════════════════════════════
           FOOTER — absolute, pinned to bottom of the panel
       ══════════════════════════════════════════════════════════════════ */}
-      <div className="mt-2 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-4 px-4 pb-10 md:absolute md:bottom-8 md:left-0 md:right-2 md:pb-0 md:px-8 md:gap-6 md:mt-0">
+      <div className="mt-2 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-4 px-7 pb-10 md:absolute md:bottom-8 md:left-0 md:right-2 md:pb-0 md:px-10 md:gap-6 md:mt-0">
         {/* Go Back */}
         <button
           type="button"

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import RegistrationShell from "@/shared/components/PatientRegistration/layout/RegistrationShell";
-import { getStepMeta } from "@/shared/constants/PatientRegistration/registrationSteps";
+import { getStepMeta } from "@/shared/constants/patientRegistration/registrationSteps";
 
 import PersonalInformation from "./components/PersonalInformation/PersonalInformation";
 import AdditionalInformation from "./components/AdditionalInformation/AdditionalInformation";

@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import logo from "@assets/assets/logo.svg";
 import tick from "@assets/patientRegistration/tick.svg";
 
-import { REGISTRATION_STEPS } from "@/shared/constants/PatientRegistration/registrationSteps";
+import { REGISTRATION_STEPS } from "@/shared/constants/patientRegistration/registrationSteps";
 import ProfileProgressCard from "./ProfileProgressCard";
 
 /**
@@ -148,12 +148,12 @@ const RegistrationSidebar = ({ activeStep, setActiveStep, isOpen, onClose, progr
 
       {/* Drawer Panel */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 flex w-[320px] max-w-[85vw] flex-col justify-between bg-[#FBFBFB] border-r border-[#E6E6E6] p-6 shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-[320px] max-w-[85vw] flex-col bg-[#FBFBFB] border-r border-[#E6E6E6] pt-10 pb-10 shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Drawer Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pl-10 pr-6 shrink-0">
           <div className="flex items-center gap-1">
             <img
               src={logo}
@@ -161,10 +161,10 @@ const RegistrationSidebar = ({ activeStep, setActiveStep, isOpen, onClose, progr
               className="w-12 h-11 object-contain"
             />
             <div className="flex flex-col">
-              <h1 className="text-[16px] font-semibold leading-none text-[#096B58] font-TypeFace">
+              <h1 className="text-[16px] font-semibold leading-none text-[#096B58]">
                 MediConnect
               </h1>
-              <p className="text-[10px] font-normal leading-2.5 text-primary font-TypeFace">
+              <p className="text-[10px] font-normal leading-2.5 text-primary">
                 Healthcare Ecosystem
               </p>
             </div>
@@ -182,7 +182,7 @@ const RegistrationSidebar = ({ activeStep, setActiveStep, isOpen, onClose, progr
         </div>
 
         {/* Steps navigation */}
-        <div className="flex flex-col gap-0 mt-6 overflow-y-auto flex-1 pr-1 py-1">
+        <div className="flex flex-col gap-0 mt-8 overflow-y-auto flex-1 pl-10 pr-6 py-1">
           {REGISTRATION_STEPS.map((step, index) => {
             const isActive = activeStep === step.key;
 
@@ -199,8 +199,8 @@ const RegistrationSidebar = ({ activeStep, setActiveStep, isOpen, onClose, progr
                   <div
                     className={`relative z-10 flex items-center justify-center rounded-lg shrink-0 ${
                       isActive
-                        ? "w-9.5 h-9.5 bg-[#096B58] border-white border-[3px]"
-                        : "w-9.5 h-9.5"
+                        ? "w-8 h-8 bg-[#096B58] border-white border-[3px]"
+                        : "w-8 h-8"
                     }`}
                   >
                     <img
@@ -219,7 +219,7 @@ const RegistrationSidebar = ({ activeStep, setActiveStep, isOpen, onClose, progr
                     }`}
                   >
                     <span
-                      className={`text-[12.5px] font-semibold leading-none ${
+                      className={`text-[13px] font-semibold leading-none ${
                         isActive
                           ? "text-[#096B58]"
                           : step.key === "review" && !isStepCompleted("personal")
@@ -235,7 +235,7 @@ const RegistrationSidebar = ({ activeStep, setActiveStep, isOpen, onClose, progr
                 {/* Connecting Line */}
                 {index !== REGISTRATION_STEPS.length - 1 && (
                   <div
-                    className={`ml-4.5 h-5 w-0.5 my-1 ${
+                    className={`ml-3.5 h-7 w-0.5 ${
                       isStepCompleted(step.key) ? "bg-[#14B392]" : "bg-[#E6E6E6]"
                     }`}
                   />
@@ -246,7 +246,9 @@ const RegistrationSidebar = ({ activeStep, setActiveStep, isOpen, onClose, progr
         </div>
 
         {/* Progress Card at bottom of drawer */}
-        <ProfileProgressCard variant="mobile" progress={progress} />
+        <div className="px-10 mt-auto shrink-0">
+          <ProfileProgressCard variant="mobile" progress={progress} />
+        </div>
       </div>
     </>
   );
