@@ -1,739 +1,646 @@
-@reference "../../index.css";
-
-/* Patient Registration module styles.
-   Tailwind CSS is kept in this separate CSS file using @apply.
-   Prefix "pr-" is used to avoid conflicts with existing project CSS. */
-
-/* Main layout */
-
-.pr-layout {
-  @apply w-full min-h-screen bg-white text-slate-900;
+* {
+  box-sizing: border-box;
 }
 
-.pr-main {
-  @apply w-full min-w-0 px-5 py-6;
+.pr-registration-page {
+  width: 100%;
+  max-width: 1070px;
+  min-height: 860px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  display: flex;
+  color: #101828;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  overflow: visible;
 }
 
-/* Sidebar */
-
-.pr-sidebar {
-  @apply relative w-full min-w-0 border-b border-slate-100 bg-[#F8FBFA] px-4 py-5;
+.pr-registration-sidebar {
+  width: 270px;
+  min-width: 270px;
+  background-color: #fafafa;
+  border-right: 1px solid #f0f0f0;
+  padding: 36px 32px 34px;
+  display: flex;
+  flex-direction: column;
 }
 
-.pr-sidebar-header {
-  @apply flex items-center justify-between gap-3;
+.pr-registration-main {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  background-color: #ffffff;
+  padding: 38px 32px 32px;
 }
 
-.pr-brand {
-  @apply flex items-center gap-2.5;
+.pr-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 56px;
 }
 
-.pr-brand-logo {
-  @apply h-9 w-9 object-contain;
+.pr-sidebar-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #006c59, #24b99a);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(0, 127, 104, 0.22);
+  flex-shrink: 0;
 }
 
-.pr-brand-title {
-  @apply m-0 text-sm font-bold text-emerald-700;
+.pr-sidebar-brand h2 {
+  margin: 0;
+  color: #007f68;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
 }
 
-.pr-brand-subtitle {
-  @apply m-0 text-[10px] text-slate-500;
+.pr-sidebar-brand p {
+  margin: 3px 0 0;
+  color: #0f9f84;
+  font-size: 8px;
+  font-weight: 600;
+  line-height: 1;
 }
 
-/* Mobile show/hide button */
-
-.pr-mobile-toggle {
-  @apply inline-flex items-center justify-center gap-1 rounded-lg border border-emerald-100 bg-white px-3 py-2 text-[11px] font-bold text-emerald-700 shadow-sm;
+.pr-registration-steps {
+  display: flex;
+  flex-direction: column;
 }
 
-.pr-mobile-summary {
-  @apply mt-4 rounded-xl border border-emerald-100 bg-white px-3 py-2;
+.pr-step-item {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+  column-gap: 14px;
+  min-height: 48px;
+  position: relative;
+  user-select: none;
+  outline: none;
 }
 
-.pr-mobile-summary span {
-  @apply block text-[10px] font-medium text-slate-400;
+.pr-step-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 35px;
+  width: 1px;
+  height: 34px;
+  background-color: #20b99d;
 }
 
-.pr-mobile-summary strong {
-  @apply mt-0.5 block text-xs font-bold text-emerald-700;
+.pr-step-number {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 1px solid #d0d5dd;
+  background-color: #ffffff;
+  color: #98a2b3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
-/* This is hidden by default in mobile */
-
-.pr-sidebar-body {
-  @apply hidden mt-4;
+.pr-step-title {
+  width: fit-content;
+  color: #101828;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 11px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
 }
 
-/* This opens only when Show Steps button is clicked */
-
-.pr-sidebar-body-open {
-  @apply block;
+.pr-step-completed .pr-step-number {
+  border-color: #20b99d;
+  background-color: #20b99d;
+  color: #ffffff;
 }
 
-.pr-step-list {
-  @apply grid grid-cols-2 gap-2;
+.pr-step-active .pr-step-number {
+  border-color: #007f68;
+  background-color: #007f68;
+  color: #ffffff;
 }
 
-.pr-step {
-  @apply flex items-center gap-2 rounded-xl px-2 py-2 text-[11px] leading-4 transition;
+.pr-step-active .pr-step-title {
+  min-width: 168px;
+  color: #007f68;
+  background-color: #edf8f6;
 }
 
-.pr-step-active {
-  @apply bg-emerald-50 font-bold text-emerald-700;
+.pr-step-disabled {
+  cursor: default;
 }
 
-.pr-step-completed {
-  @apply font-semibold text-emerald-600;
+.pr-step-item:not(.pr-step-disabled) {
+  cursor: pointer;
 }
 
-.pr-step-pending {
-  @apply font-medium text-slate-400;
+.pr-profile-progress-card {
+  margin-top: auto;
+  background-color: #ffffff;
+  border: 1px solid #e5ebe9;
+  border-radius: 8px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
 }
 
-.pr-step-icon {
-  @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border;
+.pr-profile-progress-card h4 {
+  margin: 0 0 16px;
+  color: #172b2b;
+  font-size: 13px;
+  font-weight: 700;
 }
 
-.pr-step-icon-filled {
-  @apply border-emerald-700 bg-emerald-700 text-white;
+.pr-profile-progress-value {
+  color: #007f68;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 10px;
 }
 
-.pr-step-icon-empty {
-  @apply border-slate-200 bg-white text-slate-400;
+.pr-profile-progress-track {
+  height: 8px;
+  width: 100%;
+  border-radius: 999px;
+  background-color: #e5e7eb;
+  overflow: hidden;
 }
 
-/* Progress card */
-
-.pr-progress-card {
-  @apply mt-5 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm;
+.pr-profile-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background-color: #007f68;
 }
 
-.pr-progress-header {
-  @apply mb-3 flex items-center justify-between gap-3;
+.pr-profile-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #667085;
+  font-size: 10px;
+  margin-top: 13px;
 }
-
-.pr-progress-header h4 {
-  @apply m-0 text-xs font-semibold text-slate-800;
-}
-
-.pr-progress-header span {
-  @apply whitespace-nowrap text-xs font-semibold text-emerald-700;
-}
-
-.pr-progress-time {
-  @apply mt-3 flex items-center gap-1.5 text-[10px] text-slate-400;
-}
-
-/* Support link */
 
 .pr-support-link {
-  @apply mb-5 flex items-center justify-start gap-2 text-slate-500;
+  position: absolute;
+  top: 42px;
+  right: 34px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #344054;
+  font-size: 11px;
+  z-index: 2;
 }
 
 .pr-support-link span {
-  @apply block text-[10px];
+  display: block;
+  color: #344054;
+  font-size: 11px;
+  line-height: 1.1;
 }
 
 .pr-support-link a {
-  @apply text-[11px] font-semibold text-emerald-700 underline;
-}
-
-/* Mobile force override when inspect width is reduced */
-
-@media (max-width: 767px) {
-  .pr-layout {
-    @apply block w-full min-w-0;
-  }
-
-  .pr-main {
-    @apply w-full min-w-0 px-4 py-5;
-  }
-
-  .pr-sidebar {
-    @apply relative w-full min-w-0 border-b border-r-0 px-4 py-4;
-  }
-
-  .pr-sidebar-header {
-    @apply flex items-center justify-between gap-3;
-  }
-
-  .pr-mobile-toggle {
-    @apply inline-flex;
-  }
-
-  .pr-mobile-summary {
-    @apply block;
-  }
-
-  .pr-sidebar-body {
-    @apply hidden;
-  }
-
-  .pr-sidebar-body.pr-sidebar-body-open {
-    @apply block;
-  }
-
-  .pr-step-list {
-    @apply grid grid-cols-2 gap-2;
-  }
-
-  .pr-step {
-    @apply text-[11px];
-  }
-
-  .pr-progress-card {
-    @apply mt-4;
-  }
-
-  .pr-support-link {
-    @apply justify-start;
-  }
-}
-
-/* Desktop / laptop layout */
-
-@media (min-width: 768px) {
-  .pr-layout {
-    @apply flex min-h-screen;
-  }
-
-  .pr-main {
-    @apply flex-1 px-8 py-8;
-  }
-
-  .pr-sidebar {
-    @apply min-h-screen w-[250px] border-b-0 border-r px-5 py-7;
-  }
-
-  .pr-sidebar-header {
-    @apply mb-11 block;
-  }
-
-  .pr-mobile-toggle {
-    @apply hidden;
-  }
-
-  .pr-mobile-summary {
-    @apply hidden;
-  }
-
-  .pr-sidebar-body {
-    @apply block mt-0;
-  }
-
-  .pr-step-list {
-    @apply flex flex-col gap-5;
-  }
-
-  .pr-step {
-    @apply gap-3 px-2.5 py-2.5 text-xs;
-  }
-
-  .pr-progress-card {
-    @apply mt-10;
-  }
-
-  .pr-support-link {
-    @apply justify-end;
-  }
-}
-
-@media (min-width: 1024px) {
-  .pr-main {
-    @apply px-11;
-  }
-}
-
-/* Very small screen safety */
-
-@media (max-width: 420px) {
-  .pr-sidebar {
-    @apply px-3 py-4;
-  }
-
-  .pr-main {
-    @apply px-3.5 py-5;
-  }
-
-  .pr-step-list {
-    @apply grid-cols-1;
-  }
-
-  .pr-mobile-toggle {
-    @apply px-2 py-1.5 text-[10px];
-  }
-}
-/* Action buttons - Figma style */
-
-.pr-action-buttons {
-  @apply relative z-10 mt-9 flex w-full items-center justify-between gap-4;
-}
-
-.pr-action-right {
-  @apply flex items-center gap-4;
-}
-
-.pr-skip-button,
-.pr-back-button,
-.pr-next-button {
-  @apply relative z-10;
-}
-
-/* Mobile button safety */
-@media (max-width: 767px) {
-  .pr-action-buttons {
-    @apply mt-8 flex-col items-stretch gap-3;
-  }
-
-  .pr-action-right {
-    @apply flex w-full items-center justify-between gap-3;
-  }
-
-  .pr-skip-button {
-    @apply w-full;
-  }
-
-  .pr-back-button {
-    @apply flex-1;
-  }
-
-  .pr-next-button {
-    @apply flex-1;
-  }
-}
-
-/* Desktop / Figma alignment */
-@media (min-width: 768px) {
-  .pr-action-buttons {
-    @apply flex-row items-center justify-between;
-  }
-
-  .pr-action-right {
-    @apply justify-end;
-  }
-}
-/* Form and screen styles */
-
-.pr-screen {
-  @apply relative z-10 max-w-[930px];
-}
-
-.pr-form-group {
-  @apply relative z-10 mb-6;
-}
-
-.pr-form-label {
-  @apply mb-2 flex items-center gap-2 text-xs font-semibold text-slate-700;
-}
-
-.pr-character-count {
-  @apply mt-1 text-right text-[10px] text-slate-400;
-}
-
-.pr-select-placeholder {
-  @apply text-slate-400;
-}
-
-/* Action buttons - Figma style */
-
-.pr-action-buttons {
-  @apply relative z-10 mt-9 flex w-full items-center justify-between gap-4;
-}
-
-.pr-action-right {
-  @apply flex items-center gap-4;
-}
-
-/* Mobile only button adjustment - sidebar untouched */
-
-@media (max-width: 767px) {
-  .pr-action-buttons {
-    @apply mt-8 flex-col items-stretch gap-3;
-  }
-
-  .pr-action-right {
-    @apply flex w-full items-center justify-between gap-3;
-  }
-}
-
-/* Desktop Figma alignment */
-
-@media (min-width: 768px) {
-  .pr-action-buttons {
-    @apply flex-row items-center justify-between;
-  }
-
-  .pr-action-right {
-    @apply justify-end;
-  }
-}
-/* Screen, form and button click safety */
-
-.pr-screen {
-  @apply relative z-20 max-w-[930px];
-}
-
-.pr-form-group {
-  @apply relative z-20 mb-6;
-}
-
-.pr-form-label {
-  @apply mb-2 flex items-center gap-2 text-xs font-semibold text-slate-700;
-}
-
-.pr-character-count {
-  @apply mt-1 text-right text-[10px] text-slate-400;
-}
-
-.pr-action-buttons {
-  @apply relative z-30 mt-9 flex w-full items-center justify-between gap-4;
-}
-
-.pr-action-right {
-  @apply relative z-30 flex items-center gap-4;
-}
-
-@media (max-width: 767px) {
-  .pr-action-buttons {
-    @apply mt-8 flex-col items-stretch gap-3;
-  }
-
-  .pr-action-right {
-    @apply flex w-full items-center justify-between gap-3;
-  }
-}
-
-@media (min-width: 768px) {
-  .pr-action-buttons {
-    @apply flex-row items-center justify-between;
-  }
-
-  .pr-action-right {
-    @apply justify-end;
-  }
-}
-/* Figma desktop design polish - does not change mobile sidebar behavior */
-
-.pr-layout {
-  @apply bg-white;
-}
-
-.pr-main {
-  @apply bg-white;
+  display: block;
+  color: #007f68;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: underline;
+  line-height: 1.1;
 }
 
 .pr-screen {
-  @apply relative z-20 w-full max-w-[930px];
+  width: 100%;
+  max-width: 760px;
+  margin: 0;
+  min-height: calc(860px - 70px);
+  display: flex;
+  flex-direction: column;
 }
 
 .pr-section-header {
-  @apply mb-8;
+  margin-bottom: 34px;
 }
 
 .pr-section-header h1 {
-  @apply m-0 text-[18px] font-bold leading-6 text-slate-900;
+  margin: 0;
+  color: #101828;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .pr-section-header p {
-  @apply mt-1 max-w-[360px] text-[12px] leading-4 text-slate-400;
+  margin: 7px 0 0;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.45;
+  max-width: 340px;
 }
 
 .pr-form-group {
-  @apply relative z-20 mb-7;
+  margin-bottom: 28px;
 }
 
 .pr-form-label {
-  @apply mb-2 flex items-center gap-2 text-[12px] font-semibold text-slate-700;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #101828;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.pr-input-wrapper,
+.pr-select-wrapper {
+  position: relative;
+}
+
+.pr-input-icon,
+.pr-select-icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #98a2b3;
+  z-index: 1;
+}
+
+.pr-form-input,
+.pr-form-select {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #101828;
+  font-size: 12px;
+  padding: 0 42px;
+  outline: none;
+}
+
+.pr-form-input::placeholder,
+.pr-form-select {
+  color: #98a2b3;
+}
+
+.pr-form-input:focus,
+.pr-form-select:focus,
+.pr-form-textarea:focus {
+  border-color: #20b99d;
+  box-shadow: 0 0 0 3px rgba(32, 185, 157, 0.1);
+}
+
+.pr-form-textarea-wrapper {
+  position: relative;
+}
+
+.pr-form-textarea {
+  width: 100%;
+  min-height: 112px;
+  resize: none;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #101828;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 17px 18px 28px;
+  outline: none;
+}
+
+.pr-form-textarea::placeholder {
+  color: #98a2b3;
 }
 
 .pr-character-count {
-  @apply pointer-events-none relative -mt-6 mr-4 text-right text-[10px] text-slate-400;
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  color: #7c8db5;
+  font-size: 11px;
 }
 
-.pr-select-placeholder {
-  @apply text-slate-400;
+.pr-alert-message {
+  margin-bottom: 18px;
 }
 
 .pr-action-buttons {
-  @apply relative z-30 mt-12 flex w-full items-center justify-between gap-4;
+  margin-top: auto;
+  padding-top: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .pr-action-right {
-  @apply relative z-30 flex items-center gap-4;
-}
-
-/* Sidebar closer to Figma desktop spacing */
-
-@media (min-width: 768px) {
-  .pr-layout {
-    @apply flex min-h-screen bg-white;
-  }
-
-  .pr-sidebar {
-    @apply min-h-screen w-[270px] border-b-0 border-r border-slate-100 bg-[#FBFCFC] px-8 py-9;
-  }
-
-  .pr-main {
-    @apply flex-1 px-8 py-9;
-  }
-
-  .pr-brand-logo {
-    @apply h-9 w-9;
-  }
-
-  .pr-brand-title {
-    @apply text-[13px] font-bold;
-  }
-
-  .pr-brand-subtitle {
-    @apply text-[9px];
-  }
-
-  .pr-sidebar-header {
-    @apply mb-14 block;
-  }
-
-  .pr-step-list {
-    @apply flex flex-col gap-6;
-  }
-
-  .pr-step {
-    @apply h-10 gap-3 rounded-lg px-2.5 py-2 text-[12px];
-  }
-
-  .pr-step-active {
-    @apply bg-emerald-50 text-emerald-700;
-  }
-
-  .pr-step-icon {
-    @apply h-6 w-6 rounded-md;
-  }
-
-  .pr-progress-card {
-    @apply mt-28 rounded-lg border border-slate-100 bg-white p-5 shadow-md;
-  }
-
-  .pr-progress-header h4 {
-    @apply text-[12px] font-semibold;
-  }
-
-  .pr-progress-header span {
-    @apply text-[13px] font-bold;
-  }
-
-  .pr-support-link {
-    @apply mb-8 justify-end;
-  }
-
-  .pr-screen {
-    @apply max-w-[890px];
-  }
-
-  .pr-action-buttons {
-    @apply mt-16 flex-row items-center justify-between;
-  }
-
-  .pr-action-right {
-    @apply justify-end gap-5;
-  }
-}
-
-@media (min-width: 1200px) {
-  .pr-main {
-    @apply px-10 py-10;
-  }
-
-  .pr-screen {
-    @apply max-w-[930px];
-  }
-}
-
-/* Mobile form safety only - sidebar hide/show untouched */
-
-@media (max-width: 767px) {
-  .pr-screen {
-    @apply w-full max-w-none;
-  }
-
-  .pr-section-header {
-    @apply mb-6;
-  }
-
-  .pr-section-header h1 {
-    @apply text-[18px];
-  }
-
-  .pr-section-header p {
-    @apply max-w-full text-[12px];
-  }
-
-  .pr-form-group {
-    @apply mb-6;
-  }
-
-  .pr-character-count {
-    @apply -mt-6 mr-3;
-  }
-
-  .pr-action-buttons {
-    @apply mt-8 flex-col items-stretch gap-3;
-  }
-
-  .pr-action-right {
-    @apply flex w-full items-center justify-between gap-3;
-  }
-}
-/* Figma exact polish for Insurance Details and Health Records */
-
-.pr-alert-message {
-  @apply mb-5;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .pr-insurance-upload-section,
 .pr-health-upload-section {
-  @apply mb-5;
+  margin-top: 4px;
 }
 
 .pr-upload-box {
-  @apply flex h-[190px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-slate-200 bg-white text-center transition hover:border-emerald-600;
+  height: 190px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  text-align: center;
 }
 
 .pr-upload-input {
-  @apply hidden;
+  display: none;
 }
 
 .pr-upload-icon {
-  @apply mb-3 text-[44px] text-slate-300;
+  color: #d0d5dd;
+  font-size: 48px !important;
 }
 
 .pr-upload-title {
-  @apply m-0 text-[12px] leading-5 text-slate-500;
+  margin: 0;
+  color: #475467;
+  font-size: 12px;
 }
 
 .pr-upload-title span {
-  @apply ml-1 font-semibold text-emerald-700 underline;
+  color: #007f68;
+  text-decoration: underline;
+  margin-left: 4px;
 }
 
 .pr-upload-support-text {
-  @apply mt-1 text-[10px] text-slate-400;
+  color: #667085;
+  font-size: 10px;
 }
 
 .pr-upload-note {
-  @apply mt-2 flex h-8 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-[11px] text-slate-500;
-}
-
-.pr-upload-note svg {
-  @apply text-slate-500;
+  height: 30px;
+  border: 1px solid #e4e7ec;
+  border-radius: 6px;
+  margin-top: 8px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #475467;
+  font-size: 11px;
 }
 
 .pr-insurance-preview-wrap {
-  @apply mt-5 w-[205px];
-}
-
-.pr-supported-documents {
-  @apply mt-5 mb-6;
-}
-
-.pr-supported-documents h4 {
-  @apply mb-3 text-[12px] font-semibold text-slate-700;
-}
-
-.pr-supported-documents-list {
-  @apply flex flex-wrap items-center gap-5;
-}
-
-.pr-supported-document-item {
-  @apply flex items-center gap-1.5 text-[11px] text-slate-500;
-}
-
-.pr-supported-document-item svg {
-  @apply text-slate-400;
-}
-
-.pr-health-records-scroll {
-  @apply w-full overflow-x-auto pb-3;
-}
-
-.pr-health-records-grid {
-  @apply flex min-w-max gap-4;
+  margin-top: 14px;
+  width: 200px;
 }
 
 .pr-file-card {
-  @apply w-[185px] shrink-0 rounded-lg border border-slate-100 bg-white p-2 shadow-sm;
+  width: 190px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background-color: #ffffff;
+  padding: 6px;
 }
 
 .pr-file-preview {
-  @apply flex h-[118px] w-full items-center justify-center overflow-hidden rounded-md bg-slate-50;
+  height: 118px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #f2f4f7;
 }
 
 .pr-file-preview img {
-  @apply h-full w-full object-cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .pr-file-preview-placeholder {
-  @apply flex h-full w-full items-center justify-center text-xs font-bold text-slate-400;
+  width: 100%;
+  height: 100%;
+  color: #667085;
+  font-size: 24px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pr-file-info {
-  @apply pt-2;
+  padding: 9px 4px 2px;
 }
 
 .pr-file-info h5 {
-  @apply m-0 flex items-center gap-1 truncate text-[11px] font-medium text-slate-700;
+  margin: 0;
+  color: #101828;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .pr-file-info p {
-  @apply mt-1 mb-1 text-[9px] text-slate-400;
+  margin: 4px 0 8px;
+  color: #667085;
+  font-size: 10px;
 }
 
-.pr-file-status-row {
-  @apply flex items-center justify-between gap-2;
+.pr-file-status-row,
+.pr-file-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
-.pr-file-status-row span {
-  @apply text-[9px] text-slate-500;
+.pr-file-status-row span,
+.pr-file-progress-row span {
+  color: #475467;
+  font-size: 9px;
 }
 
 .pr-file-status-row button {
-  @apply flex items-center gap-1 rounded border-0 bg-transparent p-0 text-[9px] text-red-500;
+  border: none;
+  background-color: #f8fafc;
+  color: #101828;
+  font-size: 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
 }
 
-.pr-file-progress-row {
-  @apply mt-2 flex items-center gap-2;
+.pr-supported-documents {
+  margin-top: 24px;
 }
 
-.pr-file-progress-row span {
-  @apply text-[9px] text-slate-500;
+.pr-supported-documents h4 {
+  margin: 0 0 12px;
+  color: #101828;
+  font-size: 12px;
+  font-weight: 800;
 }
 
-@media (min-width: 768px) {
-  .pr-upload-box {
-    @apply h-[190px];
-  }
+.pr-supported-documents-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
 
-  .pr-insurance-preview-wrap {
-    @apply mt-5;
-  }
+.pr-supported-document-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #475467;
+  font-size: 11px;
+}
 
-  .pr-health-records-scroll {
-    @apply mt-2;
-  }
+.pr-health-records-scroll {
+  margin-top: 26px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+
+.pr-health-records-grid {
+  display: flex;
+  gap: 16px;
+  min-width: max-content;
+}
+
+.pr-sidebar-mobile-top,
+.pr-sidebar-mobile-steps {
+  display: none;
+}
+
+.pr-sidebar-menu-button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: #007f68;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.pr-sidebar-mobile-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pr-sidebar-mobile-title span {
+  font-size: 11px;
+  color: #667085;
+  font-weight: 600;
+}
+
+.pr-sidebar-mobile-title strong {
+  font-size: 14px;
+  color: #101828;
+  font-weight: 800;
 }
 
 @media (max-width: 767px) {
+  .pr-registration-page {
+    display: block;
+    max-width: 100%;
+    min-height: 100vh;
+  }
+
+  .pr-registration-sidebar {
+    width: 100%;
+    min-width: 100%;
+    padding: 14px 18px;
+    border-right: none;
+    border-bottom: 1px solid #eef2f1;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .pr-sidebar-mobile-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pr-sidebar-mobile-steps {
+    display: block;
+    margin-top: 14px;
+  }
+
+  .pr-registration-sidebar > .pr-sidebar-brand,
+  .pr-registration-sidebar > .pr-registration-steps,
+  .pr-registration-sidebar > .pr-profile-progress-card {
+    display: none;
+  }
+
+  .pr-registration-main {
+    padding: 22px 16px 28px;
+  }
+
+  .pr-support-link {
+    display: none;
+  }
+
+  .pr-screen {
+    max-width: 100%;
+    min-height: auto;
+  }
+
+  .pr-section-header {
+    margin-bottom: 24px;
+  }
+
+  .pr-form-textarea {
+    min-height: 105px;
+  }
+
+  .pr-action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .pr-action-right {
+    justify-content: space-between;
+  }
+
   .pr-upload-box {
-    @apply h-[170px];
+    height: 160px;
   }
 
   .pr-insurance-preview-wrap {
-    @apply w-full max-w-[220px];
-  }
-
-  .pr-health-records-grid {
-    @apply gap-3;
+    width: 100%;
   }
 
   .pr-file-card {
-    @apply w-[170px];
+    width: 100%;
+    max-width: 210px;
   }
 }

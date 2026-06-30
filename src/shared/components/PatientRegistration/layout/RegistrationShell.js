@@ -2,12 +2,15 @@ import React from "react";
 import RegistrationSidebar from "./RegistrationSidebar";
 import SupportLink from "./SupportLink";
 
-const RegistrationShell = ({ currentStep, children }) => {
+const RegistrationShell = ({ currentStep, onStepChange, children }) => {
   return (
-    <div className="pr-layout">
-      <RegistrationSidebar currentStep={currentStep} />
+    <div className="pr-registration-page">
+      <RegistrationSidebar
+        currentStep={currentStep}
+        onStepChange={onStepChange}
+      />
 
-      <main className="pr-main">
+      <main className="pr-registration-main">
         <SupportLink />
         {children}
       </main>

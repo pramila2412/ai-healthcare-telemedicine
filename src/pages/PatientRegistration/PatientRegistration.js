@@ -1,20 +1,87 @@
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import React, { useReducer } from "react";
 import RegistrationShell from "../../shared/components/PatientRegistration/layout/RegistrationShell";
 import { STEP_INDEXES } from "../../shared/constants/PatientRegistration/registrationSteps";
+import {
+  closePatientRegistrationNotification,
+  goToNextPatientRegistrationStep,
+  goToPreviousPatientRegistrationStep,
+  setPatientRegistrationCurrentStep,
+  setPatientRegistrationFormData,
+  updatePatientRegistrationFormSection,
+} from "../../state-management/modules/patientRegistration/patientRegistrationActions";
+import patientRegistrationReducer, {
+  initialPatientRegistrationState,
+} from "../../state-management/modules/patientRegistration/patientRegistrationReducer";
+import {
+  selectCurrentStep,
+  selectFormData,
+  selectNotificationOpen,
+} from "../../state-management/modules/patientRegistration/patientRegistrationSelectors";
 import HealthRecordsUpload from "./components/HealthRecordsUpload/HealthRecordsUpload";
 import InsuranceDetails from "./components/InsuranceDetails/InsuranceDetails";
 import MedicalHistory from "./components/MedicalHistory/MedicalHistory";
+import "./PatientRegistration.css";
+
+const navigablePatientRegistrationSteps = [
+  STEP_INDEXES.MEDICAL_HISTORY,
+  STEP_INDEXES.INSURANCE_INFORMATION,
+  STEP_INDEXES.HEALTH_RECORDS,
+];
 
 const PatientRegistration = () => {
-  const {
-    currentStep,
-    formData,
-    notificationOpen,
-    updateFormSection,
-    setFormData,
-    goToNextStep,
-    goToPreviousStep,
-    closeNotification,
-  } = usePatientRegistration();
+  const [patientRegistrationState, dispatch] = useReducer(
+    patientRegistrationReducer,
+    initialPatientRegistrationState
+  );
+
+  const currentStep = selectCurrentStep(patientRegistrationState);
+  const formData = selectFormData(patientRegistrationState);
+  const notificationOpen = selectNotificationOpen(patientRegistrationState);
+
+  const scrollToPageTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const updateFormSection = (section, updatedData) => {
+    dispatch(updatePatientRegistrationFormSection(section, updatedData));
+  };
+
+  const setFormData = (updatedFormData) => {
+    dispatch(setPatientRegistrationFormData(updatedFormData));
+  };
+
+  const goToNextStep = () => {
+    dispatch(goToNextPatientRegistrationStep());
+    scrollToPageTop();
+  };
+
+  const goToPreviousStep = () => {
+    if (currentStep > STEP_INDEXES.MEDICAL_HISTORY) {
+      dispatch(goToPreviousPatientRegistrationStep());
+      scrollToPageTop();
+      return;
+    }
+
+    window.history.back();
+  };
+
+  const goToSelectedStep = (stepIndex) => {
+    if (!navigablePatientRegistrationSteps.includes(stepIndex)) {
+      return;
+    }
+
+    dispatch(setPatientRegistrationCurrentStep(stepIndex));
+    scrollToPageTop();
+  };
+
+  const closeNotification = () => {
+    dispatch(closePatientRegistrationNotification());
+  };
 
   const renderCurrentScreen = () => {
     switch (currentStep) {
@@ -62,7 +129,10 @@ const PatientRegistration = () => {
 
   return (
     <>
-      <RegistrationShell currentStep={currentStep}>
+      <RegistrationShell
+        currentStep={currentStep}
+        onStepChange={goToSelectedStep}
+      >
         {renderCurrentScreen()}
       </RegistrationShell>
 

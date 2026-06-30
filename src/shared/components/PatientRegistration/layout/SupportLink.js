@@ -1,14 +1,14 @@
-import HelpIcon from "@mui/icons-material/Help";
+import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 import React from "react";
 
 const SupportLink = () => {
   return (
     <div className="pr-support-link">
-      <HelpIcon sx={{ fontSize: 18 }} />
+      <HeadsetMicOutlinedIcon sx={{ fontSize: 24, color: "#64748B" }} />
 
       <div>
-        <span>Need help?</span>
-        <a href="#support">Contact Support</a>
+        <span>Need Help?</span>
+        <a href="/support">Contact Support</a>
       </div>
     </div>
   );

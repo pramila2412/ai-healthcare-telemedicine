@@ -1,10 +1,3 @@
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FolderOpenIcon from "@mui/icons-material/FolderOpen";
-import PersonIcon from "@mui/icons-material/Person";
-import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-
 export const STEP_INDEXES = {
   PERSONAL_DETAILS: 0,
   ADDITIONAL_INFORMATION: 1,
@@ -17,41 +10,33 @@ export const STEP_INDEXES = {
 export const registrationSteps = [
   {
     id: STEP_INDEXES.PERSONAL_DETAILS,
-    label: "Personal Details",
-    icon: PersonIcon,
+    title: "Personal Details",
   },
   {
     id: STEP_INDEXES.ADDITIONAL_INFORMATION,
-    label: "Additional Information",
-    icon: AssignmentIcon,
+    title: "Additional Information",
   },
   {
     id: STEP_INDEXES.MEDICAL_HISTORY,
-    label: "Medical History",
-    icon: FavoriteBorderIcon,
+    title: "Medical History",
   },
   {
     id: STEP_INDEXES.INSURANCE_INFORMATION,
-    label: "Insurance Information",
-    icon: VerifiedUserIcon,
+    title: "Insurance Information",
   },
   {
     id: STEP_INDEXES.HEALTH_RECORDS,
-    label: "Health Records",
-    icon: FolderOpenIcon,
+    title: "Health Records",
   },
   {
     id: STEP_INDEXES.REVIEW_COMPLETE,
-    label: "Review & Complete",
-    icon: CheckCircleIcon,
+    title: "Review & Complete",
   },
 ];
 
 export const profileProgressByStep = {
-  [STEP_INDEXES.PERSONAL_DETAILS]: 20,
-  [STEP_INDEXES.ADDITIONAL_INFORMATION]: 30,
   [STEP_INDEXES.MEDICAL_HISTORY]: 40,
   [STEP_INDEXES.INSURANCE_INFORMATION]: 60,
   [STEP_INDEXES.HEALTH_RECORDS]: 75,
-  [STEP_INDEXES.REVIEW_COMPLETE]: 100,
+  default: 40,
 };
