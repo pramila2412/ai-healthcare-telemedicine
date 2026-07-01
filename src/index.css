@@ -32,7 +32,7 @@ img {
     @apply py-16 md:py-24 bg-white;
   }
   .section-overline {
-    @apply text-[var(--color-primary)] font-bold tracking-wide uppercase block mb-4;
+    @apply text-primary font-bold tracking-wide uppercase block mb-4;
   }
   .section-heading {
     @apply text-gray-900 font-extrabold text-3xl md:text-4xl lg:text-5xl leading-tight mb-6;

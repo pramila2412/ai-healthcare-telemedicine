@@ -104,11 +104,11 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="w-full max-w-[285px] h-full mx-auto flex flex-col rounded-[20px] border border-gray-200 overflow-hidden bg-white"
+              className="w-full max-w-71.25 h-full mx-auto flex flex-col rounded-[20px] border border-gray-200 overflow-hidden bg-white"
               style={{ boxShadow: '0 8px 30px -10px rgba(0,0,0,0.06)' }}
             >
               {/* Image Section */}
-              <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] xl:aspect-[4/3] flex items-center justify-center p-6 overflow-hidden">
+              <div className="relative w-full aspect-4/3 sm:aspect-3/2 xl:aspect-4/3 flex items-center justify-center p-6 overflow-hidden">
                 
                 <img
                   src={feature.image}
@@ -118,7 +118,7 @@ const FeaturesSection = () => {
               </div>
 
               {/* Content Section */}
-              <div className="p-4 sm:p-5 md:p-6 flex flex-col flex-grow">
+              <div className="p-4 sm:p-5 md:p-6 flex flex-col grow">
                 {/* Title & Icon Flow */}
                 <div className="flex items-start gap-3 mb-4">
                 <div className="w-10 h-10 rounded-[15px] bg-[#EEF4F3] flex items-center justify-center shrink-0">

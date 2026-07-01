@@ -24,7 +24,10 @@
   "javascript.suggest.paths": false,
   "typescript.suggest.paths": false,
   "cSpell.words": [
+    "hugeicons",
+    "iconify",
     "Medi",
+    "tabler",
     "Telemedicine"
   ]
 }
