@@ -63,7 +63,8 @@ const Navbar = () => {
             <Button 
               variant="text" 
               startIcon={<PersonOutlineOutlinedIcon />}
-              className="bg-[#EEF4F3] text-primary px-6 py-2 font-semibold hover:bg-primary/15 normal-case rounded-lg"
+              onClick={() => navigate('/signup')}
+              className="bg-[#EEF4F3] text-primary px-6 py-2 font-semibold hover:bg-primary/15 normal-case rounded-lg cursor-pointer"
             >
               Sign up
             </Button>

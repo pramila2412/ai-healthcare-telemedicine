@@ -4,6 +4,7 @@ import Login from "./pages/Login/Login";
 import VerifyOtp from "./pages/Login/VerifyOtp";
 import LoginPassword from "./pages/Login/LoginPassword";
 import RoleSelection from "./pages/RoleSelection/RoleSelection";
+import SignUp from "./pages/SignUp/SignUp";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import GlobalConfigView from "./shared/components/GlobalConfigView/GlobalConfigView.js";
 import LoadingOverlay from "./shared/components/LoadingOverlay/LoadingOverlay";
@@ -26,6 +27,7 @@ function App() {
             <Route path="/verify" element={<VerifyOtp />} />
             <Route path="/password" element={<LoginPassword />} />
             <Route path="/role-selection" element={<RoleSelection />} />
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </GlobalConfigView>
       </div>
