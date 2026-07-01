@@ -39,19 +39,19 @@ const HeroSection = () => {
                 Connect Patients, Doctors, Hospitals, Laboratories, Pharmacies, Insurance, and Healthcare providers through one secure AI-powered platform.
               </p>
               
-              <div className="flex flex-wrap gap-4 mb-12">
-                <button className="px-6 py-3 flex items-center justify-center gap-2 text-base font-normal bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors border-none cursor-pointer">
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <button className="w-full sm:w-auto px-6 py-3 flex items-center justify-center gap-2 text-base font-normal bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors border-none cursor-pointer">
                   <CalendarMonthIcon className="text-[20px]" />
                   Book Appointment
                 </button>
-                <button className="px-6 py-3 flex items-center justify-center gap-2 text-base font-normal border border-primary text-primary bg-transparent rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
+                <button className="w-full sm:w-auto px-6 py-3 flex items-center justify-center gap-2 text-base font-normal border border-primary text-primary bg-transparent rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
                   <VideocamOutlinedIcon className="text-[20px]" />
                   Consult Online
                 </button>
               </div>
             </div>
 
-            <div className="flex flex-wrap lg:flex-nowrap gap-4 sm:gap-4 justify-between w-full lg:w-[115%] relative z-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-nowrap gap-5 sm:gap-6 w-full lg:w-[115%] justify-items-start lg:justify-between relative z-10 mt-8 lg:mt-12">
               {[
                 { icon: <VerifiedUserOutlinedIcon className="text-primary text-[20px]" />, title: 'Trusted by', desc: '1M+ Patients' },
                 { icon: <VerifiedOutlinedIcon className="text-primary text-[20px]" />, title: 'Verified', desc: 'Healthcare Experts' },
@@ -90,7 +90,7 @@ const HeroSection = () => {
               />
               
               {/* Floating Card 1: Consult Online (Top Right) */}
-              <Paper elevation={3} className="absolute top-10 right-0 p-3 rounded-xl flex items-center gap-3 z-20 min-w-[200px] shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
+              <Paper elevation={0} className="hidden sm:flex absolute sm:top-4 sm:-right-6 p-3 rounded-[20px] items-center gap-3 z-20 min-w-[200px] origin-top-right" style={{ boxShadow: '0px 1px 1px 0px rgba(31,31,31,0.07), 0px 2px 2px 0px rgba(41,41,41,0.07), 0px 4px 4px 0px rgba(76,76,76,0.07), 0px 0px 8px 0px rgba(102,102,102,0.07), 0px 0px 16px 0px rgba(102,102,102,0.07)' }}>
                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <VideocamOutlinedIcon className="text-primary text-[20px]" />
                  </div>
@@ -101,7 +101,7 @@ const HeroSection = () => {
               </Paper>
 
               {/* Floating Card 2: Find Doctors (Top Left) */}
-              <Paper elevation={3} className="absolute top-[140px] -left-5 p-3 rounded-xl flex items-center gap-3 z-20 min-w-[180px] shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
+              <Paper elevation={0} className="hidden sm:flex absolute sm:top-[90px] sm:-left-5 p-3 rounded-[20px] items-center gap-3 z-20 min-w-[180px] origin-center" style={{ boxShadow: '0px 1px 1px 0px rgba(31,31,31,0.07), 0px 2px 2px 0px rgba(41,41,41,0.07), 0px 4px 4px 0px rgba(76,76,76,0.07), 0px 0px 8px 0px rgba(102,102,102,0.07), 0px 0px 16px 0px rgba(102,102,102,0.07)' }}>
                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <PersonSearchOutlinedIcon className="text-primary text-[20px]" />
                  </div>
@@ -112,7 +112,7 @@ const HeroSection = () => {
               </Paper>
 
               {/* Floating Card 3: Lab Tests (Bottom Left) */}
-              <Paper elevation={3} className="absolute bottom-[60px] left-10 p-3 rounded-xl flex items-center gap-3 z-20 min-w-[180px] shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
+              <Paper elevation={0} className="hidden sm:flex absolute sm:bottom-[30px] sm:left-[70px] p-3 rounded-[20px] items-center gap-3 z-20 min-w-[180px] origin-bottom-left" style={{ boxShadow: '0px 1px 1px 0px rgba(31,31,31,0.07), 0px 2px 2px 0px rgba(41,41,41,0.07), 0px 4px 4px 0px rgba(76,76,76,0.07), 0px 0px 8px 0px rgba(102,102,102,0.07), 0px 0px 16px 0px rgba(102,102,102,0.07)' }}>
                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <ScienceOutlinedIcon className="text-primary text-[20px]" />
                  </div>

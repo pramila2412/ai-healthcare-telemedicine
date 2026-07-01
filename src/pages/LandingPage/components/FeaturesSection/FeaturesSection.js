@@ -104,7 +104,7 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="w-full max-w-[285px] h-[580px] mx-auto flex flex-col rounded-[20px] border border-gray-200 overflow-hidden bg-white"
+              className="w-full max-w-[285px] h-full mx-auto flex flex-col rounded-[20px] border border-gray-200 overflow-hidden bg-white"
               style={{ boxShadow: '0 8px 30px -10px rgba(0,0,0,0.06)' }}
             >
               {/* Image Section */}
@@ -135,7 +135,7 @@ const FeaturesSection = () => {
                 </p>
 
                 {/* Bullet Points */}
-                <ul className="mt-auto space-y-3">
+                <ul className="space-y-3 mb-2">
                   {feature.bullets.map((bullet, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <div className="mt-0.5 w-4 h-4 rounded-full bg-[#EAF5F2] flex items-center justify-center shrink-0">

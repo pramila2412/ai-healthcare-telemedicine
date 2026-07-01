@@ -45,21 +45,21 @@ const participants = [
 
 const ParticipantsSection = () => {
   return (
-    <section className="py-24 bg-white text-center overflow-hidden">
+    <section className="py-12 md:py-24 bg-white text-center overflow-hidden">
       <Container maxWidth="xl">
         <span className="text-primary font-medium tracking-wide uppercase block mb-4">
           ONE CONNECTED HEALTHCARE NETWORK
         </span>
-        <h2 className="text-gray-900 font-semibold mb-4 text-[2rem] md:text-[2.5rem] leading-snug">
-          Built to connect every participant in the<br/> healthcare journey
+        <h2 className="text-gray-900 font-semibold mb-4 text-3xl md:text-[2.5rem] leading-snug px-4">
+          Built to connect every participant in the<br className="hidden md:block"/> healthcare journey
         </h2>
-        <p className="text-[#666666] mb-24 max-w-[800px] mx-auto font-normal text-xs">
+        <p className="text-[#666666] mb-12 md:mb-24 max-w-[800px] mx-auto font-normal text-xs px-4">
           From booking to recovery, we make healthcare simple, accessible and personalized for you.
         </p>
 
-        <div className="flex flex-wrap justify-center gap-10 lg:gap-10 mb-24">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:justify-center gap-x-2 gap-y-10 lg:gap-10 mb-12 md:mb-24 px-2 sm:px-0">
           {participants.map((item, index) => (
-            <div key={index} className="relative w-full sm:w-[calc(33.333%-32px)] lg:w-[140px]">
+            <div key={index} className="relative w-full lg:w-[140px] mx-auto">
               
               {/* Dashed Connecting Line with Arrow (hidden on last item or mobile) */}
               {index !== participants.length - 1 && (
@@ -71,11 +71,11 @@ const ParticipantsSection = () => {
               )}
 
               <div className="flex flex-col items-center relative z-10">
-                <div className="w-20 h-20 rounded-full flex items-center justify-center mb-6 border border-gray-100 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mb-4 md:mb-6 border border-gray-100 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
                   {index === 0 ? (
-                    <PatientIcon className="text-[32px] text-primary" />
+                    <PatientIcon className="text-[24px] md:text-[32px] text-primary" />
                   ) : (
-                    <DoctorIcon className="text-[32px] text-primary" />
+                    <DoctorIcon className="text-[24px] md:text-[32px] text-primary" />
                   )}
                 </div>
                 <p className="font-semibold text-[#141414] mb-2 text-xs">
