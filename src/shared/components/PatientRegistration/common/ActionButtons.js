@@ -1,10 +1,12 @@
 import React from "react";
 
-/**
- * PrimaryButton — the main green CTA button used across all registration steps.
- * (internal — not exported; only ever used inside ActionButtons)
- */
-const PrimaryButton = ({ children, onClick, disabled = false, type = "button", className = "" }) => (
+const PrimaryButton = ({
+  children,
+  onClick,
+  disabled = false,
+  type = "button",
+  className = "",
+}) => (
   <button
     type={type}
     onClick={!disabled ? onClick : undefined}
@@ -12,7 +14,7 @@ const PrimaryButton = ({ children, onClick, disabled = false, type = "button", c
     className={`
       h-14 rounded-lg px-6 text-xs font-medium font-TypeFace
       flex items-center justify-center transition-colors duration-150
-      w-full sm:w-auto
+      w-full md:w-auto
       ${
         disabled
           ? "bg-[#F4F4F4] text-[#838383] cursor-not-allowed"
@@ -25,22 +27,23 @@ const PrimaryButton = ({ children, onClick, disabled = false, type = "button", c
   </button>
 );
 
-/**
- * SecondaryButton — ghost/subtle button for "Go Back" / "Skip for now".
- * (internal — not exported; only ever used inside ActionButtons)
- */
-const SecondaryButton = ({ children, onClick, variant = "back", type = "button" }) => {
+const SecondaryButton = ({
+  children,
+  onClick,
+  variant = "back",
+  type = "button",
+}) => {
   const variantClass =
     variant === "skip"
       ? "bg-[#EEF4F3] text-[#096B58] hover:bg-[#ddf0ec]"
-      : "bg-[#F5F5F5] text-[#096B58] hover:bg-[#EAEAEA] sm:bg-white";
+      : "bg-[#F5F5F5] text-[#096B58] hover:bg-[#EAEAEA] md:bg-white";
 
   return (
     <button
       type={type}
       onClick={onClick}
       className={`
-        h-14 w-full sm:w-auto rounded-lg px-6 text-xs font-medium font-TypeFace
+        h-14 w-full md:w-auto rounded-lg px-6 text-xs font-medium font-TypeFace
         cursor-pointer transition-colors duration-150
         ${variantClass}
       `}
@@ -50,21 +53,6 @@ const SecondaryButton = ({ children, onClick, variant = "back", type = "button" 
   );
 };
 
-/**
- * ActionButtons — the Skip / Go Back / Next row shared by every registration
- * step's footer. Each slot is optional so a step can render just a single
- * "Next" CTA (Personal Information) or the full skip + back + next row
- * (Additional Information).
- *
- * Props:
- *   skip {{ label, onClick }}                  — optional "Skip for now" button
- *   back {{ label, onClick }}                  — optional "Go Back" button
- *   next {{ label, onClick, disabled }}        — the primary forward action
- *
- * The wrapping layout (margins, justify-between vs justify-end) is left to
- * the parent step, since spacing differs slightly per step — this component
- * only owns the buttons themselves and their grouping.
- */
 const ActionButtons = ({ skip, back, next }) => {
   const nextButton = next && (
     <PrimaryButton onClick={next.onClick} disabled={next.disabled}>
@@ -72,29 +60,37 @@ const ActionButtons = ({ skip, back, next }) => {
     </PrimaryButton>
   );
 
-  // Single button (no skip/back) — render with no extra wrapper so the
-  // parent's `justify-end` / `justify-between` layout is unaffected.
+  const backButton = back && (
+    <SecondaryButton variant="back" onClick={back.onClick}>
+      {back.label}
+    </SecondaryButton>
+  );
+
+  const skipButton = skip && (
+    <SecondaryButton variant="skip" onClick={skip.onClick}>
+      {skip.label}
+    </SecondaryButton>
+  );
+
   if (!skip && !back) {
-    return nextButton || null;
+    return (
+      <div className="w-full flex justify-end">
+        {nextButton}
+      </div>
+    );
   }
 
   return (
-    <>
-      {skip && (
-        <SecondaryButton variant="skip" onClick={skip.onClick}>
-          {skip.label}
-        </SecondaryButton>
-      )}
-
-      <div className="flex flex-col-reverse sm:flex-row gap-4 items-stretch sm:items-center">
-        {back && (
-          <SecondaryButton variant="back" onClick={back.onClick}>
-            {back.label}
-          </SecondaryButton>
-        )}
-        {nextButton}
+    <div className="w-full flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="order-2 md:order-1">
+        {skipButton}
       </div>
-    </>
+
+      <div className="order-1 flex flex-col gap-4 md:order-2 md:flex-row-reverse md:items-center">
+        {nextButton}
+        {backButton}
+      </div>
+    </div>
   );
 };
 

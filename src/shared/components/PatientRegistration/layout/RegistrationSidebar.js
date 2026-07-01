@@ -17,27 +17,68 @@ const RegistrationSidebar = ({
   const patientInfo =
     JSON.parse(localStorage.getItem("patientInformation")) || {};
 
-  const isStepCompleted = (key) => {
-    switch (key) {
-      case "personal":
-        return !!patientInfo.personalInformation;
+  const hasValue = (value) => {
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
 
-      case "additional":
-        return !!patientInfo.additionalInformation;
+  if (typeof value === "string") {
+    return value.trim().length > 0;
+  }
 
-      case "medical":
-        return !!patientInfo.medicalHistory;
+  if (value && typeof value === "object") {
+    return Object.values(value).some(hasValue);
+  }
 
-      case "insurance":
-        return !!patientInfo.insuranceInformation;
+  return value !== null && value !== undefined && value !== false;
+};
 
-      case "records":
-        return !!patientInfo.healthRecords;
+const isStepCompleted = (key) => {
+  switch (key) {
+    case "personal":
+      return !!(
+        patientInfo.personalInformation?.fullName?.trim() &&
+        patientInfo.personalInformation?.dob &&
+        patientInfo.personalInformation?.gender &&
+        patientInfo.personalInformation?.bloodGroup &&
+        patientInfo.personalInformation?.state &&
+        patientInfo.personalInformation?.city
+      );
 
-      default:
-        return false;
-    }
-  };
+    case "additional":
+      return !!(
+        patientInfo.additionalInformation?.emergencyRelationship?.trim() &&
+        patientInfo.additionalInformation?.emergencyContact?.trim()
+      );
+
+    case "medical":
+      return (
+        hasValue(patientInfo.medicalHistory?.allergies) ||
+        hasValue(patientInfo.medicalHistory?.allergyTags) ||
+        hasValue(patientInfo.medicalHistory?.currentMedications) ||
+        hasValue(patientInfo.medicalHistory?.existingConditions) ||
+        hasValue(patientInfo.medicalHistory?.conditionTags) ||
+        hasValue(patientInfo.medicalHistory?.previousSurgeries)
+      );
+
+    case "insurance":
+      return (
+        hasValue(patientInfo.insuranceInformation?.insuranceType) ||
+        hasValue(patientInfo.insuranceInformation?.policyNumber) ||
+        hasValue(patientInfo.insuranceInformation?.insuranceCards) ||
+        hasValue(patientInfo.insuranceInformation?.insuranceCard)
+      );
+
+    case "records":
+      return (
+        Array.isArray(patientInfo.healthRecords) &&
+        patientInfo.healthRecords.length > 0
+      );
+
+    default:
+      return false;
+  }
+};
 
   const resolveIcon = (step, isActive) => {
     if (isActive) return step.activeIcon;
