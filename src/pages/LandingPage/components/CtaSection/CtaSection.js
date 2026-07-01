@@ -48,11 +48,11 @@ const CtaSection = () => {
               </p>
               
               <div className="flex flex-col items-start gap-4 w-full max-w-[360px]">
-                <button className="w-full py-3.5 flex items-center justify-center gap-2 text-base font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors border-none cursor-pointer">
+                <button className="w-full py-3.5 flex items-center justify-center gap-2 text-base font-normal bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors border-none cursor-pointer">
                   <CalendarTodayOutlinedIcon className="text-[20px]" />
                   Book Appointment
                 </button>
-                <button className="w-full py-3.5 flex items-center justify-center gap-2 text-base font-semibold border-[1.5px] border-primary text-primary bg-transparent rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
+                <button className="w-full py-3.5 flex items-center justify-center gap-2 text-base font-normal border border-primary text-primary bg-transparent rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
                   <VideocamOutlinedIcon className="text-[20px]" />
                   Consult Online
                 </button>

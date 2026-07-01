@@ -11,6 +11,7 @@ import LoadingOverlay from "./shared/components/LoadingOverlay/LoadingOverlay";
 import NotificationView from "./shared/components/Notification/NotificationView.jsx";
 import withSecurity from "./shared/components/WithSecurity/WithSecurity.js";
 import ScrollToTop from "./shared/ScrollToTop/ScrollToTop.jsx";
+import PatientRegistration from "./pages/PatientRegistration/PatientRegistration";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/patient-registration" element={<PatientRegistration />} />
             <Route path="/verify" element={<VerifyOtp />} />
             <Route path="/password" element={<LoginPassword />} />
             <Route path="/role-selection" element={<RoleSelection />} />

@@ -1,20 +1,23 @@
-import './Navbar.css';
-import React from 'react';
+
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, Button, Container, IconButton } from '@mui/material';
+import { AppBar, Toolbar, Container, IconButton, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Fallback logo icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import './Navbar.css';
 
 const navItems = ['Home', 'Solutions', 'For Patients', 'For Providers', 'Pricing', 'Resources'];
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <AppBar position="sticky" color="inherit" elevation={0} className="border-b border-gray-200">
       <Container maxWidth="lg">
-        <Toolbar disableGutters className="justify-between h-[80px]">
+        <Toolbar disableGutters className="justify-between h-20">
           
           {/* Logo Section */}
           <div className="flex items-center cursor-pointer">
@@ -62,21 +65,30 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-4">
             <Button 
               variant="text" 
-              startIcon={<PersonOutlineOutlinedIcon />}
+//               startIcon={<PersonOutlineOutlinedIcon />}
               onClick={() => navigate('/signup')}
               className="bg-[#EEF4F3] text-primary px-6 py-2 font-semibold hover:bg-primary/15 normal-case rounded-lg cursor-pointer"
             >
+              <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
+              </svg>
               Sign up
             </Button>
             <Button 
               variant="contained" 
               color="primary"
-              startIcon={<PersonOutlineOutlinedIcon />}
+//               startIcon={<PersonOutlineOutlinedIcon />}
               onClick={() => navigate("/role-selection")}
               className="px-6 py-2 font-semibold normal-case rounded-lg shadow-none"
-            >
-              Login
             </Button>
+            <button 
+              className="flex items-center justify-center gap-2 bg-[#0D8B72] text-white px-4 py-2.5 font-medium hover:bg-[#0D8B72]/90 transition-colors normal-case rounded-lg border-none cursor-pointer"
+            >
+              <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
+              </svg>
+              Log In
+            </button>
           </div>
 
           {/* Mobile Menu Icon */}
@@ -86,11 +98,42 @@ const Navbar = () => {
               edge="end"
               color="inherit"
               aria-label="menu"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <MenuIcon />
+              {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
           </div>
         </Toolbar>
+        
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden pb-6 animate-in slide-in-from-top-2">
+            <div className="flex flex-col gap-4 pt-4 border-t border-gray-100">
+              {navItems.map((item) => (
+                <div key={item} className="flex items-center justify-between py-2 px-2 cursor-pointer hover:bg-gray-50 rounded-md">
+                  <span className="font-medium text-[15px] text-[#141414]">{item}</span>
+                  {(item === 'Solutions' || item === 'For Patients' || item === 'For Providers') && (
+                    <KeyboardArrowDownIcon className="text-[20px] text-[#838383]" />
+                  )}
+                </div>
+              ))}
+              <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-100">
+                <button className="flex items-center justify-center gap-2 bg-[#EEF4F3] text-[#0D8B72] w-full py-3 font-medium rounded-lg border-none cursor-pointer">
+                  <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
+                  </svg>
+                  Sign up
+                </button>
+                <button className="flex items-center justify-center gap-2 bg-[#0D8B72] text-white w-full py-3 font-medium rounded-lg border-none cursor-pointer">
+                  <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
+                  </svg>
+                  Log In
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </Container>
     </AppBar>
   );

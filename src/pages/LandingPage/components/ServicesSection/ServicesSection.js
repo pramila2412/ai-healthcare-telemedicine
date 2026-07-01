@@ -1,10 +1,7 @@
 import './ServicesSection.css';
 import React from 'react';
-import { Container, InputBase, Divider, Chip } from '@mui/material';
+import { Container } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
-import SearchIcon from '@mui/icons-material/Search';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const services = [
   {
@@ -46,49 +43,6 @@ const ServicesSection = () => {
     <section className="py-16 bg-white">
       <Container maxWidth="lg">
         
-        {/* Search Bar Section */}
-        <div className="mb-24">
-          <div className="flex flex-col md:flex-row items-center border border-gray-200 rounded p-1.5 mb-6 shadow-sm gap-4 md:gap-0">
-            {/* Location Selector */}
-            <div className="flex items-center px-4 min-w-[180px] cursor-pointer w-full md:w-auto">
-              <FmdGoodOutlinedIcon className="text-gray-500 mr-2 text-[20px]" />
-              <span className="text-gray-600 text-[15px] flex-grow">Select Location</span>
-              <KeyboardArrowDownIcon className="text-gray-400" />
-            </div>
-
-            <Divider orientation="vertical" flexItem className="mx-2 my-2 hidden md:block" />
-            <Divider orientation="horizontal" flexItem className="my-2 block md:hidden w-full" />
-
-            {/* Search Input */}
-            <div className="flex items-center flex-grow px-4 w-full md:w-auto">
-              <SearchIcon className="text-gray-400 mr-3 text-[22px]" />
-              <InputBase
-                placeholder="Search Doctors, Specialities, Clinics and Hospitals..."
-                className="w-full text-[15px] text-gray-900"
-              />
-            </div>
-
-            {/* Search Button */}
-            <div className="bg-primary text-white px-8 py-3 rounded font-semibold cursor-pointer w-full md:w-auto text-center hover:bg-primary/90 transition-colors">
-              Search
-            </div>
-          </div>
-
-          {/* Popular Searches */}
-          <div className="flex items-center gap-4 flex-wrap">
-            <span className="font-medium text-gray-700 text-sm">
-              Popular Searches:
-            </span>
-            {popularSearches.map((term, i) => (
-              <Chip 
-                key={i} 
-                label={term} 
-                size="small" 
-                className="bg-gray-50 text-gray-500 text-xs font-medium border border-gray-100 rounded-full"
-              />
-            ))}
-          </div>
-        </div>
 
         {/* Services Header */}
         <div className="mb-12 max-w-[800px]">
@@ -120,8 +74,8 @@ const ServicesSection = () => {
                   {service.description}
                 </p>
                 <div className="flex justify-end">
-                  <button className="bg-gray-100 w-7 h-7 rounded flex items-center justify-center hover:bg-gray-200 transition-colors outline-none border-none cursor-pointer">
-                    <ArrowForwardIosIcon className="text-[12px] text-gray-400" />
+                  <button className="bg-[#F4F4F4] w-7 h-7 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors outline-none border-none cursor-pointer">
+                    <ArrowForwardIosIcon style={{ fontSize: '10px' }} className="text-[#343434]" />
                   </button>
                 </div>
               </div>
