@@ -1,25 +1,9 @@
-import React from "react";
 import time from "@assets/patientRegistration/time.svg";
+import React from "react";
 
 const BOX_SHADOW =
   "0px 1px 1px rgba(0,0,0,0.03), 0px 2px 2px rgba(0,0,0,0.03), 0px 4px 4px rgba(0,0,0,0.03), 0px 8px 8px rgba(0,0,0,0.03)";
 
-/**
- * ProfileProgressCard — the "Profile Progress" card shown in the sidebar.
- *
- * Renders one of two pixel-distinct presets (matches the original
- * Sidebar.js markup exactly, which sized the card differently for the
- * desktop rail vs the mobile drawer):
- *
- *   variant="desktop" — absolutely positioned at the bottom of the
- *                       desktop sidebar rail.
- *   variant="mobile"  — static, full-width card at the bottom of the
- *                       mobile drawer.
- *
- * Props:
- *   progress {number}        — completion percentage (0-100)
- *   variant  {"desktop"|"mobile"}
- */
 const ProfileProgressCard = ({ progress, variant = "desktop" }) => {
   if (variant === "mobile") {
     return (

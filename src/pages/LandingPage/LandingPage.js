@@ -8,12 +8,14 @@ import StatsSection from './components/StatsSection/StatsSection';
 import TestimonialsSection from './components/TestimonialsSection/TestimonialsSection';
 import CtaSection from './components/CtaSection/CtaSection';
 import Footer from './components/Footer/Footer';
+import SearchCompound from './components/ServicesSection/SearchCompound';
 
 function LandingPage() {
   return (
     <>
       <Navbar />
       <HeroSection />
+      <SearchCompound />
       <ServicesSection />
       <ParticipantsSection />
       <FeaturesSection />

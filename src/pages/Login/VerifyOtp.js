@@ -6,6 +6,7 @@ import LoginBranding from "./components/LoginBranding";
 import VerifyForm from "./components/VerifyForm";
 import LoginFooter from "./components/LoginFooter";
 
+
 const VerifyOtp = () => {
   const navigate = useNavigate();
 
@@ -14,7 +15,7 @@ const VerifyOtp = () => {
       <LoginHeader onLogoClick={() => navigate("/")} />
 
       <main className="flex-1 flex items-center justify-center py-6">
-        <div className="login-card-container max-w-[1200px] w-full bg-white rounded-[32px] shadow-xl border border-gray-100/80 flex flex-col md:flex-row min-h-[640px] md:min-h-[700px] overflow-hidden">
+        <div className="login-card-container max-w-300 w-full bg-white rounded-4xl shadow-xl border border-gray-100/80 flex flex-col md:flex-row min-h-160 md:min-h-175 overflow-hidden">
           <LoginBranding doctorImg={doctorImg} />
           
           <VerifyForm />

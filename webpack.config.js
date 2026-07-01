@@ -13,11 +13,11 @@ module.exports = {
         static: path.resolve(__dirname, "public"),
         historyApiFallback: true,
         port: 3000,
-        
         open: true
     },
 
-     module: {
+
+    module: {
         rules: [
             {
                 test: /\.(js|jsx)$/,
@@ -30,7 +30,7 @@ module.exports = {
                     }
                 }
             },
-             {
+            {
                 test: /\.mjs$/,
                 include: /node_modules/,
                 type: "javascript/auto",
@@ -38,7 +38,7 @@ module.exports = {
                     fullySpecified: false
                 }
             },
-             {
+            {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader", "postcss-loader"]
             },
@@ -50,7 +50,8 @@ module.exports = {
                 test: /\.(png|jpe?g|gif|svg)$/i,
                 type: "asset/resource",
             },
-             ],
+
+        ]
     },
     resolve: {
         extensions: [".mjs", ".js", ".jsx"],

@@ -1,9 +1,10 @@
 import { failure, pending, success } from './../../reduxPromiseNames.js';
-import { DENY_ACCESS, DISPATCH_LOGOUT, FETCH_AUTH_TOKEN, USER_LAST_INTERACTION } from './securityActions.js';
+import { DENY_ACCESS, DISPATCH_LOGOUT, FETCH_AUTH_TOKEN, USER_LAST_INTERACTION, SET_PHONE_NUMBER } from './securityActions.js';
 
 
 const initialState = {
   user: null,
+  phoneNumber:"",
   isLoading: false,
   isError: null,
   isAuthenticated: true,
@@ -39,6 +40,12 @@ const secuirityReducer = (state = initialState, action) => {
         ...state,
         userLastInterectedAt: new Date()
       };
+
+      case SET_PHONE_NUMBER:
+    return {
+        ...state,
+        phoneNumber: action.payload,
+    };
 
     case pending(FETCH_AUTH_TOKEN):
       return {

@@ -1,37 +1,47 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useDispatch, useSelector } from "react-redux";
 
-import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
-import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
 import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
 import RequiredNotice from "@/shared/components/PatientRegistration/common/RequiredNotice";
-import { genders, bloodGroups, states, stateCities } from "../../../../shared/constants/patientRegistration/registrationConfig";
-
-import {
-  setPersonalInfo,
-  setActiveStep,
-} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
+import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
+import {bloodGroups,genders,stateCities,states,} from "@/shared/constants/PatientRegistration/registrationConfig";
+import { setActiveStep, setPersonalInfo,} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectPersonalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 
-import user from "@assets/patientRegistration/user.svg";
-import phone from "@assets/patientRegistration/phone.svg";
-import email from "@assets/patientRegistration/email.svg";
-import location from "@assets/patientRegistration/location.svg";
-import gender from "@assets/patientRegistration/gender.svg";
 import bloodgrp from "@assets/patientRegistration/bloodgrp.svg";
-import calender1 from "@assets/patientRegistration/calender1.svg";
 import calender from "@assets/patientRegistration/calender.svg";
+import calender1 from "@assets/patientRegistration/calender1.svg";
 import dob from "@assets/patientRegistration/dob.svg";
+import email from "@assets/patientRegistration/email.svg";
+import gender from "@assets/patientRegistration/gender.svg";
+import locations from "@assets/patientRegistration/location.svg";
+import phone from "@assets/patientRegistration/phone.svg";
+import user from "@assets/patientRegistration/user.svg";
 
 // ── Validation ────────────────────────────────────────────────────────────────
 const validateField = (name, value) => {
   switch (name) {
     case "fullName":
       return !value?.trim() ? "Please enter your full name!" : "";
-    case "dob":
-      return !value ? "Please select your date of birth!" : "";
+    case "dob": {
+      if (!value) return "Please select your date of birth.";
+
+      const dob = new Date(value);
+      const today = new Date();
+
+      // Remove time portion
+      dob.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+
+      if (dob >= today) {
+        return "Date of birth must be before today.";
+      }
+
+      return "";
+    }
     case "gender":
       return !value ? "Please select your gender!" : "";
     case "bloodGroup":
@@ -40,33 +50,54 @@ const validateField = (name, value) => {
       return !value ? "Please select your state!" : "";
     case "city":
       return !value ? "Please select your current city!" : "";
-    case "email":
-      if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-        return "Enter a valid email address!";
+    case "email": {
+      // Optional field
+      if (!value.trim()) return "";
+
+      const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+      if (!emailRegex.test(value.trim())) {
+        return "Please enter a valid email address.";
+      }
+
       return "";
+    }
     default:
       return "";
   }
 };
 
-const REQUIRED_FIELDS = ["fullName", "dob", "gender", "bloodGroup", "state", "city", "email"];
+const REQUIRED_FIELDS = [
+  "fullName",
+  "dob",
+  "gender",
+  "bloodGroup",
+  "state",
+  "city",
+  "email",
+];
 
 // ── PersonalInformation ───────────────────────────────────────────────────────
 const PersonalInformation = () => {
   const dispatch = useDispatch();
   const saved = useSelector(selectPersonalInfo);
 
+  
+  const phoneNumber = useSelector(
+      (state) => state.security.phoneNumber
+    );
+
   const [formData, setFormData] = useState(
     saved || {
       fullName: "",
       dob: "",
-      phone: "",
+      phone: phoneNumber,
       email: "",
       gender: "",
       bloodGroup: "",
       state: "",
       city: "",
-    }
+    },
   );
 
   const [errors, setErrors] = useState({});
@@ -76,13 +107,32 @@ const PersonalInformation = () => {
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    const updated = { ...formData, [name]: value, ...(name === "state" ? { city: "" } : {}) };
-    setFormData(updated);
-    if (touched[name]) {
-      setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
-    }
+  const { name, value } = e.target;
+
+  let updatedValue = value;
+
+  if (name === "email") {
+    updatedValue = value.replace(/\s/g, "");
+  }
+
+  if (name === "emergencyContact") {
+    updatedValue = value.replace(/\D/g, "").slice(0, 10);
+  }
+
+  const updated = {
+    ...formData,
+    [name]: updatedValue,
   };
+
+  setFormData(updated);
+
+  if (touched[name]) {
+    setErrors((prev) => ({
+      ...prev,
+      [name]: validateField(name, updatedValue, updated),
+    }));
+  }
+};
 
   const handleBlur = (name, value) => {
     setTouched((prev) => ({ ...prev, [name]: true }));
@@ -90,7 +140,11 @@ const PersonalInformation = () => {
   };
 
   const handleSelectChange = (name, value) => {
-    const updated = { ...formData, [name]: value, ...(name === "state" ? { city: "" } : {}) };
+    const updated = {
+      ...formData,
+      [name]: value,
+      ...(name === "state" ? { city: "" } : {}),
+    };
     setFormData(updated);
     setTouched((prev) => ({ ...prev, [name]: true }));
     setErrors((prev) => ({
@@ -103,14 +157,19 @@ const PersonalInformation = () => {
   const handleSelectBlur = (name) => {
     if (!formData[name]) {
       setTouched((prev) => ({ ...prev, [name]: true }));
-      setErrors((prev) => ({ ...prev, [name]: validateField(name, formData[name]) }));
+      setErrors((prev) => ({
+        ...prev,
+        [name]: validateField(name, formData[name]),
+      }));
     }
   };
 
   // ── Submit ────────────────────────────────────────────────────────────────────
   const handleNext = () => {
     const newErrors = {};
-    REQUIRED_FIELDS.forEach((f) => { newErrors[f] = validateField(f, formData[f]); });
+    REQUIRED_FIELDS.forEach((f) => {
+      newErrors[f] = validateField(f, formData[f]);
+    });
     const hasErrors = Object.values(newErrors).some((e) => e !== "");
     if (hasErrors) return;
 
@@ -132,10 +191,11 @@ const PersonalInformation = () => {
   return (
     <div className="px-7 md:px-10 mt-6 md:mt-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
         {/* Full Name */}
         <div>
-          <label className={labelClass}>Full Name <span className="text-[#EF4444]">*</span></label>
+          <label className={labelClass}>
+            Full Name <span className="text-[#EF4444]">*</span>
+          </label>
           <FormInput
             name="fullName"
             value={formData.fullName}
@@ -151,7 +211,9 @@ const PersonalInformation = () => {
 
         {/* Date of Birth */}
         <div>
-          <label className={labelClass}>Date of Birth <span className="text-[#EF4444]">*</span></label>
+          <label className={labelClass}>
+            Date of Birth <span className="text-[#EF4444]">*</span>
+          </label>
           <div className="relative">
             <img
               src={formData.dob ? dob : calender1}
@@ -160,31 +222,64 @@ const PersonalInformation = () => {
             />
             <DatePicker
               selected={formData.dob ? new Date(formData.dob) : null}
+              maxDate={new Date(Date.now() - 24 * 60 * 60 * 1000)}
+              dateFormat="d MMMM yyyy"
+              placeholderText="Select date of birth"
+              wrapperClassName="w-full"
+              popperClassName="dob-datepicker-popper"
+              className={`w-full h-10 rounded-lg border border-[#E5E7EB] pl-12 pr-16 text-xs font-normal text-[#141414] outline-none placeholder:text-[#666666] focus:border-[#096B58] transition-colors ${
+                showError("dob") && errors.dob ? "border-[#EF4444]" : ""
+              }`}
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={100}
               onChange={(date) => {
                 const value = date ? date.toISOString().split("T")[0] : "";
+
                 handleChange({ target: { name: "dob", value } });
+
                 setTouched((prev) => ({ ...prev, dob: true }));
-                setErrors((prev) => ({ ...prev, dob: validateField("dob", value) }));
+
+                setErrors((prev) => ({
+                  ...prev,
+                  dob: validateField("dob", value),
+                }));
+              }}
+              onChangeRaw={(e) => {
+                const value = e.target.value;
+                const parsed = new Date(value);
+
+                if (!isNaN(parsed.getTime())) {
+                  const formatted = parsed.toISOString().split("T")[0];
+
+                  setTouched((prev) => ({ ...prev, dob: true }));
+
+                  setErrors((prev) => ({
+                    ...prev,
+                    dob: validateField("dob", formatted),
+                  }));
+                }
               }}
               onCalendarClose={() => {
                 if (!formData.dob) {
                   setTouched((prev) => ({ ...prev, dob: true }));
-                  setErrors((prev) => ({ ...prev, dob: validateField("dob", formData.dob) }));
+                  setErrors((prev) => ({
+                    ...prev,
+                    dob: validateField("dob", formData.dob),
+                  }));
                 }
               }}
-              dateFormat="d MMMM yyyy"
-              placeholderText="Select date of birth"
-              wrapperClassName="w-full"
-              className={`w-full h-10 rounded-lg border border-[#E5E7EB] pl-12 pr-12 text-xs font-normal text-[#141414] outline-none placeholder:text-[#666666] focus:border-[#096B58] transition-colors ${showError("dob") && errors.dob ? "border-[#EF4444]" : ""}`}
-              showYearDropdown
-              scrollableYearDropdown
-              yearDropdownItemNumber={100}
             />
-            <button type="button" className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+            <button
+              type="button"
+              className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none "
+            >
               <img src={calender} alt="calendar" className="w-6 h-6" />
             </button>
             {showError("dob") && errors.dob && (
-              <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-[#EF4444]">{errors.dob}</p>
+              <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-[#EF4444]">
+                {errors.dob}
+              </p>
             )}
           </div>
         </div>
@@ -192,6 +287,7 @@ const PersonalInformation = () => {
         {/* Phone Number */}
         <div>
           <label className={labelClass}>Phone Number</label>
+
           <FormInput
             name="phone"
             value={formData.phone}
@@ -199,6 +295,7 @@ const PersonalInformation = () => {
             placeholder="+91 9876 543 210"
             icon={phone}
             iconAlt="phone"
+            disabled
           />
         </div>
 
@@ -221,7 +318,9 @@ const PersonalInformation = () => {
 
         {/* Gender */}
         <div>
-          <label className={labelClass}>Gender <span className="text-[#EF4444]">*</span></label>
+          <label className={labelClass}>
+            Gender <span className="text-[#EF4444]">*</span>
+          </label>
           <FormSelect
             name="gender"
             value={formData.gender}
@@ -238,7 +337,9 @@ const PersonalInformation = () => {
 
         {/* Blood Group */}
         <div>
-          <label className={labelClass}>Blood Group <span className="text-[#EF4444]">*</span></label>
+          <label className={labelClass}>
+            Blood Group <span className="text-[#EF4444]">*</span>
+          </label>
           <FormSelect
             name="bloodGroup"
             value={formData.bloodGroup}
@@ -255,14 +356,16 @@ const PersonalInformation = () => {
 
         {/* State */}
         <div>
-          <label className={labelClass}>State <span className="text-[#EF4444]">*</span></label>
+          <label className={labelClass}>
+            State <span className="text-[#EF4444]">*</span>
+          </label>
           <FormSelect
             name="state"
             value={formData.state}
             options={states}
             placeholder="Select state"
             searchPlaceholder="Search state"
-            icon={location}
+            icon={locations}
             onSelect={handleSelectChange}
             onBlur={handleSelectBlur}
             error={errors.state}
@@ -272,14 +375,16 @@ const PersonalInformation = () => {
 
         {/* Current City */}
         <div>
-          <label className={labelClass}>Current City <span className="text-[#EF4444]">*</span></label>
+          <label className={labelClass}>
+            Current City <span className="text-[#EF4444]">*</span>
+          </label>
           <FormSelect
             name="city"
             value={formData.city}
             options={formData.state ? stateCities[formData.state] || [] : []}
             placeholder="Select your current city"
             searchPlaceholder="Search city"
-            icon={location}
+            icon={locations}
             onSelect={handleSelectChange}
             onBlur={handleSelectBlur}
             error={errors.city}

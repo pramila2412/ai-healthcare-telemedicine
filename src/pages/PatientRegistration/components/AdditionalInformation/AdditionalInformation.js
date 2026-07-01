@@ -1,23 +1,23 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
 import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
 import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
 import UnitToggle from "@/shared/components/PatientRegistration/form/UnitToggle";
-import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
 import {
-  heightUnits,
-  weightUnits,
   activityLevels,
-  dietaryPreferences,
-  smokingStatuses,
   alcoholOptions,
+  dietaryPreferences,
+  heightUnits,
   relationships,
-} from "@/shared/constants/patientRegistration/registrationConfig.js";
+  smokingStatuses,
+  weightUnits,
+} from "@/shared/constants/PatientRegistration/registrationConfig.js";
 
 import {
-  setAdditionalInfo,
   setActiveStep,
+  setAdditionalInfo,
 } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectAdditionalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 
@@ -58,19 +58,27 @@ const validateField = (name, value, data = {}) => {
       return "";
     }
     case "emergencyRelationship":
-      return !value ? "Please select your relationship with the emergency contact." : "";
+      return !value
+        ? "Please select your relationship with the emergency contact."
+        : "";
     case "emergencyContact":
-      if (!value?.trim()) return "Please enter an emergency contact number.";
-      if (!/^[+]?[\d\s\-()]{7,15}$/.test(value.trim())) return "Enter a valid contact number.";
-      return "";
-    default:
+      if (!value) return ""; // Optional field
+
+      if (!/^\d{10}$/.test(value)) {
+        return "Emergency contact number must be exactly 10 digits.";
+      }
+
       return "";
   }
 };
 
 const VALIDATED_FIELDS = [
-  "height", "weight", "bloodPressure", "bloodSugar",
-  "emergencyRelationship", "emergencyContact",
+  "height",
+  "weight",
+  "bloodPressure",
+  "bloodSugar",
+  "emergencyRelationship",
+  "emergencyContact",
 ];
 
 // ── AdditionalInformation ──────────────────────────────────────────────────────
@@ -92,7 +100,7 @@ const AdditionalInformation = () => {
       alcoholConsumption: "",
       emergencyRelationship: "",
       emergencyContact: "",
-    }
+    },
   );
 
   const [errors, setErrors] = useState({});
@@ -106,29 +114,53 @@ const AdditionalInformation = () => {
   // ── Handlers ─────────────────────────────────────────────────────────────────
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const updated = { ...formData, [name]: value };
+
+    let updatedValue = value;
+
+    if (name === "emergencyContact") {
+      updatedValue = value.replace(/\D/g, "").slice(0, 10);
+    }
+
+    const updated = {
+      ...formData,
+      [name]: updatedValue,
+    };
+
     setFormData(updated);
+
     if (touched[name]) {
-      setErrors((prev) => ({ ...prev, [name]: validateField(name, value, updated) }));
+      setErrors((prev) => ({
+        ...prev,
+        [name]: validateField(name, updatedValue, updated),
+      }));
     }
   };
 
   const handleBlur = (name, value) => {
     setTouched((prev) => ({ ...prev, [name]: true }));
-    setErrors((prev) => ({ ...prev, [name]: validateField(name, value, formData) }));
+    setErrors((prev) => ({
+      ...prev,
+      [name]: validateField(name, value, formData),
+    }));
   };
 
   const handleSelectChange = (name, value) => {
     const updated = { ...formData, [name]: value };
     setFormData(updated);
     setTouched((prev) => ({ ...prev, [name]: true }));
-    setErrors((prev) => ({ ...prev, [name]: validateField(name, value, updated) }));
+    setErrors((prev) => ({
+      ...prev,
+      [name]: validateField(name, value, updated),
+    }));
   };
 
   const handleSelectBlur = (name) => {
     if (!formData[name]) {
       setTouched((prev) => ({ ...prev, [name]: true }));
-      setErrors((prev) => ({ ...prev, [name]: validateField(name, formData[name], formData) }));
+      setErrors((prev) => ({
+        ...prev,
+        [name]: validateField(name, formData[name], formData),
+      }));
     }
   };
 
@@ -147,18 +179,27 @@ const AdditionalInformation = () => {
   // ── Submit / Navigation ───────────────────────────────────────────────────────
   const handleNext = () => {
     const newErrors = {};
-    VALIDATED_FIELDS.forEach((f) => { newErrors[f] = validateField(f, formData[f], formData); });
+    VALIDATED_FIELDS.forEach((f) => {
+      newErrors[f] = validateField(f, formData[f], formData);
+    });
     if (Object.values(newErrors).some((e) => e !== "")) return;
 
     dispatch(setAdditionalInfo(formData));
     dispatch(setActiveStep("medical"));
   };
 
-  const handleSkip = () => dispatch(setActiveStep("review"));
+  const handleSkip = () => dispatch(setActiveStep("medical"));
   const handleGoBack = () => dispatch(setActiveStep("personal"));
 
-  const isFormValid =
-    formData.emergencyRelationship?.trim() && formData.emergencyContact?.trim();
+  const isSkipEnabled =
+    formData.height &&
+    formData.weight &&
+    formData.bloodPressure &&
+    formData.bloodSugar &&
+    validateField("height", formData.height, formData) === "" &&
+    validateField("weight", formData.weight, formData) === "" &&
+    validateField("bloodPressure", formData.bloodPressure, formData) === "" &&
+    validateField("bloodSugar", formData.bloodSugar, formData) === "";
 
   const labelClass = "block mb-2 text-[12px] font-normal text-[#202020]";
 
@@ -166,7 +207,6 @@ const AdditionalInformation = () => {
   return (
     <div className="px-7 md:px-10 mt-6 md:mt-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 overflow-visible">
-
         {/* Height */}
         <div>
           <label className={labelClass}>Height</label>
@@ -226,7 +266,11 @@ const AdditionalInformation = () => {
             placeholder="120 / 80"
             error={errors.bloodPressure}
             showError={showError("bloodPressure")}
-            suffix={<span className="text-xs text-[#666666] pointer-events-none">mmHg</span>}
+            suffix={
+              <span className="text-xs text-[#666666] pointer-events-none">
+                mmHg
+              </span>
+            }
           />
         </div>
 
@@ -242,7 +286,11 @@ const AdditionalInformation = () => {
             placeholder="95"
             error={errors.bloodSugar}
             showError={showError("bloodSugar")}
-            suffix={<span className="text-xs text-[#666666] pointer-events-none">mg/dL</span>}
+            suffix={
+              <span className="text-xs text-[#666666] pointer-events-none">
+                mg/dL
+              </span>
+            }
           />
         </div>
 
@@ -312,9 +360,7 @@ const AdditionalInformation = () => {
 
         {/* Emergency Contact Relationship */}
         <div>
-          <label className={labelClass}>
-            Emergency Contact Relationship <span className="text-[#EF4444]">*</span>
-          </label>
+          <label className={labelClass}>Emergency Contact Relationship </label>
           <FormSelect
             name="emergencyRelationship"
             value={formData.emergencyRelationship}
@@ -330,20 +376,18 @@ const AdditionalInformation = () => {
 
         {/* Emergency Contact Number */}
         <div>
-          <label className={labelClass}>
-            Emergency Contact Number <span className="text-[#EF4444]">*</span>
-          </label>
+          <label className={labelClass}>Emergency Contact Number</label>
+
           <FormInput
             name="emergencyContact"
             type="tel"
             value={formData.emergencyContact}
             onChange={handleChange}
             onBlur={(e) => handleBlur("emergencyContact", e.target.value)}
-            placeholder="+91 98765 43210"
-            icon={phone}
-            iconAlt="phone"
+            placeholder="9876543210"
             error={errors.emergencyContact}
             showError={showError("emergencyContact")}
+            prefix={<span>+91</span>}
           />
         </div>
       </div>
@@ -351,12 +395,19 @@ const AdditionalInformation = () => {
       {/* CTA Buttons */}
       <div className="mt-16 md:mt-30.5 flex flex-col-reverse sm:flex-row gap-4 items-stretch sm:items-center sm:justify-between pb-10 md:pb-0">
         <ActionButtons
-          skip={{ label: "Skip for now", onClick: handleSkip }}
-          back={{ label: "Go Back", onClick: handleGoBack }}
+          skip={{
+            label: "Skip for now",
+            onClick: handleSkip,
+            disabled: !isSkipEnabled,
+          }}
+          back={{
+            label: "Go Back",
+            onClick: handleGoBack,
+          }}
           next={{
             label: "Add Medical History",
             onClick: handleNext,
-            disabled: !isFormValid,
+            disabled: false,
           }}
         />
       </div>

@@ -1,108 +1,54 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import Swal from "sweetalert2";
+import React, { useRef, useEffect } from 'react';
 
-export default function VerifyForm() {
- const navigate = useNavigate();
-
-  // Get phone number from Redux
-  const phoneNumber = useSelector(
-    (state) => state.security.phoneNumber
-  );
-
- 
-
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const [timer, setTimer] = useState(30);
+export default function SignUpOtpForm({ phoneNumber, otp, setOtp, timer, setTimer, onSubmit, onBack, handleResendOtp }) {
   const inputRefs = useRef([]);
 
-  // Automatically focus on the first OTP digit input field
+  // Auto focus first OTP input when component mounts
   useEffect(() => {
     if (inputRefs.current[0]) {
       inputRefs.current[0].focus();
     }
   }, []);
 
-  // Resend OTP Countdown Timer Effect
-  useEffect(() => {
-    if (timer === 0) return;
-    const interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [timer]);
-
-  const handleChange = (index, value) => {
-    // Only allow single numeric digits
+  const handleOtpChange = (index, value) => {
     if (value && !/^\d$/.test(value)) return;
 
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Auto-focus next input if character was typed
+    // Shift focus forward
     if (value && index < 5) {
       inputRefs.current[index + 1].focus();
     }
   };
 
-  const handleKeyDown = (index, e) => {
+  const handleOtpKeyDown = (index, e) => {
     if (e.key === 'Backspace') {
       if (!otp[index] && index > 0) {
-        // Move focus back if backspace is pressed on empty input
         inputRefs.current[index - 1].focus();
       }
     }
   };
 
-  const handlePaste = (e) => {
+  const handleOtpPaste = (e) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text').trim();
-    if (!/^\d{6}$/.test(pastedData)) return; // Allow exactly 6 numeric digits
+    if (!/^\d{6}$/.test(pastedData)) return;
 
     const digits = pastedData.split('');
     setOtp(digits);
-
-    // Focus last input box
-    inputRefs.current[5].focus();
+    if (inputRefs.current[5]) {
+      inputRefs.current[5].focus();
+    }
   };
-
-  const handleResend = () => {
-    setTimer(30);
-  };
-
-  const handleVerify = async (e) => {
-  e.preventDefault();
-
-  const code = otp.join("");
-
-  if (code.length < 6) {
-    Swal.fire({
-      icon: "error",
-      title: "Invalid OTP",
-      text: "Please enter all 6 digits of the OTP.",
-    });
-    return;
-  }
-   localStorage.clear
-  // Success Alert
-  await Swal.fire({
-    icon: "success",
-    title: "Login Successful!",
-    text: "Welcome back.",
-    confirmButtonText: "Continue",
-  });
-
-  // Redirect after clicking OK
-  navigate("/patient-registration");
-};
 
   return (
-    <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-150 lg:min-h-auto">
+    <div className="flex-1 md:w-1/2 lg:w-1/2 flex flex-col justify-between p-8 lg:p-5 bg-white min-h-[600px] lg:min-h-auto">
       {/* Back Button */}
       <button
-        onClick={() => navigate('/login')}
+        type="button"
+        onClick={onBack}
         className="flex items-center gap-2 text-slate-500 hover:text-emerald-700 transition-colors text-xs font-semibold py-1.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 cursor-pointer self-start shadow-2xs"
       >
         <svg className="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -112,18 +58,18 @@ export default function VerifyForm() {
       </button>
 
       <div className="max-w-md w-full mx-auto my-auto py-6">
-        {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="login-form-title text-3xl font-bold text-slate-800 tracking-tight">Secure Access</h2>
+          <h2 className="login-form-title text-3xl font-bold text-slate-800 tracking-tight">Create Account</h2>
           <p className="login-form-desc text-sm text-gray-500 mt-2 max-w-xs mx-auto leading-relaxed">
             We've sent a 6-digit verification code to your registered phone number.
           </p>
 
-          {/* Phone Display with Edit */}
-          <div className="flex items-center justify-center gap-2 mt-4 py-1.5 px-4 w-fit mx-auto ">
-            <span className="text-xs font-bold text-slate-800 tracking-wide">{phoneNumber}</span>
+          {/* Phone number display pill */}
+          <div className="flex items-center justify-center gap-2 mt-4  py-1.5 px-4 w-fit mx-auto">
+            <span className="text-xs font-bold text-slate-800 tracking-wide">+91 {phoneNumber}</span>
             <button
-              onClick={() => navigate('/login')}
+              type="button"
+              onClick={onBack}
               className="flex items-center gap-1 text-[10px] font-bold text-emerald-700 hover:text-emerald-800 transition-colors border border-emerald-100/80 bg-white hover:bg-emerald-50/50 py-0.5 px-2 rounded-md cursor-pointer shadow-2xs"
             >
               <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -134,8 +80,7 @@ export default function VerifyForm() {
           </div>
         </div>
 
-        <form onSubmit={handleVerify} className="space-y-6">
-          {/* OTP inputs container */}
+        <form onSubmit={onSubmit} className="space-y-6">
           <div>
             <label className="login-form-label block text-xs font-semibold text-gray-500 mb-3">OTP</label>
             <div className="grid grid-cols-6 gap-2 sm:gap-3">
@@ -146,9 +91,9 @@ export default function VerifyForm() {
                   type="text"
                   maxLength={1}
                   value={digit}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(index, e)}
-                  onPaste={handlePaste}
+                  onChange={(e) => handleOtpChange(index, e.target.value)}
+                  onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                  onPaste={handleOtpPaste}
                   className="w-full aspect-square text-center text-lg md:text-xl lg:text-2xl font-bold text-slate-800 border border-gray-200 rounded-xl focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all outline-none bg-white shadow-2xs"
                   inputMode="numeric"
                   pattern="[0-9]*"
@@ -182,7 +127,7 @@ export default function VerifyForm() {
             ) : (
               <button
                 type="button"
-                onClick={handleResend}
+                onClick={handleResendOtp}
                 className="text-emerald-700 font-semibold underline hover:text-emerald-800 cursor-pointer"
               >
                 Resend OTP!

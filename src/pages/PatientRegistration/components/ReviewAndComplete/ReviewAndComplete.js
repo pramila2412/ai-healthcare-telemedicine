@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import RefreshIcon from "@assets/patientRegistration/refresh.svg";
-import LockIcon from "@assets/patientRegistration/lock.svg";
-import EyeIcon from "@assets/patientRegistration/eye.svg";
 import AvailableIcon from "@assets/patientRegistration/AvailableIcon.svg";
+import CheckCircleIcon from "@assets/patientRegistration/CheckCircleIcon.svg";
+import CircleIcon from "@assets/patientRegistration/CircleIcon.svg";
+import EyeIcon from "@assets/patientRegistration/eye.svg";
+import LockIcon from "@assets/patientRegistration/lock.svg";
+import RefreshIcon from "@assets/patientRegistration/refresh.svg";
 import TakenIcon from "@assets/patientRegistration/TakenIcon.svg";
 import WarningIcon from "@assets/patientRegistration/WarningIcon.svg";
 import XCircleIcon from "@assets/patientRegistration/XCircleIcon.svg";
-import CheckCircleIcon from "@assets/patientRegistration/CheckCircleIcon.svg";
-import CircleIcon from "@assets/patientRegistration/CircleIcon.svg";
+import React, { useState } from "react";
 
 import InfoChip from "@/shared/components/PatientRegistration/common/InfoChip";
 import SectionHeader from "@/shared/components/PatientRegistration/common/SectionHeader";

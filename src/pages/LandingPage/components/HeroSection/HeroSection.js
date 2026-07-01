@@ -20,9 +20,9 @@ const HeroSection = () => {
           {/* Left Content Column */}
           <div className="flex-1">
             <div className="md:pr-8">
-              <div className="flex items-center mb-6 border border-gray-200 rounded-full px-4 py-2 w-fit bg-[#F8FAFC]">
-                <AutoAwesomeIcon className="text-primary text-base mr-2" />
-                <span className="text-primary font-semibold text-xs tracking-wide">
+              <div className="flex items-center mb-6 rounded-full px-4 py-2 w-fit bg-[#DCE6E2]">
+                <AutoAwesomeIcon className="text-[#075C4C] text-base mr-2" />
+                <span className="text-[#075C4C] font-medium text-xs tracking-wide">
                   AI-Powered Healthcare Ecosystem
                 </span>
               </div>
@@ -39,28 +39,19 @@ const HeroSection = () => {
                 Connect Patients, Doctors, Hospitals, Laboratories, Pharmacies, Insurance, and Healthcare providers through one secure AI-powered platform.
               </p>
               
-              <div className="flex flex-wrap gap-4 mb-12">
-                <Button 
-                  variant="contained" 
-                  color="primary" 
-                  size="large" 
-                  startIcon={<CalendarMonthIcon />}
-                  className="px-6 py-3 text-base rounded-lg shadow-none normal-case font-semibold"
-                >
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <button className="w-full sm:w-auto px-6 py-3 flex items-center justify-center gap-2 text-base font-normal bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors border-none cursor-pointer">
+                  <CalendarMonthIcon className="text-[20px]" />
                   Book Appointment
-                </Button>
-                <Button 
-                  variant="outlined" 
-                  size="large" 
-                  startIcon={<VideocamOutlinedIcon />}
-                  className="px-6 py-3 text-base rounded-lg border-primary text-primary hover:bg-primary/5 normal-case font-semibold"
-                >
+                </button>
+                <button className="w-full sm:w-auto px-6 py-3 flex items-center justify-center gap-2 text-base font-normal border border-primary text-primary bg-transparent rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
+                  <VideocamOutlinedIcon className="text-[20px]" />
                   Consult Online
-                </Button>
+                </button>
               </div>
             </div>
 
-            <div className="flex flex-wrap lg:flex-nowrap gap-4 sm:gap-4 justify-between w-full lg:w-[115%] relative z-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-nowrap gap-5 sm:gap-6 w-full lg:w-[115%] justify-items-start lg:justify-between relative z-10 mt-8 lg:mt-12">
               {[
                 { icon: <VerifiedUserOutlinedIcon className="text-primary text-[20px]" />, title: 'Trusted by', desc: '1M+ Patients' },
                 { icon: <VerifiedOutlinedIcon className="text-primary text-[20px]" />, title: 'Verified', desc: 'Healthcare Experts' },
@@ -72,10 +63,10 @@ const HeroSection = () => {
                     {item.icon}
                   </div>
                   <div>
-                    <p className="font-bold text-gray-700 text-xs leading-tight">
+                    <p className="font-semibold text-[#666666] text-xs leading-tight">
                       {item.title}
                     </p>
-                    <p className="text-gray-400 text-[0.7rem]">
+                    <p className="font-normal text-[#666666] text-[0.7rem]">
                       {item.desc}
                     </p>
                   </div>
@@ -99,35 +90,35 @@ const HeroSection = () => {
               />
               
               {/* Floating Card 1: Consult Online (Top Right) */}
-              <Paper elevation={3} className="absolute top-10 right-0 p-3 rounded-xl flex items-center gap-3 z-20 min-w-[200px] shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
+              <Paper elevation={0} className="hidden sm:flex absolute sm:top-4 sm:-right-6 p-3 rounded-[20px] items-center gap-3 z-20 min-w-[200px] origin-top-right" style={{ boxShadow: '0px 1px 1px 0px rgba(31,31,31,0.07), 0px 2px 2px 0px rgba(41,41,41,0.07), 0px 4px 4px 0px rgba(76,76,76,0.07), 0px 0px 8px 0px rgba(102,102,102,0.07), 0px 0px 16px 0px rgba(102,102,102,0.07)' }}>
                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <VideocamOutlinedIcon className="text-primary text-[20px]" />
                  </div>
                  <div>
-                   <p className="font-extrabold text-gray-900 text-sm">Consult Online</p>
-                   <p className="text-gray-500 text-[0.7rem]">Connect in Few Seconds</p>
+                   <p className="font-semibold text-gray-900 text-sm">Consult Online</p>
+                   <p className="text-[#556660] text-[0.7rem]">Connect in Few Seconds</p>
                  </div>
               </Paper>
 
               {/* Floating Card 2: Find Doctors (Top Left) */}
-              <Paper elevation={3} className="absolute top-[140px] -left-5 p-3 rounded-xl flex items-center gap-3 z-20 min-w-[180px] shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
+              <Paper elevation={0} className="hidden sm:flex absolute sm:top-[90px] sm:-left-5 p-3 rounded-[20px] items-center gap-3 z-20 min-w-[180px] origin-center" style={{ boxShadow: '0px 1px 1px 0px rgba(31,31,31,0.07), 0px 2px 2px 0px rgba(41,41,41,0.07), 0px 4px 4px 0px rgba(76,76,76,0.07), 0px 0px 8px 0px rgba(102,102,102,0.07), 0px 0px 16px 0px rgba(102,102,102,0.07)' }}>
                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <PersonSearchOutlinedIcon className="text-primary text-[20px]" />
                  </div>
                  <div>
-                   <p className="font-extrabold text-gray-900 text-sm">Find Doctors</p>
-                   <p className="text-gray-500 text-[0.7rem]">Verified specialists</p>
+                   <p className="font-semibold text-gray-900 text-sm">Find Doctors</p>
+                   <p className="text-[#556660] text-[0.7rem]">Verified specialists</p>
                  </div>
               </Paper>
 
               {/* Floating Card 3: Lab Tests (Bottom Left) */}
-              <Paper elevation={3} className="absolute bottom-[60px] left-10 p-3 rounded-xl flex items-center gap-3 z-20 min-w-[180px] shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
+              <Paper elevation={0} className="hidden sm:flex absolute sm:bottom-[30px] sm:left-[70px] p-3 rounded-[20px] items-center gap-3 z-20 min-w-[180px] origin-bottom-left" style={{ boxShadow: '0px 1px 1px 0px rgba(31,31,31,0.07), 0px 2px 2px 0px rgba(41,41,41,0.07), 0px 4px 4px 0px rgba(76,76,76,0.07), 0px 0px 8px 0px rgba(102,102,102,0.07), 0px 0px 16px 0px rgba(102,102,102,0.07)' }}>
                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <ScienceOutlinedIcon className="text-primary text-[20px]" />
                  </div>
                  <div>
-                   <p className="font-extrabold text-gray-900 text-sm">Lab Tests</p>
-                   <p className="text-gray-500 text-[0.7rem]">Book tests at home</p>
+                   <p className="font-semibold text-gray-900 text-sm">Lab Tests</p>
+                   <p className="text-[#556660] text-[0.7rem]">Book tests at home</p>
                  </div>
               </Paper>
             </div>

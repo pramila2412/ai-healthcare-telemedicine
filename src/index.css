@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 
-
 @theme {
   --color-primary: #0D8B72;
   --font-TypeFace:"TypeFace" "Inter", "system-ui", "-apple-system", "sans-serif";
@@ -84,6 +83,9 @@ select {
 
 .date-input-empty {
   color: transparent;
+}
+.dob-datepicker-popper {
+  left: 60px !important;
 }
 /* ==========================================================================
    4K and Ultra-Large Screen Responsive Scaling
