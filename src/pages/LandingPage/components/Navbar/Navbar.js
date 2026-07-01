@@ -1,14 +1,17 @@
-import './Navbar.css';
+
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Container, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Container, IconButton, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Fallback logo icon
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import './Navbar.css';
 
 const navItems = ['Home', 'Solutions', 'For Patients', 'For Providers', 'Pricing', 'Resources'];
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -67,7 +70,14 @@ const Navbar = () => {
                 <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
               </svg>
               Sign up
-            </button>
+            </Button>
+            <Button 
+              variant="contained" 
+              color="primary"
+              startIcon={<PersonOutlineOutlinedIcon />}
+              onClick={() => navigate("/role-selection")}
+              className="px-6 py-2 font-semibold normal-case rounded-lg shadow-none"
+            </Button>
             <button 
               className="flex items-center justify-center gap-2 bg-[#0D8B72] text-white px-4 py-2.5 font-medium hover:bg-[#0D8B72]/90 transition-colors normal-case rounded-lg border-none cursor-pointer"
             >
