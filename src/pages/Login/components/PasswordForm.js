@@ -15,15 +15,14 @@ export default function PasswordForm() {
       return;
     }
     // Simulate successful login
-    alert(`Logging in...`);
     navigate('/');
   };
 
   return (
     <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-[600px] lg:min-h-auto">
       {/* Back Button */}
-      <button 
-        onClick={() => navigate('/login')} 
+      <button
+        onClick={() => navigate('/login')}
         className="flex items-center gap-2 text-slate-500 hover:text-emerald-700 transition-colors text-xs font-semibold py-1.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 cursor-pointer self-start shadow-2xs"
       >
         <svg className="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -36,7 +35,7 @@ export default function PasswordForm() {
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="login-form-title text-3xl font-bold text-slate-800 tracking-tight">Secure Access</h2>
-          <p className="login-form-desc text-xs text-gray-500 mt-2 max-w-xs mx-auto leading-relaxed">
+          <p className="login-form-desc text-sm text-gray-500 mt-2 max-w-xs mx-auto leading-relaxed">
             Enter your password to continue securely to your healthcare workspace.
           </p>
         </div>
@@ -45,19 +44,19 @@ export default function PasswordForm() {
           <div>
             <label className="login-form-label block text-xs font-semibold text-gray-500 mb-2">Password</label>
             <div className="flex items-center border border-gray-200 rounded-xl focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden bg-white px-4 py-3.5">
-              <input 
-                type="password" 
-                placeholder="Enter your password" 
-                required 
+              <input
+                type="password"
+                placeholder="Enter your password"
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full text-sm text-slate-800 placeholder-gray-400 outline-none" 
+                className="w-full text-sm text-slate-800 placeholder-gray-400 outline-none"
               />
             </div>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="login-form-btn w-full bg-emerald-800 hover:bg-emerald-900 text-white font-medium text-sm py-3 px-4 rounded-xl shadow-md transition-colors duration-200 mt-4 cursor-pointer"
           >
             Continue
@@ -73,11 +72,12 @@ export default function PasswordForm() {
       </div>
 
       {/* Compliance Badge */}
-      <div className="border border-gray-100 rounded-2xl p-4 bg-slate-50/50 flex items-start gap-3 max-w-md mx-auto w-full mt-4 lg:mt-0 shadow-xs">
-        <div className="p-2 bg-emerald-100 text-emerald-800 rounded-lg shrink-0">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+      <div className="border mb-28 border-gray-100 rounded-2xl p-4 bg-slate-50/50 flex items-start gap-3 max-w-md mx-auto w-full mt-4 lg:mt-0 shadow-xs">
+        <div className=" text-emerald-800 rounded-lg shrink-0">
+          <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.25 4.501C10.644 4.614 9.932 4.858 8.838 5.233L8.265 5.428C5.258 6.458 3.755 6.972 3.378 7.51C3.008 8.036 3 9.578 3 12.638L11.25 12.888V4.501ZM11.25 14.468L3 14.218V14.419C3 20.057 7.239 22.793 9.899 23.955C10.409 24.178 10.739 24.322 11.25 24.387V14.468ZM12.75 24.388V14.468L21 14.218V14.419C21 20.057 16.761 22.793 14.101 23.955C13.591 24.178 13.261 24.323 12.75 24.388ZM12.75 12.888V4.5C13.356 4.613 14.068 4.857 15.162 5.232L15.735 5.428C18.742 6.457 20.245 6.971 20.622 7.509C20.992 8.035 21 9.577 21 12.636L12.75 12.888Z" fill="#096B58" />
           </svg>
+
         </div>
         <div>
           <h4 className="login-form-hipaa-badge-title text-xs font-bold text-slate-800 leading-tight">Secure & HIPAA Ready</h4>
