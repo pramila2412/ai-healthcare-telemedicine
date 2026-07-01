@@ -1,23 +1,23 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
 import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
 import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
 import UnitToggle from "@/shared/components/PatientRegistration/form/UnitToggle";
-import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
 import {
-  heightUnits,
-  weightUnits,
   activityLevels,
-  dietaryPreferences,
-  smokingStatuses,
   alcoholOptions,
+  dietaryPreferences,
+  heightUnits,
   relationships,
-} from "@/shared/constants/patientRegistration/registrationConfig.js";
+  smokingStatuses,
+  weightUnits,
+} from "@/shared/constants/PatientRegistration/registrationConfig.js";
 
 import {
-  setAdditionalInfo,
   setActiveStep,
+  setAdditionalInfo,
 } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectAdditionalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 

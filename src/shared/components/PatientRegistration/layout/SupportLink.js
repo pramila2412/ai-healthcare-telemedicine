@@ -1,18 +1,6 @@
-import React, { useState } from "react";
 import headphone from "@assets/header/contactsupport.svg";
+import React, { useState } from "react";
 
-/**
- * SupportLink — the "Contact Support" UI shown alongside the per-step header.
- *
- * Renders two distinct variants (matches the original Header.js markup):
- *   variant="mobile"  — small circular headphone icon button (mobile only,
- *                       `md:hidden`) that opens a confirmation modal. Owns
- *                       the modal's open/close state.
- *   variant="desktop" — icon + "Need Help? / Contact Support" text block
- *                       (desktop only, `hidden md:flex`). The "Contact
- *                       Support" button here has no handler, matching the
- *                       original (non-functional placeholder on desktop).
- */
 const SupportLink = ({ variant = "desktop" }) => {
   const [showSupportModal, setShowSupportModal] = useState(false);
 
@@ -22,10 +10,10 @@ const SupportLink = ({ variant = "desktop" }) => {
         <button
           type="button"
           onClick={() => setShowSupportModal(true)}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F4FAF7] text-[#096B58] border border-[#E0F0EB] md:hidden cursor-pointer shrink-0"
+          className="flex h-9.5 w-9.5 items-center justify-center rounded-full bg-[#F4FAF7] text-[#096B58] border border-[#E0F0EB] md:hidden cursor-pointer shrink-0"
           aria-label="Contact Support"
         >
-          <img src={headphone} alt="Support" className="w-5.5 h-5.5" />
+          <img src={headphone} alt="Support" className="w-5 h-5" />
         </button>
 
         {showSupportModal && (
@@ -34,8 +22,16 @@ const SupportLink = ({ variant = "desktop" }) => {
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F4FAF7] text-[#096B58] mb-4">
                 <img src={headphone} alt="" className="w-6 h-6" />
               </div>
-              <h3 className="text-[16px] font-semibold text-[#141414] mb-1">Need Help?</h3>
-              <p className="text-[12px] text-[#666666] mb-6">Our support team is ready to assist you with your health registration.</p>
+
+              <h3 className="text-[16px] font-semibold text-[#141414] mb-1">
+                Need Help?
+              </h3>
+
+              <p className="text-[12px] text-[#666666] mb-6">
+                Our support team is ready to assist you with your health
+                registration.
+              </p>
+
               <div className="flex flex-col gap-2 w-full">
                 <button
                   type="button"
@@ -43,6 +39,7 @@ const SupportLink = ({ variant = "desktop" }) => {
                 >
                   Contact Support
                 </button>
+
                 <button
                   type="button"
                   onClick={() => setShowSupportModal(false)}
@@ -61,11 +58,7 @@ const SupportLink = ({ variant = "desktop" }) => {
   return (
     <div className="hidden md:flex h-9.5 items-center gap-4 md:mt-0 md:ml-auto md:w-fit md:gap-2">
       <div className="flex items-center justify-center">
-        <img
-          src={headphone}
-          alt="Contact Support"
-          className="w-9.5 h-9.5"
-        />
+        <img src={headphone} alt="Contact Support" className="w-9.5 h-9.5" />
       </div>
 
       <div className="flex flex-col">

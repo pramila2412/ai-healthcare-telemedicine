@@ -1,29 +1,28 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useDispatch, useSelector } from "react-redux";
 
-import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
-import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
 import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
 import RequiredNotice from "@/shared/components/PatientRegistration/common/RequiredNotice";
-import { genders, bloodGroups, states, stateCities } from "../../../../shared/constants/patientRegistration/registrationConfig";
-
+import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
+import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
+import { bloodGroups, genders, stateCities, states } from "@/shared/constants/PatientRegistration/registrationConfig";
 import {
-  setPersonalInfo,
   setActiveStep,
+  setPersonalInfo,
 } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectPersonalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 
-import user from "@assets/patientRegistration/user.svg";
-import phone from "@assets/patientRegistration/phone.svg";
-import email from "@assets/patientRegistration/email.svg";
-import location from "@assets/patientRegistration/location.svg";
-import gender from "@assets/patientRegistration/gender.svg";
 import bloodgrp from "@assets/patientRegistration/bloodgrp.svg";
-import calender1 from "@assets/patientRegistration/calender1.svg";
 import calender from "@assets/patientRegistration/calender.svg";
+import calender1 from "@assets/patientRegistration/calender1.svg";
 import dob from "@assets/patientRegistration/dob.svg";
+import email from "@assets/patientRegistration/email.svg";
+import gender from "@assets/patientRegistration/gender.svg";
+import location from "@assets/patientRegistration/location.svg";
+import phone from "@assets/patientRegistration/phone.svg";
+import user from "@assets/patientRegistration/user.svg";
 
 // ── Validation ────────────────────────────────────────────────────────────────
 const validateField = (name, value) => {

@@ -10,7 +10,7 @@ import UploadBox from "@/shared/components/PatientRegistration/upload/UploadBox"
 import {
   insuranceProviders,
   insuranceTypes,
-} from "@/shared/constants/patientRegistration/registrationConfig";
+} from "@/shared/constants/PatientRegistration/registrationConfig";
 
 import {
   formatFileSize,
