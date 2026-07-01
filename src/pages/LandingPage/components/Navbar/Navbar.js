@@ -1,5 +1,6 @@
 import './Navbar.css';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Button, Container, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Fallback logo icon
@@ -9,6 +10,7 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 const navItems = ['Home', 'Solutions', 'For Patients', 'For Providers', 'Pricing', 'Resources'];
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <AppBar position="sticky" color="inherit" elevation={0} className="border-b border-gray-200">
       <Container maxWidth="lg">
@@ -69,6 +71,7 @@ const Navbar = () => {
               variant="contained" 
               color="primary"
               startIcon={<PersonOutlineOutlinedIcon />}
+              onClick={() => navigate("/role-selection")}
               className="px-6 py-2 font-semibold normal-case rounded-lg shadow-none"
             >
               Login
