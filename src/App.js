@@ -1,6 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
+import Login from "./pages/Login/Login";
+import VerifyOtp from "./pages/Login/VerifyOtp";
+import LoginPassword from "./pages/Login/LoginPassword";
+import RoleSelection from "./pages/RoleSelection/RoleSelection";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import GlobalConfigView from "./shared/components/GlobalConfigView/GlobalConfigView.js";
 import LoadingOverlay from "./shared/components/LoadingOverlay/LoadingOverlay";
@@ -22,6 +25,9 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/patient-registration" element={<PatientRegistration />} />
+            <Route path="/verify" element={<VerifyOtp />} />
+            <Route path="/password" element={<LoginPassword />} />
+            <Route path="/role-selection" element={<RoleSelection />} />
           </Routes>
         </GlobalConfigView>
       </div>
