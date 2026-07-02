@@ -10,9 +10,15 @@ import SignUpPhoneForm from "./components/SignUpPhoneForm";
 import SignUpOtpForm from "./components/SignUpOtpForm";
 
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import {
+  resetRegistration,
+  setPersonalInfo,
+} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Signup State Flow
   const [step, setStep] = useState(1);
@@ -67,6 +73,8 @@ const SignUp = () => {
       timer: 2000,
       showConfirmButton: false,
     });
+
+    dispatch(resetRegistration());
 
     navigate("/patient-registration");
   };

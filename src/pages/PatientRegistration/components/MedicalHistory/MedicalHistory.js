@@ -55,7 +55,7 @@ const MedicalHistory = () => {
 
   return (
     <div className="px-7 md:px-10 mt-6 md:mt-12 pb-8">
-      <div className="max-w-[880px] space-y-8">
+      <div className="max-w-220 space-y-8">
         <div>
           <label className={labelClass}>Allergies</label>
           <FormTextArea
@@ -64,7 +64,7 @@ const MedicalHistory = () => {
             onChange={handleChange}
             placeholder="List any allergies you have (if any)"
             rows={4}
-            className="min-h-[120px]"
+            className="min-h-30"
           />
         </div>
 
@@ -76,7 +76,7 @@ const MedicalHistory = () => {
             onChange={handleChange}
             placeholder="List your current medications with dosage"
             rows={4}
-            className="min-h-[120px]"
+            className="min-h-30"
           />
         </div>
 
@@ -88,7 +88,7 @@ const MedicalHistory = () => {
             onChange={handleChange}
             placeholder="Enter any Conditions (e.g., diabetes, hypertension, asthma, etc.)"
             rows={4}
-            className="min-h-[120px]"
+            className="min-h-30"
           />
         </div>
 
@@ -100,7 +100,7 @@ const MedicalHistory = () => {
             onChange={handleChange}
             placeholder="Enter details of any past surgeries (if any)"
             rows={4}
-            className="min-h-[120px]"
+            className="min-h-30"
           />
         </div>
       </div>
