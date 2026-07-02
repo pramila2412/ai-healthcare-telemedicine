@@ -13,7 +13,7 @@ import {
   relationships,
   smokingStatuses,
   weightUnits,
-} from "@/shared/constants/PatientRegistration/registrationConfig.js";
+} from "../../../../shared/constants/patientRegistration/registrationConfig";
 
 import {
   setActiveStep,
@@ -21,7 +21,6 @@ import {
 } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectAdditionalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 
-import phone from "@assets/patientRegistration/phone.svg";
 
 // ── Validation ────────────────────────────────────────────────────────────────
 const validateField = (name, value, data = {}) => {

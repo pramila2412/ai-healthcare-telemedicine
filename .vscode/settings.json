@@ -14,7 +14,7 @@
     "**/dist": true
   },
   "[javascript]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
   "[jsx]": {
@@ -26,7 +26,10 @@
   "cSpell.words": [
     "hugeicons",
     "iconify",
+    "Infor",
+    "insur",
     "Medi",
+    "Swal",
     "tabler",
     "Telemedicine"
   ]

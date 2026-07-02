@@ -364,9 +364,12 @@ const ReviewAndComplete = ({ setActiveStep }) => {
   };
 
   const handleCreateProfile = () => {
-    if (!isFormValid) return;
-    onCreateProfile?.({ id: `PAT-${idSuffix}`, password });
-  };
+  if (!isFormValid) return;
+
+  // If you need API call, do it here first.
+
+  setActiveStep("created");
+};
 
   const handleGoBack = () => setActiveStep("additional");
 

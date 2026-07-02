@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import LoginHeader from "../Login/components/LoginHeader";
 import LoginBranding from "../Login/components/LoginBranding";
 import LoginFooter from "../Login/components/LoginFooter";
@@ -9,14 +9,16 @@ import SignUpRoleGrid from "./components/SignUpRoleGrid";
 import SignUpPhoneForm from "./components/SignUpPhoneForm";
 import SignUpOtpForm from "./components/SignUpOtpForm";
 
+import Swal from "sweetalert2";
+
 const SignUp = () => {
   const navigate = useNavigate();
-  
+
   // Signup State Flow
   const [step, setStep] = useState(1);
-  const [selectedRole, setSelectedRole] = useState('patient');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [selectedRole, setSelectedRole] = useState("patient");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(30);
 
   // Resend OTP countdown effect
@@ -43,21 +45,36 @@ const SignUp = () => {
   };
 
   // OTP Verification Submission Handler (Step 3 Submit)
-  const handleOtpVerify = (e) => {
+  const handleOtpVerify = async (e) => {
     e.preventDefault();
-    const code = otp.join('');
+
+    const code = otp.join("");
+
     if (code.length < 6) {
-      alert('Please enter all 6 digits of the OTP.');
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid OTP",
+        text: "Please enter all 6 digits of the OTP.",
+        confirmButtonColor: "#065f46",
+      });
       return;
     }
-    // Simulate signup success
-    navigate('/login'); // Send user to login page
+
+    await Swal.fire({
+      icon: "success",
+      title: "Signup Successful!",
+      text: "Redirecting...",
+      timer: 2000,
+      showConfirmButton: false,
+    });
+
+    navigate("/patient-registration");
   };
 
   // Handler for resending code
   const handleResendOtp = () => {
     setTimer(30);
-    setOtp(['', '', '', '', '', '']);
+    setOtp(["", "", "", "", "", ""]);
   };
 
   return (
@@ -67,13 +84,12 @@ const SignUp = () => {
 
       <main className="flex-1 flex items-center justify-center py-6">
         <div className="login-card-container max-w-300 w-full bg-white rounded-4xl shadow-xl border border-gray-100/80 flex flex-col md:flex-row min-h-160 md:min-h-175 overflow-hidden">
-          
           {/* Left Split: Shared Green Branding */}
           <LoginBranding />
-          
+
           {/* Right Split: Modular Signup Wizard Steps */}
           {step === 1 && (
-            <SignUpRoleGrid 
+            <SignUpRoleGrid
               selectedRole={selectedRole}
               setSelectedRole={setSelectedRole}
               onSubmit={handleRoleSubmit}
@@ -81,7 +97,7 @@ const SignUp = () => {
           )}
 
           {step === 2 && (
-            <SignUpPhoneForm 
+            <SignUpPhoneForm
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
               onSubmit={handlePhoneSubmit}
@@ -90,7 +106,7 @@ const SignUp = () => {
           )}
 
           {step === 3 && (
-            <SignUpOtpForm 
+            <SignUpOtpForm
               phoneNumber={phoneNumber}
               otp={otp}
               setOtp={setOtp}
@@ -101,7 +117,6 @@ const SignUp = () => {
               handleResendOtp={handleResendOtp}
             />
           )}
-
         </div>
       </main>
 

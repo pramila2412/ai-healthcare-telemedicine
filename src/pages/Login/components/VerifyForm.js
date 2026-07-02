@@ -95,7 +95,7 @@ export default function VerifyForm() {
   });
 
   // Redirect after clicking OK
-  navigate("/patient-registration");
+  navigate("/");
 };
 
   return (

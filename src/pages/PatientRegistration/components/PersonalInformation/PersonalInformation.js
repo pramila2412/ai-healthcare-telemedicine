@@ -7,8 +7,8 @@ import ActionButtons from "@/shared/components/PatientRegistration/common/Action
 import RequiredNotice from "@/shared/components/PatientRegistration/common/RequiredNotice";
 import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
 import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
-import {bloodGroups,genders,stateCities,states,} from "@/shared/constants/PatientRegistration/registrationConfig";
-import { setActiveStep, setPersonalInfo,} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+import { bloodGroups, genders, stateCities, states, } from "@/shared/constants/patientRegistration/registrationConfig";
+import { setActiveStep, setPersonalInfo, } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectPersonalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 
 import bloodgrp from "@assets/patientRegistration/bloodgrp.svg";

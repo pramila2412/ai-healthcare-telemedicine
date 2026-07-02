@@ -10,7 +10,7 @@ import UploadBox from "@/shared/components/PatientRegistration/upload/UploadBox"
 import {
   insuranceProviders,
   insuranceTypes,
-} from "@/shared/constants/PatientRegistration/registrationConfig";
+} from "@/shared/constants/patientRegistration/registrationConfig";
 
 import {
   formatFileSize,
@@ -126,7 +126,7 @@ const InsuranceInformation = () => {
 
   return (
     <div className="px-7 md:px-10 mt-6 md:mt-12 pb-8">
-      <div className="max-w-[880px] space-y-8">
+      <div className="max-w-220 space-y-8">
         {errorMessage && (
           <div className="rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] px-4 py-3 text-xs font-normal text-[#B91C1C]">
             {errorMessage}
@@ -191,7 +191,7 @@ const InsuranceInformation = () => {
           </div>
 
           {formData.insuranceCard && (
-            <div className="mt-4 max-w-[360px]">
+            <div className="mt-4 max-w-90">
               <FilePreviewCard
                 fileName={formData.insuranceCard.name}
                 fileSize={formatFileSize(formData.insuranceCard.size)}
