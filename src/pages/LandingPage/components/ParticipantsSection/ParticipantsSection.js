@@ -45,9 +45,9 @@ const participants = [
 
 const ParticipantsSection = () => {
   return (
-    <section className="py-12 md:py-24 bg-white text-center overflow-hidden">
+    <section className="py-10 md:py-16 bg-white text-center overflow-hidden">
       <Container maxWidth="xl">
-        <span className="text-primary font-medium tracking-wide uppercase block mb-4">
+        <span className="section-kicker">
           ONE CONNECTED HEALTHCARE NETWORK
         </span>
         <h2 className="text-gray-900 font-semibold mb-4 text-3xl md:text-[2.5rem] leading-snug px-4">
@@ -59,7 +59,7 @@ const ParticipantsSection = () => {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:justify-center gap-x-2 gap-y-10 lg:gap-10 mb-12 md:mb-24 px-2 sm:px-0">
           {participants.map((item, index) => (
-            <div key={index} className="relative w-full lg:w-[140px] mx-auto">
+            <div key={index} className="relative w-full lg:w-[140px] mx-auto lg:mx-0">
               
               {/* Dashed Connecting Line with Arrow (hidden on last item or mobile) */}
               {index !== participants.length - 1 && (

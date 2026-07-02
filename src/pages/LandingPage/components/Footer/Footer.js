@@ -6,6 +6,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import logoImg from "../../../../assets/LandingPage/logo.png";
 
 const footerLinks = [
   {
@@ -33,7 +34,7 @@ const footerLinks = [
 
 const Footer = () => {
   return (
-    <footer className="pt-12 md:pt-24 pb-8 md:pb-12 bg-white border-t border-gray-200">
+    <footer className="pt-10 md:pt-16 pb-8 md:pb-12 bg-white">
       <Container maxWidth="lg">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_2fr_1fr] gap-10 md:gap-12 mb-10 md:mb-16">
           {/* Logo & Description */}
@@ -41,7 +42,7 @@ const Footer = () => {
             <div className="mb-8">
               <div className="flex items-center mb-6">
                 <img
-                  src="/images/logo.png"
+                  src={logoImg}
                   alt="MedConnect Logo"
                   className="h-10 mr-2 hidden"
                   onError={(e) => {

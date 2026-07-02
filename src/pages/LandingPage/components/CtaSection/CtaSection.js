@@ -3,10 +3,11 @@ import React from 'react';
 import { Container } from '@mui/material';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
+import bookingImg from '../../../../assets/LandingPage/booking.png';
 
 const CtaSection = () => {
   return (
-    <section className="py-16 md:py-32 bg-white">
+    <section className="py-10 md:py-16 bg-white">
       <Container maxWidth="lg">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           
@@ -14,7 +15,7 @@ const CtaSection = () => {
           <div className="w-full md:w-1/2">
             <div className="relative flex justify-center">
               <img
-                src="/images/booking.png"
+                src={bookingImg}
                 alt="Medical professionals"
                 className="w-full max-w-[600px] h-auto object-cover hidden"
                 style={{

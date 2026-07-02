@@ -2,37 +2,43 @@ import './ServicesSection.css';
 import React from 'react';
 import { Container } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import doctorIcon from '../../../../assets/LandingPage/Doctor.svg';
+import groupIcon from '../../../../assets/LandingPage/Group.svg';
+import pharmacyIcon from '../../../../assets/LandingPage/Pharmacy.svg';
+import recordsIcon from '../../../../assets/LandingPage/Records.svg';
+import insuranceIcon from '../../../../assets/LandingPage/Insurance.svg';
+import monitorIcon from '../../../../assets/LandingPage/Monitor.svg';
 
 const services = [
   {
     title: 'Doctor\nConsultation',
     description: 'Book appointments\nwith verified doctors\nacross specialities.',
-    icon: <img src="/images/Doctor.svg" alt="Doctor" style={{ width: 24, height: 24 }} />
+    icon: <img src={doctorIcon} alt="Doctor" style={{ width: 24, height: 24 }} />
   },
   {
     title: 'Lab Tests',
     description: 'Book lab tests at\nhome with certified\nlaboratories.',
-    icon: <img src="/images/Group.svg" alt="Lab Tests" style={{ width: 24, height: 24 }} />
+    icon: <img src={groupIcon} alt="Lab Tests" style={{ width: 24, height: 24 }} />
   },
   {
     title: 'Online\nPharmacy',
     description: 'Order medicines\nonline and get them\ndelivered to your doorstep.',
-    icon: <img src="/images/Pharmacy.svg" alt="Pharmacy" style={{ width: 24, height: 24 }} />
+    icon: <img src={pharmacyIcon} alt="Pharmacy" style={{ width: 24, height: 24 }} />
   },
   {
     title: 'Health\nRecords',
     description: 'Access prescriptions,\nreports and medical\nhistory securely.',
-    icon: <img src="/images/Records.svg" alt="Records" style={{ width: 24, height: 24 }} />
+    icon: <img src={recordsIcon} alt="Records" style={{ width: 24, height: 24 }} />
   },
   {
     title: 'Insurance\nClaims',
     description: 'Verify coverage, file\nclaims and track\napprovals.',
-    icon: <img src="/images/Insurance.svg" alt="Insurance" style={{ width: 24, height: 24 }} />
+    icon: <img src={insuranceIcon} alt="Insurance" style={{ width: 24, height: 24 }} />
   },
   {
     title: 'Remote\nMonitoring',
     description: 'Track your vitals and\nstay connected with\nyour care team.',
-    icon: <img src="/images/Monitor.svg" alt="Monitor" style={{ width: 24, height: 24 }} />
+    icon: <img src={monitorIcon} alt="Monitor" style={{ width: 24, height: 24 }} />
   }
 ];
 
@@ -40,13 +46,13 @@ const popularSearches = ['Dermatologist', 'Gynecologist', 'Paediatrician', 'Orth
 
 const ServicesSection = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-10 md:py-16 bg-white">
       <Container maxWidth="lg">
         
 
         {/* Services Header */}
         <div className="mb-12 max-w-[800px]">
-          <span className="text-primary font-medium tracking-wide uppercase block mb-4">
+          <span className="section-kicker">
             EVERYTHING YOU NEED FOR BETTER HEALTHCARE
           </span>
           <h2 className="text-gray-900 font-semibold text-2xl md:text-[1.85rem] leading-snug">

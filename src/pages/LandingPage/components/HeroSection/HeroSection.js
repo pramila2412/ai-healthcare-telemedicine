@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import ScienceOutlinedIcon from '@mui/icons-material/ScienceOutlined';
+import heroImg from '../../../../assets/LandingPage/hero-image.png';
 
 const HeroSection = () => {
   return (
@@ -20,9 +21,9 @@ const HeroSection = () => {
           {/* Left Content Column */}
           <div className="flex-1">
             <div className="md:pr-8">
-              <div className="flex items-center mb-6 rounded-full px-4 py-2 w-fit bg-[#DCE6E2]">
-                <AutoAwesomeIcon className="text-[#075C4C] text-base mr-2" />
-                <span className="text-[#075C4C] font-medium text-xs tracking-wide">
+              <div className="flex items-center mb-6 rounded-full px-4 py-2 w-fit bg-secondary">
+                <AutoAwesomeIcon className="text-primary text-base mr-2" />
+                <span className="text-primary font-medium text-xs tracking-wide">
                   AI-Powered Healthcare Ecosystem
                 </span>
               </div>
@@ -80,7 +81,7 @@ const HeroSection = () => {
           <div className="flex-1 flex justify-center w-full relative">
             <div className="relative w-full max-w-[700px] flex justify-end">
               <img
-                src="/images/hero-image.png"
+                src={heroImg}
                 alt="Doctor with patient"
                 className="w-full h-auto object-contain z-10"
                 style={{

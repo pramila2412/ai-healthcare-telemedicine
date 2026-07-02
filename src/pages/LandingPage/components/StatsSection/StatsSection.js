@@ -83,11 +83,11 @@ const StatsSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-white">
+    <section ref={sectionRef} className="py-10 md:py-16 bg-white">
       <Container maxWidth="lg">
         {/* Header */}
         <div className="mb-12 text-left">
-          <p className="text-[#096B58] font-semibold text-sm tracking-wide uppercase mb-3">
+          <p className="section-kicker">
             Our Impact in Numbers
           </p>
           <h2 className="text-[#141414] font-bold text-3xl md:text-4xl lg:text-[2.6rem] leading-tight max-w-[700px]">

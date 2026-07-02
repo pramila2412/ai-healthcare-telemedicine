@@ -8,6 +8,8 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Fallba
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 //import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import './Navbar.css';
+import logoImg from '../../../../assets/LandingPage/logo.png';
+import userIcon from '../../../../assets/LandingPage/User.svg';
 
 const navItems = ['Home', 'Solutions', 'For Patients', 'For Providers', 'Pricing', 'Resources'];
 
@@ -23,7 +25,7 @@ const Navbar = () => {
           {/* Logo Section */}
           <div className="flex items-center cursor-pointer">
             <img
-              src="/images/logo.png"
+              src={logoImg}
               alt="MedConnect Logo Icon"
               className="h-10 mr-2 hidden"
               onError={(e) => {
@@ -65,14 +67,12 @@ const Navbar = () => {
           {/* Action Buttons */}
           <div className="hidden md:flex items-center gap-4">
             <Button 
-              variant="text" 
-//               startIcon={<PersonOutlineOutlinedIcon />}
+              variant="text"
               onClick={() => navigate('/signup')}
-              className="bg-[#EEF4F3] text-primary px-6 py-2 font-semibold hover:bg-primary/15 normal-case rounded-lg cursor-pointer"
+              startIcon={<img src={userIcon} alt="User" className="w-5.5 h-5.5" />}
+              className="bg-secondary px-6 py-2 font-medium hover:bg-secondary/80 normal-case rounded-lg"
+              sx={{ color: 'var(--color-primary)' }}
             >
-              <svg className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
-              </svg>
               Sign up
             </Button>
             {/* <Button 
@@ -83,14 +83,12 @@ const Navbar = () => {
               className="px-6 py-2 font-semibold normal-case rounded-lg shadow-none">
             </Button> */}
              <Button 
-              variant="text" 
-//               startIcon={<PersonOutlineOutlinedIcon />}
+              variant="text"
               onClick={() => navigate('/login')}
-              className="bg-[#EEF4F3] text-primary px-6 py-2 font-semibold hover:bg-primary/15 normal-case rounded-lg cursor-pointer"
+              startIcon={<img src={userIcon} alt="User" className="w-5.5 h-5.5 brightness-0 invert" />}
+              className="bg-primary px-6 py-2 font-medium hover:bg-primary/90 normal-case rounded-lg"
+              sx={{ color: 'white' }}
             >
-              <svg className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
-              </svg>
               Log In
             </Button>
           </div>
@@ -122,16 +120,12 @@ const Navbar = () => {
                 </div>
               ))}
               <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-100">
-                <button className="flex items-center justify-center gap-2 bg-[#EEF4F3] text-primary w-full py-3 font-medium rounded-lg border-none cursor-pointer">
-                  <svg className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
-                  </svg>
+                <button className="flex items-center justify-center gap-2 bg-secondary text-primary w-full py-3 font-medium rounded-lg border-none cursor-pointer hover:bg-secondary/80">
+                  <img src={userIcon} alt="User" className="w-5.5 h-5.5 brightness-0 invert" />
                   Sign up
                 </button>
-                <button className="flex items-center justify-center gap-2 bg-primary text-white w-full py-3 font-medium rounded-lg border-none cursor-pointer">
-                  <svg className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
-                  </svg>
+                <button className="flex items-center justify-center gap-2 bg-primary text-white w-full py-3 font-medium rounded-lg border-none cursor-pointer hover:bg-primary/90">
+                  <img src={userIcon} alt="User" className="w-5.5 h-5.5" />
                   Log In
                 </button>
               </div>
