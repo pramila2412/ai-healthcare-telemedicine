@@ -38,35 +38,91 @@ const supportedDocuments = [
   },
 ];
 
+
+const normalizeHealthRecords = (records) => {
+  if (!Array.isArray(records)) return [];
+
+  return records.map((record, index) => ({
+    ...record,
+    documentType: record.documentType || record.name || "Uploaded File",
+    status: record.status || "uploaded",
+    progress: record.progress ?? 100,
+  }));
+};
+
 const HealthRecord = () => {
   const dispatch = useDispatch();
   const savedHealthRecords = useSelector(selectHealthRecords);
 
-  const [records, setRecords] = useState(savedHealthRecords || []);
+  const [records, setRecords] = useState(() =>
+    normalizeHealthRecords(savedHealthRecords)
+  );
+
   const [errorMessage, setErrorMessage] = useState("");
+
+  const updateRecordProgress = (recordId) => {
+    const progressSteps = [0, 32, 55, 78, 100];
+
+    progressSteps.forEach((progressValue, index) => {
+      window.setTimeout(() => {
+        setRecords((previousRecords) =>
+          previousRecords.map((record) => {
+            if (record.id !== recordId) return record;
+
+            return {
+              ...record,
+              progress: progressValue,
+              status:
+                progressValue === 0
+                  ? "queued"
+                  : progressValue === 100
+                    ? "uploaded"
+                    : "uploading",
+            };
+          })
+        );
+      }, index * 600);
+    });
+  };
 
   const handleFilesSelected = (files) => {
     const selectedFiles = Array.from(files || []);
 
     if (!selectedFiles.length) return;
 
-    const validFiles = [];
+    const validRecords = [];
     const invalidFiles = [];
 
-    selectedFiles.forEach((file) => {
+    selectedFiles.forEach((file, index) => {
       const hasValidType = isAllowedFileType(file.name, [
         "pdf",
         "jpg",
         "jpeg",
         "png",
       ]);
+
       const hasValidSize = isWithinMaxSize(file, 20);
 
-      if (hasValidType && hasValidSize) {
-        validFiles.push(file);
-      } else {
+      if (!hasValidType || !hasValidSize) {
         invalidFiles.push(file);
+        return;
       }
+
+      const recordId = `${Date.now()}-${index}-${file.name}`;
+
+      validRecords.push({
+        id: recordId,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        previewUrl: file.type?.startsWith("image/")
+          ? URL.createObjectURL(file)
+          : "",
+        documentType: file.name,
+        status: "queued",
+        progress: 0,
+        uploadedAt: new Date().toISOString(),
+      });
     });
 
     if (invalidFiles.length > 0) {
@@ -77,24 +133,46 @@ const HealthRecord = () => {
       setErrorMessage("");
     }
 
-    if (!validFiles.length) return;
+    if (!validRecords.length) return;
 
-    const formattedFiles = validFiles.map((file, index) => ({
-      id: `${Date.now()}-${index}-${file.name}`,
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      documentType: index === 0 ? "Prescription" : "Health Record",
-      uploadedAt: new Date().toISOString(),
-    }));
+    setRecords((previousRecords) => [...previousRecords, ...validRecords]);
 
-    setRecords((previousRecords) => [...previousRecords, ...formattedFiles]);
+    validRecords.forEach((record) => updateRecordProgress(record.id));
   };
 
   const removeRecord = (recordId) => {
     setRecords((previousRecords) =>
       previousRecords.filter((record) => record.id !== recordId)
     );
+  };
+
+  const updateRecordTitle = (recordId, title) => {
+    setRecords((previousRecords) =>
+      previousRecords.map((record) =>
+        record.id === recordId
+          ? {
+              ...record,
+              documentType: title,
+            }
+          : record
+      )
+    );
+  };
+
+  const retryRecord = (recordId) => {
+    setRecords((previousRecords) =>
+      previousRecords.map((record) =>
+        record.id === recordId
+          ? {
+              ...record,
+              status: "queued",
+              progress: 0,
+            }
+          : record
+      )
+    );
+
+    updateRecordProgress(recordId);
   };
 
   const saveHealthRecords = () => {
@@ -161,21 +239,25 @@ const HealthRecord = () => {
         </div>
 
         {records.length > 0 && (
-          <div>
-            <h4 className="mb-3 text-[12px] font-semibold text-[#202020]">
-              Uploaded Records
-            </h4>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {records.map((record) => (
+          <div className="flex gap-4 overflow-x-auto pb-4">
+            {records.map((record) => (
+              <div key={record.id} className="shrink-0">
                 <FilePreviewCard
-                  key={record.id}
                   fileName={record.name}
                   fileSize={formatFileSize(record.size)}
+                  fileType={record.type}
+                  previewUrl={record.previewUrl}
+                  documentType={record.documentType || record.name || "Uploaded File"}
+                  status={record.status}
+                  progress={record.progress}
+                  onCancel={() => removeRecord(record.id)}
+                  onDelete={() => removeRecord(record.id)}
                   onRemove={() => removeRecord(record.id)}
+                  onRetry={() => retryRecord(record.id)}
+                  onTitleChange={(title) => updateRecordTitle(record.id, title)}
                 />
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
