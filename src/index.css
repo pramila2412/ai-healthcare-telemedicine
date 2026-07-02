@@ -1,10 +1,16 @@
 @import "tailwindcss";
 
-
 @theme {
   --color-primary: #0D8B72;
+  --color-secondary: #EEF4F3;
   --font-TypeFace:"TypeFace" "Inter", "system-ui", "-apple-system", "sans-serif";
 }
+
+/* Force Tailwind classes in case JIT compiler is cached */
+.bg-primary { background-color: var(--color-primary) !important; }
+.bg-secondary { background-color: var(--color-secondary) !important; }
+.text-primary { color: var(--color-primary) !important; }
+.text-secondary { color: var(--color-secondary) !important; }
 
 /* Global Styles */
 html, body {
@@ -83,6 +89,7 @@ select {
 
 .date-input-empty {
   color: transparent;
+}
 /* ==========================================================================
    4K and Ultra-Large Screen Responsive Scaling
    ========================================================================== */

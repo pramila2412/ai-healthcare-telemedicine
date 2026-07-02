@@ -59,7 +59,7 @@ const ParticipantsSection = () => {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:justify-center gap-x-2 gap-y-10 lg:gap-10 mb-12 md:mb-24 px-2 sm:px-0">
           {participants.map((item, index) => (
-            <div key={index} className="relative w-full lg:w-[140px] mx-auto">
+            <div key={index} className="relative w-full lg:w-[140px] mx-auto lg:mx-0">
               
               {/* Dashed Connecting Line with Arrow (hidden on last item or mobile) */}
               {index !== participants.length - 1 && (
