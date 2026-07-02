@@ -18,36 +18,65 @@ const RegistrationSidebar = ({
     JSON.parse(localStorage.getItem("patientInformation")) || {};
 
   const isStepCompleted = (key) => {
-    switch (key) {
-      case "personal":
-        return !!patientInfo.personalInformation;
+  switch (key) {
+    case "personal":
+      return (
+        !!patientInfo.personalInformation &&
+        activeStep !== "personal"
+      );
 
-      case "additional":
-        return !!patientInfo.additionalInformation;
+    case "additional":
+      return (
+        !!patientInfo.additionalInformation &&
+        activeStep !== "additional"
+      );
 
-      case "medical":
-        return !!patientInfo.medicalHistory;
+    case "medical":
+      return (
+        !!patientInfo.medicalHistory &&
+        activeStep !== "medical"
+      );
 
-      case "insurance":
-        return !!patientInfo.insuranceInformation;
+    case "insurance":
+      return (
+        !!patientInfo.insuranceInformation &&
+        activeStep !== "insurance"
+      );
 
-      case "records":
-        return !!patientInfo.healthRecords;
+    case "records":
+      return (
+        !!patientInfo.healthRecords &&
+        activeStep !== "records"
+      );
 
-      default:
-        return false;
-    }
-  };
+    case "review":
+      return (
+        !!patientInfo.reviewComplete &&
+        activeStep !== "review"
+      );
+
+    default:
+      return false;
+  }
+};
 
   const resolveIcon = (step, isActive) => {
-    if (isActive) return step.activeIcon;
-    if (isStepCompleted(step.key)) return tick;
-    if (step.unlockedIcon && isStepCompleted("personal")) {
-      return step.unlockedIcon;
-    }
+  if (isActive) {
+    return step.activeIcon;
+  }
 
-    return step.icon;
-  };
+  if (isStepCompleted(step.key)) {
+    return tick;
+  }
+
+  if (step.key === "review") {
+    return isStepCompleted("personal")
+      ? step.unlockedIcon || step.icon
+      : step.icon;
+  }
+
+  return step.icon;
+};
 
   return (
     <>

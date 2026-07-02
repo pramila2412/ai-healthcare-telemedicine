@@ -24,6 +24,15 @@ import reviewCom1 from "../../../../assets/patientRegistration/review&com1.svg";
 import reviewComwhite from "../../../../assets/patientRegistration/reviewComwhite.svg";
 
 import tick from "../../../../assets/patientRegistration/tick.svg";
+import { useSelector } from "react-redux";
+import {
+  selectPersonalInfo,
+  selectAdditionalInfo,
+  selectMedicalHistory,
+  selectInsuranceInfo,
+  selectHealthRecords,
+  selectReviewComplete,
+} from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 
 const steps = [
   {
@@ -65,22 +74,27 @@ const steps = [
 ];
 
 const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
-  // This runs on every render — re-reads localStorage whenever activeStep changes
-  const patientInfo =
-    JSON.parse(localStorage.getItem("patientInformation")) || {};
+  const personalInformation = useSelector(selectPersonalInfo);
+  const additionalInformation = useSelector(selectAdditionalInfo);
+  const medicalHistory = useSelector(selectMedicalHistory);
+  const insuranceInformation = useSelector(selectInsuranceInfo);
+  const healthRecords = useSelector(selectHealthRecords);
+  const reviewComplete = useSelector(selectReviewComplete);
 
   const isStepCompleted = (key) => {
     switch (key) {
       case "personal":
-        return !!patientInfo.personalInformation;
+        return !!personalInformation && activeStep !== "personal";
       case "additional":
-        return !!patientInfo.additionalInformation;
+        return !!additionalInformation && activeStep !== "additional";
       case "medical":
-        return !!patientInfo.medicalHistory;
+        return !!medicalHistory && activeStep !== "medical";
       case "insurance":
-        return !!patientInfo.insuranceInformation;
+        return !!insuranceInformation && activeStep !== "insurance";
       case "records":
-        return !!patientInfo.healthRecords;
+        return !!healthRecords && activeStep !== "records";
+      case "review":
+        return !!reviewComplete && activeStep !== "review";
       default:
         return false;
     }
@@ -160,7 +174,8 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
     return internalProgress;
   };
 
-  const currentProgress = progress !== undefined ? progress : internalCalculateProgress();
+  const currentProgress =
+    progress !== undefined ? progress : internalCalculateProgress();
 
   return (
     <>
@@ -210,13 +225,11 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
                           ? step.activeIcon
                           : isStepCompleted(step.key)
                             ? tick
-                            : step.key === "review" &&
-                                !isStepCompleted("personal")
-                              ? reviewCom // gray icon initially
-                              : step.key === "review" &&
-                                  isStepCompleted("personal")
-                                ? reviewCom1 // colored icon once personal done
-                                : step.icon
+                            : step.key === "review"
+                              ? isStepCompleted("personal")
+                                ? reviewCom1
+                                : reviewCom
+                              : step.icon
                       }
                       alt={step.title}
                       className="w-6 h-6"
@@ -235,7 +248,8 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
                       className={`text-[13px] font-semibold leading-none ${
                         isActive
                           ? "text-[#096B58]"
-                          : step.key === "review" && !isStepCompleted("personal")
+                          : step.key === "review" &&
+                              !isStepCompleted("personal")
                             ? "text-[#AAAAAA]" // gray until personal done
                             : "text-[#202020]" // normal color once personal done
                       }`}
@@ -248,7 +262,9 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
                 {index !== steps.length - 1 && (
                   <div
                     className={`ml-3.5 h-9 w-0.5 ${
-                      isStepCompleted(step.key) ? "bg-[#14B392]" : "bg-[#E6E6E6]"
+                      isStepCompleted(step.key)
+                        ? "bg-[#14B392]"
+                        : "bg-[#E6E6E6]"
                     }`}
                   />
                 )}
@@ -293,7 +309,9 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
       {/* Backdrop */}
       <div
         className={`fixed inset-0 z-50 bg-[#000000]/40 backdrop-blur-xs transition-opacity duration-300 md:hidden ${
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
       />
@@ -386,7 +404,8 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
                       className={`text-[12.5px] font-semibold leading-none ${
                         isActive
                           ? "text-[#096B58]"
-                          : step.key === "review" && !isStepCompleted("personal")
+                          : step.key === "review" &&
+                              !isStepCompleted("personal")
                             ? "text-[#AAAAAA]"
                             : "text-[#202020]"
                       }`}
@@ -400,7 +419,9 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
                 {index !== steps.length - 1 && (
                   <div
                     className={`ml-4.5 h-5 w-0.5 my-1 ${
-                      isStepCompleted(step.key) ? "bg-[#14B392]" : "bg-[#E6E6E6]"
+                      isStepCompleted(step.key)
+                        ? "bg-[#14B392]"
+                        : "bg-[#E6E6E6]"
                     }`}
                   />
                 )}
@@ -445,5 +466,3 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
 };
 
 export default Sidebar;
-
-

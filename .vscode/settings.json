@@ -24,13 +24,20 @@
   "javascript.suggest.paths": false,
   "typescript.suggest.paths": false,
   "cSpell.words": [
+    "AAABBB",
+    "ABCDEFGHJKLMNPQRSTUVWXYZ",
+    "Comwhite",
+    "Hiswhite",
     "hugeicons",
     "iconify",
     "Infor",
+    "Inforwhite",
     "insur",
     "Medi",
+    "Recwhite",
     "Swal",
     "tabler",
-    "Telemedicine"
+    "Telemedicine",
+    "userwhite"
   ]
 }
