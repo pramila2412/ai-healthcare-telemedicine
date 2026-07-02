@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 @theme {
   --color-primary: #0D8B72;
   --font-TypeFace:"TypeFace" "Inter", "system-ui", "-apple-system", "sans-serif";
@@ -44,6 +45,44 @@ img {
   }
 }
 
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
+
+.date-input {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.date-input-empty::-webkit-datetime-edit {
+  opacity: 0;
+}
+
+.date-input-empty::-webkit-date-and-time-value {
+  opacity: 0;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  top: 10;
+  left: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.date-input::-webkit-inner-spin-button,
+.date-input::-webkit-clear-button {
+  display: none;
+}
+
+.date-input-empty {
+  color: transparent;
 /* ==========================================================================
    4K and Ultra-Large Screen Responsive Scaling
    ========================================================================== */
