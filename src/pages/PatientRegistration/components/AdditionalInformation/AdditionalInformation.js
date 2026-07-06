@@ -176,16 +176,40 @@ const AdditionalInformation = () => {
   };
 
   // ── Submit / Navigation ───────────────────────────────────────────────────────
-  const handleNext = () => {
-    const newErrors = {};
-    VALIDATED_FIELDS.forEach((f) => {
-      newErrors[f] = validateField(f, formData[f], formData);
-    });
-    if (Object.values(newErrors).some((e) => e !== "")) return;
+const handleNext = () => {
+  const newErrors = {};
 
-    dispatch(setAdditionalInfo(formData));
-    dispatch(setActiveStep("medical"));
-  };
+  VALIDATED_FIELDS.forEach((field) => {
+    const value = formData[field];
+
+    if (value !== "" && value !== null && value !== undefined) {
+      newErrors[field] = validateField(field, value, formData);
+    }
+  });
+
+  setErrors(newErrors);
+
+  if (Object.values(newErrors).some(Boolean)) {
+    return;
+  }
+
+  // Check if the user entered any real data (excluding units)
+  const hasData = Object.entries(formData).some(([key, value]) => {
+    if (key === "heightUnit" || key === "weightUnit") return false;
+    return value !== "" && value !== null && value !== undefined;
+  });
+
+  let payload = null;
+
+  if (hasData) {
+    payload = Object.fromEntries(
+      Object.entries(formData).filter(([_, value]) => value !== "")
+    );
+  }
+
+  dispatch(setAdditionalInfo(payload));
+  dispatch(setActiveStep("medical"));
+};
 
   const handleSkip = () => dispatch(setActiveStep("medical"));
   const handleGoBack = () => dispatch(setActiveStep("personal"));
@@ -392,12 +416,11 @@ const AdditionalInformation = () => {
       </div>
 
       {/* CTA Buttons */}
-      <div className="mt-16 md:mt-30.5 flex flex-col-reverse sm:flex-row gap-4 items-stretch sm:items-center sm:justify-between pb-10 md:pb-0">
+      <div className="mt-16 md:mt-28 flex flex-col-reverse sm:flex-row gap-4 items-stretch sm:items-center sm:justify-between pb-10 md:pb-10">
         <ActionButtons
           skip={{
             label: "Skip for now",
             onClick: handleSkip,
-            disabled: !isSkipEnabled,
           }}
           back={{
             label: "Go Back",

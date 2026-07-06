@@ -396,7 +396,7 @@ const PersonalInformation = () => {
       <RequiredNotice />
 
       {/* CTA */}
-      <div className="mt-16 md:mt-40 flex justify-end pb-10 md:pb-0">
+      <div className="mt-16 md:mt-38 flex justify-end pb-10 md:pb-10">
         <ActionButtons
           next={{
             label: "Add Additional Information",

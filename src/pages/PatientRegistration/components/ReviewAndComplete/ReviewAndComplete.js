@@ -1,7 +1,8 @@
 import AvailableIcon from "@assets/patientRegistration/AvailableIcon.svg";
 import CheckCircleIcon from "@assets/patientRegistration/CheckCircleIcon.svg";
 import CircleIcon from "@assets/patientRegistration/CircleIcon.svg";
-import EyeIcon from "@assets/patientRegistration/eye.svg";
+import EyeOff from "@assets/patientRegistration/eye.svg";
+import EyeOn from "@assets/patientRegistration/eyeOn.svg";
 import LockIcon from "@assets/patientRegistration/lock.svg";
 import RefreshIcon from "@assets/patientRegistration/refresh.svg";
 import TakenIcon from "@assets/patientRegistration/TakenIcon.svg";
@@ -277,14 +278,17 @@ const PasswordInput = ({
             className="flex-1 border-none bg-transparent text-xs font-normal text-[#141414] outline-none placeholder:text-[#999999] font-TypeFace"
           />
 
-          {/* Eye — 24×24, single asset */}
           <button
             type="button"
             onClick={() => setVisible((v) => !v)}
-            className={`flex shrink-0 items-center border-none bg-transparent p-0 cursor-pointer transition-opacity ${visible ? "opacity-100" : "opacity-40"}`}
+            className="flex shrink-0 items-center border-none bg-transparent p-0 cursor-pointer"
             aria-label={visible ? "Hide password" : "Show password"}
           >
-            <img src={EyeIcon} alt="" className="h-6 w-6" />
+            <img
+              src={visible ? EyeOn : EyeOff}
+              alt={visible ? "Hide password" : "Show password"}
+              className="h-6 w-6"
+            />
           </button>
         </div>
 
