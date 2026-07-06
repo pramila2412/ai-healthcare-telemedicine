@@ -1,10 +1,6 @@
 import React from "react";
 import { Container } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
-import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+
 import { Icon } from "@iconify/react";
 import AiHealthInsightsImage from "../../../../assets/LandingPage/AiHealthInsights.png";
 import ConnectedMedicalRecordsImage from "../../../../assets/LandingPage/ConnectedMedicalRecords.png";

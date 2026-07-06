@@ -1,16 +1,10 @@
 import './HeroSection.css';
 import React from 'react';
 import { Button, Container, Paper } from '@mui/material';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
-import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
-import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
-import ScienceOutlinedIcon from '@mui/icons-material/ScienceOutlined';
 
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+
+import { Icon } from "@iconify/react";
 const HeroSection = () => {
   return (
     <section className="section-padding overflow-hidden">
@@ -41,11 +35,13 @@ const HeroSection = () => {
               
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <button className="w-full sm:w-auto px-6 py-3 flex items-center justify-center gap-2 text-base font-normal bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors border-none cursor-pointer">
-                  <CalendarMonthIcon className="text-[20px]" />
+                   <Icon
+                          icon="uil:calender" className="text-[20px]" />
                   Book Appointment
                 </button>
                 <button className="w-full sm:w-auto px-6 py-3 flex items-center justify-center gap-2 text-base font-normal border border-primary text-primary bg-transparent rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
-                  <VideocamOutlinedIcon className="text-[20px]" />
+                  <Icon
+                          icon="tabler:video" className="text-[20px]" />
                   Consult Online
                 </button>
               </div>
@@ -53,10 +49,10 @@ const HeroSection = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-nowrap gap-5 sm:gap-6 w-full lg:w-[115%] justify-items-start lg:justify-between relative z-10 mt-8 lg:mt-12">
               {[
-                { icon: <VerifiedUserOutlinedIcon className="text-primary text-[20px]" />, title: 'Trusted by', desc: '1M+ Patients' },
-                { icon: <VerifiedOutlinedIcon className="text-primary text-[20px]" />, title: 'Verified', desc: 'Healthcare Experts' },
-                { icon: <LockOutlinedIcon className="text-primary text-[20px]" />, title: 'Secure & Confidential', desc: 'Your data is protected' },
-                { icon: <HeadsetMicOutlinedIcon className="text-primary text-[20px]" />, title: '24/7 Care', desc: "We're here for you" }
+                { icon: <Icon icon="codicon:workspace-trusted" className="text-primary text-[20px]" />, title: 'Trusted by', desc: '1M+ Patients' },
+                { icon: <Icon icon="si:verified-duotone" className="text-primary text-[20px]" />, title: 'Verified', desc: 'Healthcare Experts' },
+                { icon: <Icon icon="grommet-icons:secure" className="text-primary text-[20px]" />, title: 'Secure & Confidential', desc: 'Your data is protected' },
+                { icon: <Icon icon="streamline:customer-support-1" className="text-primary text-[20px]" />, title: '24/7 Care', desc: "We're here for you" }
               ].map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-[#F7FBFA] flex items-center justify-center shrink-0">
@@ -92,7 +88,7 @@ const HeroSection = () => {
               {/* Floating Card 1: Consult Online (Top Right) */}
               <Paper elevation={0} className="hidden sm:flex absolute sm:top-4 sm:-right-6 p-3 rounded-[20px] items-center gap-3 z-20 min-w-[200px] origin-top-right" style={{ boxShadow: '0px 1px 1px 0px rgba(31,31,31,0.07), 0px 2px 2px 0px rgba(41,41,41,0.07), 0px 4px 4px 0px rgba(76,76,76,0.07), 0px 0px 8px 0px rgba(102,102,102,0.07), 0px 0px 16px 0px rgba(102,102,102,0.07)' }}>
                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <VideocamOutlinedIcon className="text-primary text-[20px]" />
+                    <Icon icon="tabler:video" className="text-primary text-[20px]" />
                  </div>
                  <div>
                    <p className="font-semibold text-gray-900 text-sm">Consult Online</p>
@@ -103,7 +99,7 @@ const HeroSection = () => {
               {/* Floating Card 2: Find Doctors (Top Left) */}
               <Paper elevation={0} className="hidden sm:flex absolute sm:top-[90px] sm:-left-5 p-3 rounded-[20px] items-center gap-3 z-20 min-w-[180px] origin-center" style={{ boxShadow: '0px 1px 1px 0px rgba(31,31,31,0.07), 0px 2px 2px 0px rgba(41,41,41,0.07), 0px 4px 4px 0px rgba(76,76,76,0.07), 0px 0px 8px 0px rgba(102,102,102,0.07), 0px 0px 16px 0px rgba(102,102,102,0.07)' }}>
                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <PersonSearchOutlinedIcon className="text-primary text-[20px]" />
+                    <Icon icon="icon-park-outline:appointment" className="text-primary text-[20px]" />
                  </div>
                  <div>
                    <p className="font-semibold text-gray-900 text-sm">Find Doctors</p>
@@ -114,7 +110,7 @@ const HeroSection = () => {
               {/* Floating Card 3: Lab Tests (Bottom Left) */}
               <Paper elevation={0} className="hidden sm:flex absolute sm:bottom-[30px] sm:left-[70px] p-3 rounded-[20px] items-center gap-3 z-20 min-w-[180px] origin-bottom-left" style={{ boxShadow: '0px 1px 1px 0px rgba(31,31,31,0.07), 0px 2px 2px 0px rgba(41,41,41,0.07), 0px 4px 4px 0px rgba(76,76,76,0.07), 0px 0px 8px 0px rgba(102,102,102,0.07), 0px 0px 16px 0px rgba(102,102,102,0.07)' }}>
                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <ScienceOutlinedIcon className="text-primary text-[20px]" />
+                    <Icon icon="streamline-ultimate:lab-tube-experiment" className="text-primary text-[20px]" />
                  </div>
                  <div>
                    <p className="font-semibold text-gray-900 text-sm">Lab Tests</p>

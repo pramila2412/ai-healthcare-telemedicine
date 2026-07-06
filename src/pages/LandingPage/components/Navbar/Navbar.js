@@ -80,7 +80,7 @@ const Navbar = () => {
 //               startIcon={<PersonOutlineOutlinedIcon />}
               onClick={() => navigate("/role-selection")}
               className="px-6 py-2 font-semibold normal-case rounded-lg shadow-none"
-            </Button>
+            />
             <button 
               className="flex items-center justify-center gap-2 bg-[#0D8B72] text-white px-4 py-2.5 font-medium hover:bg-[#0D8B72]/90 transition-colors normal-case rounded-lg border-none cursor-pointer"
             >
