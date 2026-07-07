@@ -1,12 +1,12 @@
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import { Container } from "@mui/material";
-import React from "react";
-import logoImg from "../../../../assets/LandingPage/logo.png";
 import "./Footer.css";
+import React from "react";
+import { Container } from "@mui/material";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import logoImg from "../../../../assets/LandingPage/logo.png";
 
 const footerLinks = [
   {

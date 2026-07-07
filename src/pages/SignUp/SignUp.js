@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import LoginHeader from "../Login/components/LoginHeader";
 import LoginBranding from "../Login/components/LoginBranding";
 import LoginFooter from "../Login/components/LoginFooter";
-import LoginHeader from "../Login/components/LoginHeader";
 
 // Import modular sub-components for the 3 steps
-import SignUpOtpForm from "./components/SignUpOtpForm";
-import SignUpPhoneForm from "./components/SignUpPhoneForm";
 import SignUpRoleGrid from "./components/SignUpRoleGrid";
+import SignUpPhoneForm from "./components/SignUpPhoneForm";
+import SignUpOtpForm from "./components/SignUpOtpForm";
 
-import {
-  resetRegistration
-} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
-import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import {
+  resetRegistration,
+  setPersonalInfo,
+} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -42,10 +43,9 @@ const SignUp = () => {
   };
 
   // Phone Number Submission Handler (Step 2 -> Step 3)
-  const handlePhoneSubmit = (submittedPhoneNumber) => {
-    const normalizedPhoneNumber = (submittedPhoneNumber || phoneNumber || "").toString().trim();
-    if (!/^\d{10}$/.test(normalizedPhoneNumber)) return;
-    setPhoneNumber(normalizedPhoneNumber);
+  const handlePhoneSubmit = (e) => {
+    e.preventDefault();
+    if (!phoneNumber) return;
     setTimer(30);
     setStep(3);
   };
@@ -108,7 +108,7 @@ const SignUp = () => {
             <SignUpPhoneForm
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
-              handlePhoneSubmit={handlePhoneSubmit}
+              onSubmit={handlePhoneSubmit}
               onBack={() => setStep(1)}
             />
           )}

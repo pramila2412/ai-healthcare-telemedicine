@@ -1,11 +1,11 @@
-import { useFormik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import {
-  Button,
   TextField,
+  Button,
 } from "@mui/material";
 
 const Login = () => {
@@ -14,8 +14,8 @@ const Login = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
+      username: "Abhilash",
+      password: "123456",
     },
 
     validationSchema: Yup.object({
@@ -28,7 +28,9 @@ const Login = () => {
         .required("Password is required"),
     }),
 
-    onSubmit: () => {
+    onSubmit: (values) => {
+      // login(values.username, values.password);
+      // alert("Login Successful");
       navigate("/dashboard");
     },
   });

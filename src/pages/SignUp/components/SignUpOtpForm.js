@@ -1,8 +1,5 @@
-import { Button, InputBase } from "@mui/material";
-import { useFormik } from "formik";
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import * as Yup from "yup";
 
 export default function SignUpOtpForm({
   otp,
@@ -14,27 +11,8 @@ export default function SignUpOtpForm({
   handleResendOtp,
 }) {
   const phoneNumber = useSelector((state) => state.security.phoneNumber);
-  const inputRefs = useRef([]);
 
-  const formik = useFormik({
-    initialValues: {
-      otp: otp.join(""),
-    },
-    validateOnChange: true,
-    validateOnBlur: true,
-    validationSchema: Yup.object({
-      otp: Yup.string()
-        .required("Please enter the 6-digit OTP.")
-        .matches(/^\d{6}$/, "Please enter the 6-digit OTP."),
-    }),
-    onSubmit: (values) => {
-      const otpValue = values.otp;
-      if (otpValue.length !== 6) {
-        return;
-      }
-      onSubmit({ preventDefault: () => {} });
-    },
-  });
+  const inputRefs = useRef([]);
 
   // Auto focus first OTP input when component mounts
   useEffect(() => {
@@ -49,9 +27,6 @@ export default function SignUpOtpForm({
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-
-    const joinedOtp = newOtp.join("");
-    formik.setFieldValue("otp", joinedOtp, true);
 
     // Shift focus forward
     if (value && index < 5) {
@@ -74,7 +49,6 @@ export default function SignUpOtpForm({
 
     const digits = pastedData.split("");
     setOtp(digits);
-    formik.setFieldValue("otp", pastedData, true);
     if (inputRefs.current[5]) {
       inputRefs.current[5].focus();
     }
@@ -83,7 +57,7 @@ export default function SignUpOtpForm({
   return (
     <div className="flex-1 md:w-1/2 lg:w-1/2 flex flex-col justify-between p-8 lg:p-5 bg-white min-h-150 lg:min-h-auto">
       {/* Back Button */}
-      <Button
+      <button
         type="button"
         onClick={onBack}
         className="flex items-center gap-2 text-slate-500 hover:text-emerald-700 transition-colors text-xs font-semibold py-1.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 cursor-pointer self-start shadow-2xs"
@@ -102,7 +76,7 @@ export default function SignUpOtpForm({
           />
         </svg>
         Back
-      </Button>
+      </button>
 
       <div className="max-w-md w-full mx-auto my-auto py-6">
         <div className="text-center mb-8">
@@ -119,7 +93,7 @@ export default function SignUpOtpForm({
             <span className="text-xs font-bold text-slate-800 tracking-wide">
               +91 {phoneNumber}
             </span>
-            <Button
+            <button
               type="button"
               onClick={onBack}
               className="flex items-center gap-1 text-[10px] font-bold text-emerald-700 hover:text-emerald-800 transition-colors border border-emerald-100/80 bg-white hover:bg-emerald-50/50 py-0.5 px-2 rounded-md cursor-pointer shadow-2xs"
@@ -138,49 +112,44 @@ export default function SignUpOtpForm({
                 />
               </svg>
               Edit
-            </Button>
+            </button>
           </div>
         </div>
 
-        <form onSubmit={formik.handleSubmit} noValidate className="space-y-6">
+        <form onSubmit={onSubmit} className="space-y-6">
           <div>
             <label className="login-form-label block text-xs font-semibold text-gray-500 mb-3">
               OTP
             </label>
             <div className="grid grid-cols-6 gap-2 sm:gap-3">
               {otp.map((digit, index) => (
-                <InputBase
-                  key={`otp-${index}`}
-                  inputRef={(el) => (inputRefs.current[index] = el)}
+                <input
+                  key={index}
+                  ref={(el) => (inputRefs.current[index] = el)}
                   type="text"
-                  inputProps={{ maxLength: 1, inputMode: "numeric", pattern: "[0-9]*", className: "h-full w-full text-center" }}
+                  maxLength={1}
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}
                   onPaste={handleOtpPaste}
-                  className="w-full aspect-square flex items-center justify-center text-center text-lg md:text-xl lg:text-2xl font-bold text-slate-800 border border-gray-200 rounded-xl focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all outline-none bg-white shadow-2xs"
+                  className="w-full aspect-square text-center text-lg md:text-xl lg:text-2xl font-bold text-slate-800 border border-gray-200 rounded-xl focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all outline-none bg-white shadow-2xs"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  required
                 />
               ))}
             </div>
-            {formik.touched.otp && formik.errors.otp && (
-              <p className="text-red-500 text-xs font-semibold mt-2">
-                {formik.errors.otp}
-              </p>
-            )}
-            {!formik.touched.otp && !formik.errors.otp && (
-              <p className="text-[11px] text-emerald-700/80 mt-2 font-medium">
+            <p className="text-[11px] text-emerald-700/80 mt-2 font-medium">
               We have sent you an OTP!
             </p>
-            )}
-            
           </div>
 
-          <Button
+          <button
             type="submit"
             className="login-form-btn w-full bg-emerald-800 hover:bg-emerald-900 text-white font-medium text-sm py-3 px-4 rounded-xl shadow-md transition-colors duration-200 mt-4 cursor-pointer"
           >
             Verify OTP
-          </Button>
+          </button>
         </form>
 
         {/* Resend Link */}
@@ -212,13 +181,13 @@ export default function SignUpOtpForm({
                 </svg>
               </span>
             ) : (
-              <Button
+              <button
                 type="button"
                 onClick={handleResendOtp}
-                className="text-emerald-700 font-semibold underline hover:text-emerald-800 cursor-pointer p-0 min-w-0"
+                className="text-emerald-700 font-semibold underline hover:text-emerald-800 cursor-pointer"
               >
                 Resend OTP!
-              </Button>
+              </button>
             )}
           </div>
         </div>
