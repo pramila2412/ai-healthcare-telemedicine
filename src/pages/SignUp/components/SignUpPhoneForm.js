@@ -1,39 +1,44 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Button, InputBase } from '@mui/material';
+import { useFormik } from 'formik';
+import React from 'react';
 import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 import { setPhoneNumbers } from "../../../state-management/modules/security/securityActions";
 
-export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, onSubmit, onBack }) {
+
+export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, handlePhoneSubmit, onBack }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [error, setError] = useState('');
+  const formik = useFormik({
+    initialValues: {
+      phoneNumber: phoneNumber || '',
+    },
+    validateOnChange: true,
+    validateOnBlur: true,
+    onSubmit: values => {
+      const normalizedPhoneNumber = values.phoneNumber.trim();
+      setPhoneNumber(normalizedPhoneNumber);
+      dispatch(setPhoneNumbers(`+91 ${normalizedPhoneNumber}`));
+      handlePhoneSubmit(normalizedPhoneNumber);
+    },
+    validationSchema: Yup.object({
+      phoneNumber: Yup.string()
+        .trim()
+        .matches(/^\d{10}$/, 'Phone number must be exactly 10 digits.')
+        .required('Phone number is required'),
+    }),
+  });
 
-  const handlePhoneChange = (e) => {
-    const cleaned = e.target.value.replace(/\D/g, '');
-    if (cleaned.length <= 10) {
-      setPhoneNumber(cleaned);
-      if (cleaned.length === 10) {
-        setError('');
-      }
-    }
-  };
+  // const [error, setError] = useState('');
+  console.log("formik.values.phoneNumber", formik.values.phoneNumber);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (phoneNumber.length !== 10) {
-      setError('Phone number must be exactly 10 digits.');
-      return;
-    }
-    setError('');
-    dispatch(setPhoneNumbers(`+91 ${phoneNumber}`));
-    onSubmit(e);
-  };
 
   return (
     <div className="flex-1 md:w-1/2 lg:w-1/2 flex flex-col justify-between p-8 lg:p-5 bg-white min-h-150 lg:min-h-auto">
       {/* Back Button */}
-      <button
+      <Button
         type="button"
         onClick={onBack}
         className="flex items-center gap-2 text-slate-500 hover:text-emerald-700 transition-colors text-xs font-semibold py-1.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 cursor-pointer self-start shadow-2xs"
@@ -42,7 +47,7 @@ export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, onSubmit,
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
         </svg>
         Back
-      </button>
+      </Button>
 
       <div className="max-w-md w-full mx-auto my-auto py-6">
         <div className="text-center mb-8">
@@ -52,41 +57,42 @@ export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, onSubmit,
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={formik.handleSubmit} className="space-y-5">
           <div>
             <label className="login-form-label block text-xs font-semibold text-gray-500 mb-2">Phone Number</label>
-            <div className="flex border border-gray-200 rounded-xl focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden bg-white">
+            <div className={`flex rounded-xl focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden bg-white ${formik.touched.phoneNumber && formik.errors.phoneNumber ? 'border border-red-500' : 'border border-gray-200'}`}>
               <div className="flex items-center gap-1 px-3 bg-slate-50 border-r border-gray-100 text-sm font-medium text-slate-700 cursor-pointer">
                 <span>🇮🇳</span> <span>+91</span> <span className="text-[10px] text-gray-400">▼</span>
               </div>
-              <input
+              <InputBase
                 type="tel"
+                name="phoneNumber"
                 placeholder="Enter phone number"
-                required
-                value={phoneNumber}
-                onChange={handlePhoneChange}
+                value={formik.values.phoneNumber}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="login-form-input w-full px-4 py-3 text-sm text-slate-800 placeholder-gray-400 outline-none"
               />
             </div>
-            {error && (
+            {formik.touched.phoneNumber && formik.errors.phoneNumber && (
               <p className="text-red-500 text-xs font-semibold mt-2 animate-pulse">
-                {error}
+                {formik.errors.phoneNumber}
               </p>
             )}
           </div>
 
-          <button
+          <Button
             type="submit"
             className="login-form-btn w-full bg-emerald-800 hover:bg-emerald-900 text-white font-medium text-sm py-3 px-4 rounded-xl shadow-md transition-colors duration-200 mt-2 cursor-pointer"
           >
             Continue
-          </button>
+          </Button>
         </form>
 
         {/* Switch to Login Link */}
         <div className="text-center mt-6">
           <p className="login-form-footer-text text-xs text-gray-500">
-            Already have an account? <button type="button" onClick={() => navigate('/login')} className="text-emerald-700 font-semibold underline hover:text-emerald-800 cursor-pointer">Sign in</button>
+            Already have an account? <Button type="button" onClick={() => navigate('/login')} className="text-emerald-700 font-semibold underline hover:text-emerald-800 cursor-pointer p-0 min-w-0">Sign in</Button>
           </p>
         </div>
       </div>

@@ -1,15 +1,10 @@
-import React from "react";
-import { Container } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
-import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { Icon } from "@iconify/react";
+import { Container } from "@mui/material";
+import React from "react";
 import AiHealthInsightsImage from "../../../../assets/LandingPage/AiHealthInsights.png";
 import ConnectedMedicalRecordsImage from "../../../../assets/LandingPage/ConnectedMedicalRecords.png";
-import SecureHealthcareNetworkImage from "../../../../assets/LandingPage/SecureHealthcareNetwork.png";
 import ContinuousCareImage from "../../../../assets/LandingPage/ContinuousCare.png";
+import SecureHealthcareNetworkImage from "../../../../assets/LandingPage/SecureHealthcareNetwork.png";
 
 const features = [
   {
@@ -122,8 +117,8 @@ const FeaturesSection = () => {
                 {/* Title & Icon Flow */}
                 <div className="flex items-start gap-3 mb-4">
                 <div className="w-10 h-10 rounded-[15px] bg-[#EEF4F3] flex items-center justify-center shrink-0">
-  {feature.icon}
-</div>
+                  {feature.icon}
+                </div>
                   <h3 className="text-[#141414] font-bold text-[17px] leading-tight whitespace-pre-line mt-1">
                     {feature.title}
                   </h3>
@@ -151,7 +146,7 @@ const FeaturesSection = () => {
                       </span>
                     </li>
                   ))}
-                </ul>
+                </ul> 
               </div>
             </div>
           ))}
