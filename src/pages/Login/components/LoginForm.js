@@ -1,33 +1,29 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setPhoneNumbers } from "../../../state-management/modules/security/securityActions";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const validateUniqueId = (id) => {
-  if (id.length !== 10) return "Unique ID must be exactly 10 characters.";
-  if (/[a-z]/.test(id) || !/[A-Z]/.test(id))
-    return "Unique ID must be in all capital letters.";
-  if (!/\d/.test(id)) return "Unique ID must contain at least one number.";
-  if (!/[^A-Za-z0-9]/.test(id))
-    return "Unique ID must contain at least one special character.";
-  return "";
+  if (id.length !== 10) return 'Unique ID must be exactly 10 characters.';
+  if (/[a-z]/.test(id) || !/[A-Z]/.test(id)) return 'Unique ID must be in all capital letters.';
+  if (!/\d/.test(id)) return 'Unique ID must contain at least one number.';
+  if (!/[^A-Za-z0-9]/.test(id)) return 'Unique ID must contain at least one special character.';
+  return '';
 };
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // State to manage which tab is active ('phone' or 'uniqueId')
-  const [loginMethod, setLoginMethod] = useState("phone");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [uniqueId, setUniqueId] = useState("");
-  const [error, setError] = useState("");
+  const [loginMethod, setLoginMethod] = useState('phone');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [uniqueId, setUniqueId] = useState('');
+  const [error, setError] = useState('');
 
   const handlePhoneChange = (e) => {
-    const cleaned = e.target.value.replace(/\D/g, "");
+    const cleaned = e.target.value.replace(/\D/g, '');
     if (cleaned.length <= 10) {
       setPhoneNumber(cleaned);
       if (cleaned.length === 10) {
-        setError("");
+        setError('');
       }
     }
   };
@@ -36,44 +32,39 @@ export default function LoginForm() {
     const value = e.target.value;
     if (value.length <= 10) {
       setUniqueId(value);
-      setError("");
+      setError('');
     }
   };
 
   const handleContinue = (e) => {
     e.preventDefault();
 
-    if (loginMethod === "phone") {
+    if (loginMethod === 'phone') {
       if (phoneNumber.length !== 10) {
-        setError("Phone number must be exactly 10 digits.");
+        setError('Phone number must be exactly 10 digits.');
         return;
       }
-      setError("");
-
-      dispatch(setPhoneNumbers(`+91 ${phoneNumber}`));
-
-      navigate("/verify");
+      setError('');
+      navigate('/verify', { state: { phoneNumber: `+91 ${phoneNumber}` } });
     } else {
       const uniqueIdError = validateUniqueId(uniqueId);
       if (uniqueIdError) {
         setError(uniqueIdError);
         return;
       }
-      setError("");
-      navigate("/password", { state: { uniqueId } });
+      setError('');
+      navigate('/password', { state: { uniqueId } });
     }
   };
 
   return (
-    <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-150 lg:min-h-auto font-TypeFace">
+    <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-[600px] lg:min-h-auto font-TypeFace">
       <div className="hidden lg:block h-6"></div>
 
       <div className="max-w-md w-full mx-auto my-auto py-6">
         {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="login-form-title text-3xl font-bold text-slate-800 tracking-tight">
-            Welcome Back!
-          </h2>
+          <h2 className="login-form-title text-3xl font-bold text-slate-800 tracking-tight">Welcome Back!</h2>
           <p className="login-form-desc text-sm text-gray-500 mt-2 max-w-xs mx-auto leading-relaxed">
             Continue securely using your phone number or Unique ID.
           </p>
@@ -81,22 +72,16 @@ export default function LoginForm() {
 
         {/* Tab Switcher */}
         <div className="mb-6">
-          <label className="login-form-label block text-xs font-semibold text-gray-500 mb-2">
-            Login with
-          </label>
+          <label className="login-form-label block text-xs font-semibold text-gray-500 mb-2">Login with</label>
           <div className="grid grid-cols-2 gap-2 p-1.5 rounded-[11px] border border-gray-300">
             {/* Phone Number Tab */}
             <button
               type="button"
-              onClick={() => {
-                setLoginMethod("phone");
-                setError("");
-              }}
-              className={`flex items-center justify-center gap-2 text-xs font-medium py-2.5 px-4 rounded-lg transition-all cursor-pointer ${
-                loginMethod === "phone"
-                  ? "bg-emerald-50 text-emerald-800 border border-emerald-100/50 shadow-sm"
-                  : "text-gray-500 hover:text-gray-800"
-              }`}
+              onClick={() => { setLoginMethod('phone'); setError(''); }}
+              className={`flex items-center justify-center gap-2 text-xs font-medium py-2.5 px-4 rounded-lg transition-all cursor-pointer ${loginMethod === 'phone'
+                ? 'bg-emerald-50 text-emerald-800 border border-emerald-100/50 shadow-sm'
+                : 'text-gray-500 hover:text-gray-800'
+                }`}
             >
               <svg
                 width="18"
@@ -116,15 +101,11 @@ export default function LoginForm() {
             {/* Unique ID Tab */}
             <button
               type="button"
-              onClick={() => {
-                setLoginMethod("uniqueId");
-                setError("");
-              }}
-              className={`flex items-center justify-center gap-2 text-xs font-medium py-2.5 px-4 rounded-lg transition-all cursor-pointer ${
-                loginMethod === "uniqueId"
-                  ? "bg-emerald-50 text-emerald-800 border border-emerald-100/50 shadow-sm"
-                  : "text-gray-500 hover:text-gray-800"
-              }`}
+              onClick={() => { setLoginMethod('uniqueId'); setError(''); }}
+              className={`flex items-center justify-center gap-2 text-xs font-medium py-2.5 px-4 rounded-lg transition-all cursor-pointer ${loginMethod === 'uniqueId'
+                ? 'bg-emerald-50 text-emerald-800 border border-emerald-100/50 shadow-sm'
+                : 'text-gray-500 hover:text-gray-800'
+                }`}
             >
               <svg
                 width="16"
@@ -223,52 +204,22 @@ export default function LoginForm() {
         {/* Footers */}
         <div className="text-center mt-5">
           <p className="login-form-footer-text text-xs text-gray-500">
-            Don't have an account?{" "}
-            <button
-              type="button"
-              onClick={() => navigate("/signup")}
-              className="text-emerald-700 font-semibold underline hover:text-emerald-800 cursor-pointer"
-            >
-              Sign up
-            </button>
+            Don't have an account? <button type="button" onClick={() => navigate('/signup')} className="text-emerald-700 font-semibold underline hover:text-emerald-800 cursor-pointer">Sign up</button>
           </p>
         </div>
 
         <p className="login-form-footer-text text-[10px] text-gray-400 text-center leading-relaxed mt-8 max-w-sm mx-auto font-medium">
-          By continuing, you agree to receive updates from the MediConnect team
-          and confirm that you have read, understood, and agree to MediConnect's{" "}
-          <button
-            type="button"
-            className="text-emerald-700 underline hover:text-emerald-700 cursor-pointer"
-          >
-            Terms & Conditions
-          </button>{" "}
-          and{" "}
-          <button
-            type="button"
-            className="text-emerald-700 underline hover:text-emerald-700 cursor-pointer"
-          >
-            Privacy Policy
-          </button>
-          .
+          By continuing, you agree to receive updates from the MediConnect team and confirm that you have read, understood, and agree to MediConnect's <button type="button" className="text-emerald-700 underline hover:text-emerald-700 cursor-pointer">Terms & Conditions</button> and <button type="button" className="text-emerald-700 underline hover:text-emerald-700 cursor-pointer">Privacy Policy</button>.
         </p>
       </div>
 
       {/* Compliance Badge */}
       <div className="border border-gray-100 rounded-2xl mb-10 p-4 bg-slate-50/50 flex items-start gap-3 max-w-md mx-auto w-full mt-4 lg:mt-0 shadow-xs">
         <div className=" text-emerald-800 rounded-lg shrink-0">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11.25 2.501C10.644 2.614 9.932 2.858 8.838 3.233L8.265 3.428C5.258 4.458 3.755 4.972 3.378 5.51C3.008 6.036 3 7.578 3 10.638L11.25 10.888V2.501ZM11.25 12.468L3 12.218V12.419C3 18.057 7.239 20.793 9.899 21.955C10.409 22.178 10.739 22.322 11.25 22.387V12.468ZM12.75 22.388V12.468L21 12.218V12.419C21 18.057 16.761 20.793 14.101 21.955C13.591 22.178 13.261 22.323 12.75 22.388ZM12.75 10.888V2.5C13.356 2.613 14.068 2.857 15.162 3.232L15.735 3.428C18.742 4.457 20.245 4.971 20.622 5.509C20.992 6.035 21 7.577 21 10.636L12.75 10.888Z"
-              fill="#096B58"
-            />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.25 2.501C10.644 2.614 9.932 2.858 8.838 3.233L8.265 3.428C5.258 4.458 3.755 4.972 3.378 5.51C3.008 6.036 3 7.578 3 10.638L11.25 10.888V2.501ZM11.25 12.468L3 12.218V12.419C3 18.057 7.239 20.793 9.899 21.955C10.409 22.178 10.739 22.322 11.25 22.387V12.468ZM12.75 22.388V12.468L21 12.218V12.419C21 18.057 16.761 20.793 14.101 21.955C13.591 22.178 13.261 22.323 12.75 22.388ZM12.75 10.888V2.5C13.356 2.613 14.068 2.857 15.162 3.232L15.735 3.428C18.742 4.457 20.245 4.971 20.622 5.509C20.992 6.035 21 7.577 21 10.636L12.75 10.888Z" fill="#096B58" />
           </svg>
+
         </div>
         <div>
           <h4 className="login-form-hipaa-badge-title text-xs font-bold text-slate-800 leading-tight">

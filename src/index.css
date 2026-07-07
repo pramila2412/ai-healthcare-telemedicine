@@ -103,9 +103,7 @@ select {
 .date-input-empty {
   color: transparent;
 }
-.dob-datepicker-popper {
-  left: 60px !important;
-}
+
 /* ==========================================================================
    4K and Ultra-Large Screen Responsive Scaling
    ========================================================================== */

@@ -1,17 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import Swal from "sweetalert2";
 
 export default function VerifyForm() {
- const navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Get phone number from Redux
-  const phoneNumber = useSelector(
-    (state) => state.security.phoneNumber
-  );
-
- 
+  // Retrieve the phone number passed from the login form, fallback if none
+  const phoneNumber = location.state?.phoneNumber || '+91 1010 110 100';
 
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(30);
@@ -72,31 +67,16 @@ export default function VerifyForm() {
     setTimer(30);
   };
 
-  const handleVerify = async (e) => {
-  e.preventDefault();
-
-  const code = otp.join("");
-
-  if (code.length < 6) {
-    Swal.fire({
-      icon: "error",
-      title: "Invalid OTP",
-      text: "Please enter all 6 digits of the OTP.",
-    });
-    return;
-  }
-   localStorage.clear
-  // Success Alert
-  await Swal.fire({
-    icon: "success",
-    title: "Login Successful!",
-    text: "Welcome back.",
-    confirmButtonText: "Continue",
-  });
-
-  // Redirect after clicking OK
-  navigate("/");
-};
+  const handleVerify = (e) => {
+    e.preventDefault();
+    const code = otp.join('');
+    if (code.length < 6) {
+      alert('Please enter all 6 digits of the OTP.');
+      return;
+    }
+    // Simulated authentication completion
+    navigate('/'); // Redirect to landing page / dashboard
+  };
 
   return (
     <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-150 lg:min-h-auto">

@@ -9,21 +9,15 @@ import SignUpOtpForm from "./components/SignUpOtpForm";
 import SignUpPhoneForm from "./components/SignUpPhoneForm";
 import SignUpRoleGrid from "./components/SignUpRoleGrid";
 
-import {
-  resetRegistration
-} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
-import { useDispatch } from "react-redux";
-import Swal from "sweetalert2";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
+  
   // Signup State Flow
   const [step, setStep] = useState(1);
-  const [selectedRole, setSelectedRole] = useState("patient");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [selectedRole, setSelectedRole] = useState('patient');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(30);
 
   // Resend OTP countdown effect
@@ -51,38 +45,21 @@ const SignUp = () => {
   };
 
   // OTP Verification Submission Handler (Step 3 Submit)
-  const handleOtpVerify = async (e) => {
+  const handleOtpVerify = (e) => {
     e.preventDefault();
-
-    const code = otp.join("");
-
+    const code = otp.join('');
     if (code.length < 6) {
-      Swal.fire({
-        icon: "warning",
-        title: "Invalid OTP",
-        text: "Please enter all 6 digits of the OTP.",
-        confirmButtonColor: "#065f46",
-      });
+      alert('Please enter all 6 digits of the OTP.');
       return;
     }
-
-    await Swal.fire({
-      icon: "success",
-      title: "Signup Successful!",
-      text: "Redirecting...",
-      timer: 2000,
-      showConfirmButton: false,
-    });
-
-    dispatch(resetRegistration());
-
-    navigate("/patient-registration");
+    // Simulate signup success
+    navigate('/login'); // Send user to login page
   };
 
   // Handler for resending code
   const handleResendOtp = () => {
     setTimer(30);
-    setOtp(["", "", "", "", "", ""]);
+    setOtp(['', '', '', '', '', '']);
   };
 
   return (
@@ -91,13 +68,14 @@ const SignUp = () => {
       <LoginHeader onLogoClick={() => navigate("/")} />
 
       <main className="flex-1 flex items-center justify-center py-6">
-        <div className="login-card-container max-w-300 w-full bg-white rounded-4xl shadow-xl border border-gray-100/80 flex flex-col md:flex-row min-h-160 md:min-h-175 overflow-hidden">
+        <div className="login-card-container max-w-[1200px] w-full bg-white rounded-[32px] shadow-xl border border-gray-100/80 flex flex-col md:flex-row min-h-[640px] md:min-h-[700px] overflow-hidden">
+          
           {/* Left Split: Shared Green Branding */}
           <LoginBranding />
-
+          
           {/* Right Split: Modular Signup Wizard Steps */}
           {step === 1 && (
-            <SignUpRoleGrid
+            <SignUpRoleGrid 
               selectedRole={selectedRole}
               setSelectedRole={setSelectedRole}
               onSubmit={handleRoleSubmit}
@@ -105,7 +83,7 @@ const SignUp = () => {
           )}
 
           {step === 2 && (
-            <SignUpPhoneForm
+            <SignUpPhoneForm 
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
               handlePhoneSubmit={handlePhoneSubmit}
@@ -114,7 +92,7 @@ const SignUp = () => {
           )}
 
           {step === 3 && (
-            <SignUpOtpForm
+            <SignUpOtpForm 
               phoneNumber={phoneNumber}
               otp={otp}
               setOtp={setOtp}

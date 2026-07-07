@@ -36,7 +36,7 @@ export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, handlePho
 
 
   return (
-    <div className="flex-1 md:w-1/2 lg:w-1/2 flex flex-col justify-between p-8 lg:p-5 bg-white min-h-150 lg:min-h-auto">
+    <div className="flex-1 md:w-1/2 lg:w-1/2 flex flex-col justify-between p-8 lg:p-5 bg-white min-h-[600px] lg:min-h-auto">
       {/* Back Button */}
       <Button
         type="button"
