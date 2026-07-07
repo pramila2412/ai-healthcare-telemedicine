@@ -1,15 +1,12 @@
 
+import CloseIcon from '@mui/icons-material/Close';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Fallback logo icon
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Button, Container, IconButton, Toolbar } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, Container, IconButton, Button } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Fallback logo icon
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-//import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import './Navbar.css';
-import logoImg from '../../../../assets/LandingPage/logo.png';
-import userIcon from '../../../../assets/LandingPage/User.svg';
 
 const navItems = ['Home', 'Solutions', 'For Patients', 'For Providers', 'Pricing', 'Resources'];
 
@@ -67,12 +64,14 @@ const Navbar = () => {
           {/* Action Buttons */}
           <div className="hidden md:flex items-center gap-4">
             <Button 
-              variant="text"
+              variant="text" 
+//               startIcon={<PersonOutlineOutlinedIcon />}
               onClick={() => navigate('/signup')}
-              startIcon={<img src={userIcon} alt="User" className="w-5.5 h-5.5" />}
-              className="bg-secondary px-6 py-2 font-medium hover:bg-secondary/80 normal-case rounded-lg"
-              sx={{ color: 'var(--color-primary)' }}
+              className="bg-[#EEF4F3] text-primary px-6 py-2 font-semibold hover:bg-primary/15 normal-case rounded-lg cursor-pointer"
             >
+              <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
+              </svg>
               Sign up
             </Button>
             {/* <Button 
@@ -80,17 +79,16 @@ const Navbar = () => {
               color="primary"
 //               startIcon={<PersonOutlineOutlinedIcon />}
               onClick={() => navigate("/role-selection")}
-              className="px-6 py-2 font-semibold normal-case rounded-lg shadow-none">
-            </Button> */}
-             <Button 
-              variant="text"
-              onClick={() => navigate('/login')}
-              startIcon={<img src={userIcon} alt="User" className="w-5.5 h-5.5 brightness-0 invert" />}
-              className="bg-primary px-6 py-2 font-medium hover:bg-primary/90 normal-case rounded-lg"
-              sx={{ color: 'white' }}
+              className="px-6 py-2 font-semibold normal-case rounded-lg shadow-none"
+            />
+            <button 
+              className="flex items-center justify-center gap-2 bg-[#0D8B72] text-white px-4 py-2.5 font-medium hover:bg-[#0D8B72]/90 transition-colors normal-case rounded-lg border-none cursor-pointer"
             >
+              <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
+              </svg>
               Log In
-            </Button>
+            </button>
           </div>
 
           {/* Mobile Menu Icon */}
@@ -120,12 +118,16 @@ const Navbar = () => {
                 </div>
               ))}
               <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-100">
-                <button className="flex items-center justify-center gap-2 bg-secondary text-primary w-full py-3 font-medium rounded-lg border-none cursor-pointer hover:bg-secondary/80">
-                  <img src={userIcon} alt="User" className="w-5.5 h-5.5 brightness-0 invert" />
+                <button className="flex items-center justify-center gap-2 bg-[#EEF4F3] text-[#0D8B72] w-full py-3 font-medium rounded-lg border-none cursor-pointer">
+                  <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
+                  </svg>
                   Sign up
                 </button>
-                <button className="flex items-center justify-center gap-2 bg-primary text-white w-full py-3 font-medium rounded-lg border-none cursor-pointer hover:bg-primary/90">
-                  <img src={userIcon} alt="User" className="w-5.5 h-5.5" />
+                <button className="flex items-center justify-center gap-2 bg-[#0D8B72] text-white w-full py-3 font-medium rounded-lg border-none cursor-pointer">
+                  <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 10.7839C13.9125 10.7839 15.4615 9.26602 15.4615 7.39196C15.4615 5.5179 13.9125 4 12 4C10.0875 4 8.53846 5.5179 8.53846 7.39196C8.53846 9.26602 10.0875 10.7839 12 10.7839ZM11.1433 13.1206C8.30192 13.1206 6 15.3763 6 18.1605C6 18.6241 6.38365 19 6.85673 19H17.1433C17.6163 19 18 18.6241 18 18.1605C18 15.3763 15.6981 13.1206 12.8567 13.1206H11.1433Z" stroke="currentColor" strokeWidth="1.2"/>
+                  </svg>
                   Log In
                 </button>
               </div>

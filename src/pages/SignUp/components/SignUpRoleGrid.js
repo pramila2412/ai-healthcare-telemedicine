@@ -256,7 +256,7 @@ export default function SignUpRoleGrid({ selectedRole, setSelectedRole, onSubmit
   const activeRoleObj = roles.find((r) => r.id === selectedRole) || roles[0];
 
   return (
-    <div className="flex-1 md:w-1/2 lg:w-1/2 flex flex-col justify-between p-8 lg:p-5 bg-white min-h-150 lg:min-h-auto">
+    <div className="flex-1 md:w-1/2 lg:w-1/2 flex flex-col justify-between p-8 lg:p-5 bg-white min-h-[600px] lg:min-h-auto">
       <div className="hidden lg:block h-6"></div>
       
       <div className="max-w-md w-full mx-auto my-auto py-4">

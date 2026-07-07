@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
-import { setPhoneNumbers } from "../../../state-management/modules/security/securityActions";
 
 export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, onSubmit, onBack }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const [error, setError] = useState('');
 
   const handlePhoneChange = (e) => {
@@ -26,12 +22,11 @@ export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, onSubmit,
       return;
     }
     setError('');
-    dispatch(setPhoneNumbers(`+91 ${phoneNumber}`));
     onSubmit(e);
   };
 
   return (
-    <div className="flex-1 md:w-1/2 lg:w-1/2 flex flex-col justify-between p-8 lg:p-5 bg-white min-h-150 lg:min-h-auto">
+    <div className="flex-1 md:w-1/2 lg:w-1/2 flex flex-col justify-between p-8 lg:p-5 bg-white min-h-[600px] lg:min-h-auto">
       {/* Back Button */}
       <button
         type="button"

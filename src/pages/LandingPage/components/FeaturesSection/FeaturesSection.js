@@ -1,10 +1,6 @@
 import React from "react";
 import { Container } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
-import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+
 import { Icon } from "@iconify/react";
 import AiHealthInsightsImage from "../../../../assets/LandingPage/AiHealthInsights.png";
 import ConnectedMedicalRecordsImage from "../../../../assets/LandingPage/ConnectedMedicalRecords.png";
@@ -87,11 +83,11 @@ const features = [
 ];
 const FeaturesSection = () => {
   return (
-    <section className="py-10 md:py-16 bg-white">
+    <section className="py-16 md:py-24 bg-white">
       <Container maxWidth="lg">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16 px-4">
-          <span className="section-kicker">
+          <span className="text-[#096B58] font-bold text-xs tracking-[1.5px] uppercase block mb-3">
             WHY CHOOSE US?
           </span>
           <h2 className="text-[#141414] font-bold text-2xl sm:text-3xl md:text-4xl">
@@ -104,21 +100,23 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="w-full max-w-71.25 h-full mx-auto flex flex-col rounded-[20px] border border-gray-200 overflow-hidden bg-white"
+              className="w-full max-w-[285px] h-full mx-auto flex flex-col rounded-[20px] border border-gray-200 overflow-hidden bg-white"
               style={{ boxShadow: '0 8px 30px -10px rgba(0,0,0,0.06)' }}
             >
               {/* Image Section */}
-              <div className="relative w-full aspect-4/3 sm:aspect-3/2 xl:aspect-4/3 flex items-center justify-center p-6 overflow-hidden">
+              <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] xl:aspect-[4/3] flex items-center justify-center p-6 overflow-hidden">
                 
                 <img
                   src={feature.image}
                   alt={feature.title}
                   className="relative z-10 w-full h-full object-contain mix-blend-multiply"
                 />
+                  className="relative z-10 w-full h-full object-contain mix-blend-multiply"
+                />
               </div>
 
               {/* Content Section */}
-              <div className="p-4 sm:p-5 md:p-6 flex flex-col grow">
+              <div className="p-4 sm:p-5 md:p-6 flex flex-col flex-grow">
                 {/* Title & Icon Flow */}
                 <div className="flex items-start gap-3 mb-4">
                 <div className="w-10 h-10 rounded-[15px] bg-[#EEF4F3] flex items-center justify-center shrink-0">
