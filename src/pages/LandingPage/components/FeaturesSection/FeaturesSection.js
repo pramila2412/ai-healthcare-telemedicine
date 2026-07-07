@@ -82,11 +82,11 @@ const features = [
 ];
 const FeaturesSection = () => {
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-8 md:py-12 bg-white">
       <Container maxWidth="lg">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16 px-4">
-          <span className="text-[#096B58] font-bold text-xs tracking-[1.5px] uppercase block mb-3">
+          <span className="section-kicker">
             WHY CHOOSE US?
           </span>
           <h2 className="text-[#141414] font-bold text-2xl sm:text-3xl md:text-4xl">
@@ -109,7 +109,8 @@ const FeaturesSection = () => {
                   src={feature.image}
                   alt={feature.title}
                   className="relative z-10 w-full h-full object-contain mix-blend-multiply"
-                />                 
+                />
+                 
               </div>
 
               {/* Content Section */}

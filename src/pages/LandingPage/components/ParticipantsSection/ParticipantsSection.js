@@ -33,9 +33,9 @@ const participants = [
 
 const ParticipantsSection = () => {
   return (
-    <section className="py-12 md:py-24 bg-white text-center overflow-hidden">
-      <Container maxWidth="xl">
-        <span className="text-primary font-medium tracking-wide uppercase block mb-4">
+    <section className="py-8 md:py-12 bg-white text-center overflow-hidden">
+      <Container maxWidth="lg">
+        <span className="section-kicker">
           ONE CONNECTED HEALTHCARE NETWORK
         </span>
         <h2 className="text-gray-900 font-semibold mb-4 text-3xl md:text-[2.5rem] leading-snug px-4">
@@ -51,7 +51,7 @@ const ParticipantsSection = () => {
               
               {/* Dashed Connecting Line with Arrow (hidden on last item or mobile) */}
               {index !== participants.length - 1 && (
-                <div className="absolute top-10 left-[calc(50%+45px)] w-[calc(100%-50px)] z-0 hidden lg:block">
+                <div className="absolute top-10 left-[calc(50%+45px)] w-[calc(100%-20px)] z-0 hidden lg:block">
                   <div className="w-full border-t-[1.5px] border-dashed border-gray-300"></div>
                   {/* Arrow head chevron */}
                   <div className="absolute right-0 top-[-3.5px] w-2 h-2 border-t-[1.5px] border-r-[1.5px] border-gray-300 transform rotate-45" />
@@ -78,7 +78,7 @@ const ParticipantsSection = () => {
                 <p className="font-semibold text-[#141414] mb-2 text-xs">
                   {item.role}
                 </p>
-                <p className="text-gray-500 text-center whitespace-pre-line leading-relaxed px-2 text-[0.7rem]">
+                <p className="text-gray-500 text-center whitespace-pre-line leading-relaxed px-2 text-[0.7rem] w-[180px]">
                   {item.desc}
                 </p>
               </div>

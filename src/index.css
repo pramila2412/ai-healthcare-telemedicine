@@ -48,7 +48,7 @@ img {
 
 @layer components {
   .section-padding {
-    @apply py-16 md:py-24 bg-white;
+    @apply py-8 md:py-12 bg-white;
   }
   .section-overline {
     @apply text-primary font-bold tracking-wide uppercase block mb-4;

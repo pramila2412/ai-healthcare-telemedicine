@@ -35,13 +35,13 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-8 md:py-12 bg-white">
       <Container maxWidth="lg">
         <div className="flex flex-col lg:flex-row items-start gap-12">
           
           {/* Left Text Content */}
           <div className="flex-none w-full lg:w-[240px]">
-            <span className="text-[#096B58] font-bold text-[12px] tracking-[1px] uppercase block mb-3">
+            <span className="section-kicker">
               What our patients say
             </span>
             <h2 className="text-[#141414] font-bold mb-4 text-3xl leading-tight">
