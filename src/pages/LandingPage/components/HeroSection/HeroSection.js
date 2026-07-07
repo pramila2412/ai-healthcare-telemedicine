@@ -3,7 +3,7 @@ import React from 'react';
 import './HeroSection.css';
 
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-
+import heroImg from '../../../../assets/LandingPage/hero-image.png';
 import { Icon } from "@iconify/react";
 const HeroSection = () => {
   return (
@@ -14,7 +14,7 @@ const HeroSection = () => {
           {/* Left Content Column */}
           <div className="flex-1">
             <div className="md:pr-8">
-              <div className="flex items-center mb-6 rounded-full px-4 py-2 w-fit bg-[#DCE6E2]">
+              <div className="flex items-center mb-6 rounded-full px-4 py-2 w-fit bg-secondary">
                 <AutoAwesomeIcon className="text-[#075C4C] text-base mr-2" />
                 <span className="text-[#075C4C] font-medium text-xs tracking-wide">
                   AI-Powered Healthcare Ecosystem

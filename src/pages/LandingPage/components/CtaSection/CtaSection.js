@@ -1,11 +1,11 @@
 import { Container } from '@mui/material';
 import React from 'react';
 import './CtaSection.css';
-
+import bookingImg from '../../../../assets/LandingPage/booking.png';
 import { Icon } from "@iconify/react";
 const CtaSection = () => {
   return (
-    <section className="py-10 md:py-16 bg-white">
+    <section className="py-6 md:py-10 bg-white">
       <Container maxWidth="lg">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           

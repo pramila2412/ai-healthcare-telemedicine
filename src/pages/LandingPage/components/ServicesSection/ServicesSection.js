@@ -2,6 +2,9 @@ import { Icon } from "@iconify/react";
 import { Container } from "@mui/material";
 import React from "react";
 import "./ServicesSection.css";
+import recordsImg from "../../../../assets/LandingPage/Records.svg";
+import insuranceImg from "../../../../assets/LandingPage/Insurance.svg";
+import monitorImg from "../../../../assets/LandingPage/Monitor.svg";
 const services = [
   {
     title: "Doctor\nConsultation",
@@ -47,7 +50,7 @@ const services = [
       "Access prescriptions,\nreports and medical\nhistory securely.",
     icon: (
       <img
-        src="/images/Records.svg"
+        src={recordsImg}
         alt="Records"
         style={{ width: 24, height: 24 }}
       />
@@ -58,7 +61,7 @@ const services = [
     description: "Verify coverage, file\nclaims and track\napprovals.",
     icon: (
       <img
-        src="/images/Insurance.svg"
+        src={insuranceImg}
         alt="Insurance"
         style={{ width: 24, height: 24 }}
       />
@@ -69,7 +72,7 @@ const services = [
     description: "Track your vitals and\nstay connected with\nyour care team.",
     icon: (
       <img
-        src="/images/Monitor.svg"
+        src={monitorImg}
         alt="Monitor"
         style={{ width: 24, height: 24 }}
       />
@@ -87,7 +90,7 @@ const popularSearches = [
 
 const ServicesSection = () => {
   return (
-    <section className="py-10 md:py-16 bg-white">
+    <section className="py-6 md:py-10 bg-white">
       <Container maxWidth="lg">
         {/* Services Header */}
         <div className="mb-12 max-w-[800px]">
