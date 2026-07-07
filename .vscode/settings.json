@@ -14,14 +14,14 @@
     "**/dist": true
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
     "editor.formatOnSave": false
   },
   "[jsx]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
-  "javascript.suggest.paths": false,
+  "javascript.suggest.paths": true,
   "typescript.suggest.paths": false,
   "cSpell.words": [
     "AAABBB",
