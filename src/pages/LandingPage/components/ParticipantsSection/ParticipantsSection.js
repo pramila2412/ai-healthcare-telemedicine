@@ -1,7 +1,7 @@
-import './ParticipantsSection.css';
-import React from 'react';
-import { Container, Button } from '@mui/material';
 import { Icon } from "@iconify/react";
+import { Container } from '@mui/material';
+import React from 'react';
+import './ParticipantsSection.css';
 
 
 const participants = [

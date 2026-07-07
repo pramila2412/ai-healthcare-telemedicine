@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function VerifyForm() {
   const navigate = useNavigate();
@@ -79,7 +79,7 @@ export default function VerifyForm() {
   };
 
   return (
-    <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-[600px] lg:min-h-auto">
+    <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-150 lg:min-h-auto">
       {/* Back Button */}
       <button
         onClick={() => navigate('/login')}

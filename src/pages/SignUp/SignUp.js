@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginHeader from "../Login/components/LoginHeader";
 import LoginBranding from "../Login/components/LoginBranding";
 import LoginFooter from "../Login/components/LoginFooter";
+import LoginHeader from "../Login/components/LoginHeader";
 
 // Import modular sub-components for the 3 steps
-import SignUpRoleGrid from "./components/SignUpRoleGrid";
-import SignUpPhoneForm from "./components/SignUpPhoneForm";
 import SignUpOtpForm from "./components/SignUpOtpForm";
+import SignUpPhoneForm from "./components/SignUpPhoneForm";
+import SignUpRoleGrid from "./components/SignUpRoleGrid";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -101,7 +101,6 @@ const SignUp = () => {
               handleResendOtp={handleResendOtp}
             />
           )}
-
         </div>
       </main>
 

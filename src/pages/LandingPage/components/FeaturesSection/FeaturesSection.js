@@ -111,6 +111,8 @@ const FeaturesSection = () => {
                   alt={feature.title}
                   className="relative z-10 w-full h-full object-contain mix-blend-multiply"
                 />
+                  className="relative z-10 w-full h-full object-contain mix-blend-multiply"
+                />
               </div>
 
               {/* Content Section */}

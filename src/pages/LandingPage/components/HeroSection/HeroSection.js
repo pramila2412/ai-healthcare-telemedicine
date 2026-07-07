@@ -1,6 +1,6 @@
-import './HeroSection.css';
+import { Container, Paper } from '@mui/material';
 import React from 'react';
-import { Button, Container, Paper } from '@mui/material';
+import './HeroSection.css';
 
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
@@ -76,7 +76,7 @@ const HeroSection = () => {
           <div className="flex-1 flex justify-center w-full relative">
             <div className="relative w-full max-w-[700px] flex justify-end">
               <img
-                src="/images/hero-image.png"
+                src={heroImg}
                 alt="Doctor with patient"
                 className="w-full h-auto object-contain z-10"
                 style={{

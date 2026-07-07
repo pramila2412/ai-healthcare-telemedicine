@@ -1,7 +1,7 @@
-import "./ServicesSection.css";
-import React from "react";
-import { Container } from "@mui/material";
 import { Icon } from "@iconify/react";
+import { Container } from "@mui/material";
+import React from "react";
+import "./ServicesSection.css";
 const services = [
   {
     title: "Doctor\nConsultation",
@@ -87,11 +87,11 @@ const popularSearches = [
 
 const ServicesSection = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-10 md:py-16 bg-white">
       <Container maxWidth="lg">
         {/* Services Header */}
         <div className="mb-12 max-w-[800px]">
-          <span className="text-primary font-medium tracking-wide uppercase block mb-4">
+          <span className="section-kicker">
             EVERYTHING YOU NEED FOR BETTER HEALTHCARE
           </span>
           <h2 className="text-gray-900 font-semibold text-2xl md:text-[1.85rem] leading-snug">

@@ -88,9 +88,18 @@ const patientRegistrationReducer = (state = initialState, action) => {
       return next;
 
     case RESET_REGISTRATION:
-      localStorage.removeItem("patientInformation");
-      localStorage.removeItem("patientActiveStep");
-      return { ...initialState, activeStep: "personal" };
+  localStorage.removeItem("patientInformation");
+  localStorage.removeItem("patientActiveStep");
+
+  return {
+    activeStep: "personal",
+    personalInformation: null,
+    additionalInformation: null,
+    medicalHistory: null,
+    insuranceInformation: null,
+    healthRecords: null,
+    reviewComplete: null,
+  };
 
     default:
       return state;

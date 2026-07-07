@@ -1,5 +1,6 @@
 import React from "react";
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
+import logoImg from '../../../assets/LandingPage/logo.png';
 
 const LoginHeader = ({ onLogoClick }) => {
   return (
@@ -7,7 +8,7 @@ const LoginHeader = ({ onLogoClick }) => {
       {/* Logo Section */}
       <div className="flex items-center cursor-pointer" onClick={onLogoClick}>
         <img
-          src="/images/logo.png"
+          src={logoImg}
           alt="MedConnect Logo Icon"
           className="h-10 mr-2 hidden"
           onError={(e) => {

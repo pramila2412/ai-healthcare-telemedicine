@@ -1,11 +1,11 @@
 
+import CloseIcon from '@mui/icons-material/Close';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Fallback logo icon
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Button, Container, IconButton, Toolbar } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, Container, IconButton, Button } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Fallback logo icon
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './Navbar.css';
 
 const navItems = ['Home', 'Solutions', 'For Patients', 'For Providers', 'Pricing', 'Resources'];
@@ -22,7 +22,7 @@ const Navbar = () => {
           {/* Logo Section */}
           <div className="flex items-center cursor-pointer">
             <img
-              src="/images/logo.png"
+              src={logoImg}
               alt="MedConnect Logo Icon"
               className="h-10 mr-2 hidden"
               onError={(e) => {
@@ -74,7 +74,7 @@ const Navbar = () => {
               </svg>
               Sign up
             </Button>
-            <Button 
+            {/* <Button 
               variant="contained" 
               color="primary"
 //               startIcon={<PersonOutlineOutlinedIcon />}

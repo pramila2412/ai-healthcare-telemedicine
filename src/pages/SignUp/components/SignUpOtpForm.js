@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export default function SignUpOtpForm({ phoneNumber, otp, setOtp, timer, setTimer, onSubmit, onBack, handleResendOtp }) {
   const inputRefs = useRef([]);

@@ -4,7 +4,13 @@ import React from "react";
  * PrimaryButton — the main green CTA button used across all registration steps.
  * (internal — not exported; only ever used inside ActionButtons)
  */
-const PrimaryButton = ({ children, onClick, disabled = false, type = "button", className = "" }) => (
+const PrimaryButton = ({
+  children,
+  onClick,
+  disabled = false,
+  type = "button",
+  className = "",
+}) => (
   <button
     type={type}
     onClick={!disabled ? onClick : undefined}
@@ -29,19 +35,27 @@ const PrimaryButton = ({ children, onClick, disabled = false, type = "button", c
  * SecondaryButton — ghost/subtle button for "Go Back" / "Skip for now".
  * (internal — not exported; only ever used inside ActionButtons)
  */
-const SecondaryButton = ({ children, onClick, variant = "back", type = "button" }) => {
-  const variantClass =
-    variant === "skip"
+const SecondaryButton = ({
+  children,
+  onClick,
+  variant = "back",
+  type = "button",
+  disabled = false,
+}) => {
+  const variantClass = disabled
+    ? "bg-[#F4F4F4] text-[#838383] cursor-not-allowed"
+    : variant === "skip"
       ? "bg-[#EEF4F3] text-[#096B58] hover:bg-[#ddf0ec]"
       : "bg-[#F5F5F5] text-[#096B58] hover:bg-[#EAEAEA] sm:bg-white";
 
   return (
     <button
       type={type}
-      onClick={onClick}
+      disabled={disabled}
+      onClick={!disabled ? onClick : undefined}
       className={`
         h-14 w-full sm:w-auto rounded-lg px-6 text-xs font-medium font-TypeFace
-        cursor-pointer transition-colors duration-150
+        transition-colors duration-150
         ${variantClass}
       `}
     >
@@ -49,7 +63,6 @@ const SecondaryButton = ({ children, onClick, variant = "back", type = "button" 
     </button>
   );
 };
-
 /**
  * ActionButtons — the Skip / Go Back / Next row shared by every registration
  * step's footer. Each slot is optional so a step can render just a single
@@ -81,7 +94,11 @@ const ActionButtons = ({ skip, back, next }) => {
   return (
     <>
       {skip && (
-        <SecondaryButton variant="skip" onClick={skip.onClick}>
+        <SecondaryButton
+          variant="skip"
+          onClick={skip.onClick}
+          disabled={skip.disabled}
+        >
           {skip.label}
         </SecondaryButton>
       )}

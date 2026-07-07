@@ -40,7 +40,7 @@ const UnitToggle = ({ value, options = [], onChange }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute -right-2.5 top-full mt-1 min-w-[56px] rounded-xl border border-[#E5E7EB] bg-white shadow-[0px_10px_28px_rgba(20,20,20,0.14)] overflow-hidden z-50">
+        <div className="absolute -right-2.5 top-full mt-1 min-w-14 rounded-xl border border-[#E5E7EB] bg-white shadow-[0px_10px_28px_rgba(20,20,20,0.14)] overflow-hidden z-50">
           {options.map((opt) => (
             <button
               key={opt}

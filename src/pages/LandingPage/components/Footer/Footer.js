@@ -1,7 +1,7 @@
-import "./Footer.css";
-import React from "react";
-import { Container } from "@mui/material";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import { Container } from "@mui/material";
+import React from "react";
+import "./Footer.css";
 
 import { Icon } from "@iconify/react";
 const footerLinks = [
@@ -38,7 +38,7 @@ const Footer = () => {
             <div className="mb-8">
               <div className="flex items-center mb-6">
                 <img
-                  src="/images/logo.png"
+                  src={logoImg}
                   alt="MedConnect Logo"
                   className="h-10 mr-2 hidden"
                   onError={(e) => {

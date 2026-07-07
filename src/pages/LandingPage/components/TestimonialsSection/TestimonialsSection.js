@@ -1,6 +1,6 @@
-import React from 'react';
-import { Container } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
+import { Container } from '@mui/material';
+import React from 'react';
 
 const testimonials = [
   {
