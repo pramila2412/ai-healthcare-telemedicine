@@ -1,37 +1,7 @@
 import StarIcon from '@mui/icons-material/Star';
 import { Container } from '@mui/material';
 import React from 'react';
-
-const testimonials = [
-  {
-    title: 'Fast & Reliable Lab Tests',
-    text: '“I scheduled my lab test online and received reports quickly.”',
-    name: 'John Smith',
-    role: 'Business Analyst',
-    avatar: 'https://i.pravatar.cc/150?u=john',
-  },
-  {
-    title: 'Consult Online',
-    text: '“Convenient online consultations from home.”',
-    name: 'Vikram Rao',
-    role: 'Accountant',
-    avatar: 'https://i.pravatar.cc/150?u=vikram',
-  },
-  {
-    title: 'Insurance Support',
-    text: '“Smooth and hassle-free insurance support.”',
-    name: 'Kavya',
-    role: 'Teacher',
-    avatar: 'https://i.pravatar.cc/150?u=kavya',
-  },
-  {
-    title: 'Hospital Care',
-    text: '“Quick booking and quality care.”',
-    name: 'Rahul Sharma',
-    role: 'Software Engineer',
-    avatar: 'https://i.pravatar.cc/150?u=rahul',
-  }
-];
+import { TESTIMONIALS as testimonials } from '../../../../shared/constants/landingPage';
 
 const TestimonialsSection = () => {
   return (
