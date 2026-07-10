@@ -5,6 +5,8 @@ import './HeroSection.css';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import heroImg from '../../../../assets/LandingPage/hero-image.png';
 import { Icon } from "@iconify/react";
+import { HERO_FEATURES } from '../../../../shared/constants/landingPage';
+
 const HeroSection = () => {
   return (
     <section className="section-padding overflow-hidden">
@@ -48,15 +50,10 @@ const HeroSection = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-nowrap gap-5 sm:gap-6 w-full lg:w-[115%] justify-items-start lg:justify-between relative z-10 mt-8 lg:mt-12">
-              {[
-                { icon: <Icon icon="codicon:workspace-trusted" className="text-primary text-[20px]" />, title: 'Trusted by', desc: '1M+ Patients' },
-                { icon: <Icon icon="si:verified-duotone" className="text-primary text-[20px]" />, title: 'Verified', desc: 'Healthcare Experts' },
-                { icon: <Icon icon="grommet-icons:secure" className="text-primary text-[20px]" />, title: 'Secure & Confidential', desc: 'Your data is protected' },
-                { icon: <Icon icon="streamline:customer-support-1" className="text-primary text-[20px]" />, title: '24/7 Care', desc: "We're here for you" }
-              ].map((item, index) => (
+              {HERO_FEATURES.map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-[#F7FBFA] flex items-center justify-center shrink-0">
-                    {item.icon}
+                    <Icon icon={item.icon} className="text-primary text-[20px]" />
                   </div>
                   <div>
                     <p className="font-semibold text-[#666666] text-xs leading-tight">

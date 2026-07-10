@@ -2,34 +2,7 @@ import { Icon } from "@iconify/react";
 import { Container } from '@mui/material';
 import React from 'react';
 import './ParticipantsSection.css';
-
-
-const participants = [
-  {
-    role: 'Patients',
-    desc: 'Manage your health and\naccess care'
-  },
-  {
-    role: 'Doctors',
-    desc: 'Doctor care and\nconsultations'
-  },
-  {
-    role: 'Hospitals',
-    desc: 'Streamline operations and\npatient care'
-  },
-  {
-    role: 'Laboratories',
-    desc: 'Accurate tests and timely\nreports'
-  },
-  {
-    role: 'Pharmacies',
-    desc: 'Dispense and deliver\nmedicine with ease'
-  },
-  {
-    role: 'Insurance',
-    desc: 'Simplify policies and\nclaims'
-  }
-];
+import { PARTICIPANTS as participants } from '../../../../shared/constants/landingPage';
 
 const ParticipantsSection = () => {
   return (
