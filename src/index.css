@@ -3,7 +3,26 @@
 
 @theme {
   --color-primary: #0D8B72;
+  --color-secondary: #EEF4F3;
   --font-TypeFace:"TypeFace" "Inter", "system-ui", "-apple-system", "sans-serif";
+}
+
+/* Force Tailwind classes in case JIT compiler is cached */
+.bg-primary { background-color: var(--color-primary) !important; }
+.bg-secondary { background-color: var(--color-secondary) !important; }
+.text-primary { color: var(--color-primary) !important; }
+.text-secondary { color: var(--color-secondary) !important; }
+
+.section-kicker {
+  font-family: var(--font-TypeFace);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #096B58;
+  display: block;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
 }
 
 /* Global Styles */
@@ -29,10 +48,10 @@ img {
 
 @layer components {
   .section-padding {
-    @apply py-16 md:py-24 bg-white;
+    @apply py-8 md:py-12 bg-white;
   }
   .section-overline {
-    @apply text-[var(--color-primary)] font-bold tracking-wide uppercase block mb-4;
+    @apply text-primary font-bold tracking-wide uppercase block mb-4;
   }
   .section-heading {
     @apply text-gray-900 font-extrabold text-3xl md:text-4xl lg:text-5xl leading-tight mb-6;
@@ -83,6 +102,8 @@ select {
 
 .date-input-empty {
   color: transparent;
+}
+
 /* ==========================================================================
    4K and Ultra-Large Screen Responsive Scaling
    ========================================================================== */

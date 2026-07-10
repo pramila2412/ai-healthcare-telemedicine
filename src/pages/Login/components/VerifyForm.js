@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function VerifyForm() {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Retrieve the phone number passed from the login form, fallback if none
   const phoneNumber = location.state?.phoneNumber || '+91 1010 110 100';
 
@@ -75,15 +75,14 @@ export default function VerifyForm() {
       return;
     }
     // Simulated authentication completion
-    alert(`Authenticating OTP: ${code}`);
     navigate('/'); // Redirect to landing page / dashboard
   };
 
   return (
-    <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-[600px] lg:min-h-auto">
+    <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-150 lg:min-h-auto">
       {/* Back Button */}
-      <button 
-        onClick={() => navigate('/login')} 
+      <button
+        onClick={() => navigate('/login')}
         className="flex items-center gap-2 text-slate-500 hover:text-emerald-700 transition-colors text-xs font-semibold py-1.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 cursor-pointer self-start shadow-2xs"
       >
         <svg className="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -96,15 +95,15 @@ export default function VerifyForm() {
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="login-form-title text-3xl font-bold text-slate-800 tracking-tight">Secure Access</h2>
-          <p className="login-form-desc text-xs text-gray-500 mt-2 max-w-xs mx-auto leading-relaxed">
+          <p className="login-form-desc text-sm text-gray-500 mt-2 max-w-xs mx-auto leading-relaxed">
             We've sent a 6-digit verification code to your registered phone number.
           </p>
-          
+
           {/* Phone Display with Edit */}
-          <div className="flex items-center justify-center gap-2 mt-4 bg-slate-50 border border-slate-100 rounded-full py-1.5 px-4 w-fit mx-auto shadow-xs">
+          <div className="flex items-center justify-center gap-2 mt-4 py-1.5 px-4 w-fit mx-auto ">
             <span className="text-xs font-bold text-slate-800 tracking-wide">{phoneNumber}</span>
-            <button 
-              onClick={() => navigate('/login')} 
+            <button
+              onClick={() => navigate('/login')}
               className="flex items-center gap-1 text-[10px] font-bold text-emerald-700 hover:text-emerald-800 transition-colors border border-emerald-100/80 bg-white hover:bg-emerald-50/50 py-0.5 px-2 rounded-md cursor-pointer shadow-2xs"
             >
               <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -140,8 +139,8 @@ export default function VerifyForm() {
             <p className="text-[11px] text-emerald-700/80 mt-2 font-medium">We have sent you an OTP!</p>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="login-form-btn w-full bg-emerald-800 hover:bg-emerald-900 text-white font-medium text-sm py-3 px-4 rounded-xl shadow-md transition-colors duration-200 mt-4 cursor-pointer"
           >
             Verify OTP
@@ -161,8 +160,8 @@ export default function VerifyForm() {
                 </svg>
               </span>
             ) : (
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={handleResend}
                 className="text-emerald-700 font-semibold underline hover:text-emerald-800 cursor-pointer"
               >
@@ -174,11 +173,12 @@ export default function VerifyForm() {
       </div>
 
       {/* Compliance Badge */}
-      <div className="border border-gray-100 rounded-2xl p-4 bg-slate-50/50 flex items-start gap-3 max-w-md mx-auto w-full mt-4 lg:mt-0 shadow-xs">
-        <div className="p-2 bg-emerald-100 text-emerald-800 rounded-lg shrink-0">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+      <div className="border mb-8 border-gray-100 rounded-2xl p-4 bg-slate-50/50 flex items-start gap-3 max-w-md mx-auto w-full mt-4 lg:mt-0 shadow-xs">
+        <div className=" text-emerald-800 rounded-lg shrink-0">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.25 2.501C10.644 2.614 9.932 2.858 8.838 3.233L8.265 3.428C5.258 4.458 3.755 4.972 3.378 5.51C3.008 6.036 3 7.578 3 10.638L11.25 10.888V2.501ZM11.25 12.468L3 12.218V12.419C3 18.057 7.239 20.793 9.899 21.955C10.409 22.178 10.739 22.322 11.25 22.387V12.468ZM12.75 22.388V12.468L21 12.218V12.419C21 18.057 16.761 20.793 14.101 21.955C13.591 22.178 13.261 22.323 12.75 22.388ZM12.75 10.888V2.5C13.356 2.613 14.068 2.857 15.162 3.232L15.735 3.428C18.742 4.457 20.245 4.971 20.622 5.509C20.992 6.035 21 7.577 21 10.636L12.75 10.888Z" fill="#096B58" />
           </svg>
+
         </div>
         <div>
           <h4 className="login-form-hipaa-badge-title text-xs font-bold text-slate-800 leading-tight">Secure & HIPAA Ready</h4>

@@ -14,7 +14,7 @@
     "**/dist": true
   },
   "[javascript]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
   "[jsx]": {
@@ -22,5 +22,22 @@
     "editor.formatOnSave": false
   },
   "javascript.suggest.paths": false,
-  "typescript.suggest.paths": false
+  "typescript.suggest.paths": false,
+  "cSpell.words": [
+    "AAABBB",
+    "ABCDEFGHJKLMNPQRSTUVWXYZ",
+    "Comwhite",
+    "Hiswhite",
+    "hugeicons",
+    "iconify",
+    "Infor",
+    "Inforwhite",
+    "insur",
+    "Medi",
+    "Recwhite",
+    "Swal",
+    "tabler",
+    "Telemedicine",
+    "userwhite"
+  ]
 }

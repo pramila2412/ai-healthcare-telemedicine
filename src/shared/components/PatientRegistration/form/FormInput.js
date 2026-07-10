@@ -1,23 +1,5 @@
 import React from "react";
 
-/**
- * FormInput — reusable text/number/tel input field with icon and inline error.
- *
- * Props:
- *   name        {string}   — input name attribute
- *   value       {string}   — controlled value
- *   onChange    {fn}       — (e) => void
- *   onBlur      {fn}       — (e) => void
- *   placeholder {string}
- *   type        {string}   — "text" | "number" | "tel" | "email"  (default: "text")
- *   icon        {string}   — SVG src for left icon
- *   iconAlt     {string}   — alt text for icon
- *   error       {string}   — error message (empty = no error)
- *   showError   {boolean}  — whether to display the error
- *   disabled    {boolean}
- *   className   {string}   — extra classes appended to the <input>
- *   suffix      {node}     — element rendered on the right (e.g. unit toggle)
- */
 const FormInput = ({
   name,
   value,
@@ -32,12 +14,19 @@ const FormInput = ({
   disabled = false,
   className = "",
   suffix,
+  prefix,
 }) => {
   const baseClass =
-    "h-10 w-full rounded-lg border border-[#E5E7EB] bg-white text-xs font-normal text-[#141414] outline-none placeholder:text-[#666666] focus:border-[#096B58] transition-colors duration-150";
+    "h-10 w-full rounded-lg border-[0.5px] border-[#D0D0D0] text-xs font-normal outline-none transition-colors duration-150";
 
-  const errorClass = showError && error ? "border-[#EF4444]" : "";
-  const disabledClass = disabled ? "bg-[#F5F5F5] text-[#666666] cursor-not-allowed" : "";
+  const normalClass =
+    "bg-white text-[#141414] placeholder:text-[#666666] focus:border-[#096B58]";
+
+  const disabledClass =
+    "bg-[#F4F4F4] border-[0.5px] border-[#D0D0D0] text-[#8A8A8A] placeholder:text-[#8A8A8A] cursor-not-allowed";
+
+  const errorClass =
+    showError && error ? "border-[#EF4444]" : "";
 
   return (
     <div className="relative">
@@ -46,8 +35,17 @@ const FormInput = ({
         <img
           src={icon}
           alt={iconAlt}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 z-10 pointer-events-none"
+          className={`absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 z-10 pointer-events-none ${
+            disabled ? "opacity-50" : ""
+          }`}
         />
+      )}
+
+      {/* Left prefix */}
+      {prefix && (
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-[#666666] z-10 pointer-events-none">
+          {prefix}
+        </div>
       )}
 
       <input
@@ -58,17 +56,24 @@ const FormInput = ({
         onBlur={onBlur}
         placeholder={placeholder}
         disabled={disabled}
-        className={`${baseClass} ${errorClass} ${disabledClass} ${icon ? "pl-12" : "px-4"} ${suffix ? "pr-20" : ""} ${className}`}
+        className={`
+          ${baseClass}
+          ${disabled ? disabledClass : normalClass}
+          ${errorClass}
+          ${icon || prefix ? "pl-12" : "px-4"}
+          ${suffix ? "pr-20" : ""}
+          ${className}
+        `}
       />
 
-      {/* Right suffix slot (unit toggle, calendar icon, etc.) */}
+      {/* Right suffix */}
       {suffix && (
         <div className="absolute right-3 top-1/2 -translate-y-1/2">
           {suffix}
         </div>
       )}
 
-      {/* Inline error */}
+      {/* Error */}
       {showError && error && (
         <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-[#EF4444] leading-none">
           {error}

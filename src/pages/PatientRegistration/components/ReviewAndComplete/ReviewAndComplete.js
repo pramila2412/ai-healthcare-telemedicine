@@ -11,6 +11,9 @@ import React, { useState } from "react";
 
 import InfoChip from "@/shared/components/PatientRegistration/common/InfoChip";
 import SectionHeader from "@/shared/components/PatientRegistration/common/SectionHeader";
+import { setReviewComplete } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+import { selectReviewComplete } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+import { useDispatch, useSelector } from "react-redux";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const randomSuffix = () => {
@@ -297,14 +300,28 @@ const PasswordInput = ({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 const ReviewAndComplete = ({ setActiveStep }) => {
-  const [idSuffix, setIdSuffix] = useState("7G3H81");
-  const [idStatus, setIdStatus] = useState("default");
+  const dispatch = useDispatch();
+  const reviewComplete = useSelector(selectReviewComplete);
+
   const [suggestions, setSuggestions] = useState(() => generateSuggestions());
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [touched, setTouched] = useState({ password: false, confirm: false });
   const [confirmError, setConfirmError] = useState("");
 
+  const [idSuffix, setIdSuffix] = useState(
+    reviewComplete?.uniqueId
+      ? reviewComplete.uniqueId.replace("PAT-", "")
+      : "7G3H81",
+  );
+
+  const [password, setPassword] = useState(reviewComplete?.password || "");
+
+  const [confirmPassword, setConfirmPassword] = useState(
+    reviewComplete?.password || "",
+  );
+  const [idStatus, setIdStatus] = useState(
+    reviewComplete?.uniqueId ? "available" : "default",
+  );
   // ── Derived ──────────────────────────────────────────────────────────────────
   const passwordError = !password
     ? "Please enter a password!"
@@ -365,10 +382,18 @@ const ReviewAndComplete = ({ setActiveStep }) => {
 
   const handleCreateProfile = () => {
     if (!isFormValid) return;
-    onCreateProfile?.({ id: `PAT-${idSuffix}`, password });
+
+    dispatch(
+      setReviewComplete({
+        uniqueId: `PAT-${idSuffix}`,
+        password,
+      }),
+    );
+
+    setActiveStep("created");
   };
 
-  const handleGoBack = () => setActiveStep("additional");
+  const handleGoBack = () => setActiveStep("records");
 
   // ─── Render ───────────────────────────────────────────────────────────────────
   return (
@@ -421,11 +446,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
           {/* Chips */}
           <div className="flex flex-wrap gap-2.5">
             {suggestions.map((s) => (
-              <InfoChip
-                key={s}
-                label={s}
-                onSelect={handleSuggestionSelect}
-              />
+              <InfoChip key={s} label={s} onSelect={handleSuggestionSelect} />
             ))}
           </div>
         </div>

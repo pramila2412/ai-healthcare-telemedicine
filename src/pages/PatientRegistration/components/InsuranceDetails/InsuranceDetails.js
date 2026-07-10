@@ -9,7 +9,7 @@ import FormInput from "../../../../shared/components/PatientRegistration/form/Fo
 import FormSelect from "../../../../shared/components/PatientRegistration/form/FormSelect";
 import FilePreviewCard from "../../../../shared/components/PatientRegistration/upload/FilePreviewCard";
 import UploadBox from "../../../../shared/components/PatientRegistration/upload/UploadBox";
-import { insuranceProviders } from "../../../../shared/constants/PatientRegistration/registrationConfig";
+import { insuranceProviders } from "../../../../shared/constants/patientRegistration/registrationConfig";
 import {
   isValidFileSize,
   isValidFileType,

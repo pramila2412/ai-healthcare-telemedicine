@@ -1,105 +1,105 @@
-import './TestimonialsSection.css';
-import React from 'react';
+import StarIcon from '@mui/icons-material/Star';
 import { Container } from '@mui/material';
-
-const testimonials = [
-  {
-    title: 'Fast & Reliable Lab Tests',
-    text: '“I scheduled my lab test online and received reports quickly.”',
-    name: 'John Smith',
-    role: 'Business Analyst',
-    avatar: '/images/testimonial-1.png',
-  },
-  {
-    title: 'Consult Online',
-    text: '“Convenient online consultations from home.”',
-    name: 'Vikram Rao',
-    role: 'Accountant',
-    avatar: '/images/testimonial-2.png',
-  },
-  {
-    title: 'Insurance Support',
-    text: '“Smooth and hassle-free insurance support.”',
-    name: 'Kavya',
-    role: 'Teacher',
-    avatar: '/images/testimonial-3.png',
-  },
-  {
-    title: 'Hospital Care',
-    text: '“Quick booking and quality care.”',
-    name: 'Rahul Sharma',
-    role: 'Software Engineer',
-    avatar: '/images/testimonial-4.png',
-  }
-];
+import React from 'react';
+import { TESTIMONIALS as testimonials } from '../../../../shared/constants/landingPage';
 
 const TestimonialsSection = () => {
   return (
-    <section className="section-padding">
+    <section className="py-8 md:py-12 bg-white">
       <Container maxWidth="lg">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-0 items-center">
+        <div className="flex flex-col lg:flex-row items-start gap-12">
           
           {/* Left Text Content */}
-          <div className="flex-none w-full lg:w-[230px]">
-            <span className="section-overline">
-              WHAT OUR PATIENTS SAY
+          <div className="flex-none w-full lg:w-[240px]">
+            <span className="section-kicker">
+              What our patients say
             </span>
-            <h2 className="text-gray-900 font-semibold mb-6 text-2xl md:text-[1.75rem] leading-tight">
+            <h2 className="text-[#141414] font-bold mb-4 text-3xl leading-tight">
               Trusted by Millions
             </h2>
-            <p className="text-[#666666] leading-relaxed">
-              From booking to recovery, we make<br />
-              healthcare simple, accessible and<br />
-              personalized for you.
+            <p className="text-[#666666] text-[14px] leading-relaxed">
+              From booking to recovery, we make healthcare simple, accessible and personalized.
             </p>
           </div>
 
-          {/* Right Cards Content */}
-          <div className="flex-auto flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
-            {testimonials.map((testimonial, index) => (
-              <div 
-                key={index}
-                className="w-[235px] h-[210px] flex-none flex flex-col rounded border border-[#D0D0D0] bg-[#FBFBFB] p-1"
-              >
-                <div className="flex-grow flex flex-col p-3 pb-3">
-                  <div className="flex items-center mb-4">
-                    <div className="flex items-center text-[#FBC02D] gap-0.5">
+          {/* Card Scroll Area */}
+          <div className="flex-grow w-full min-w-0">
+            <div className="flex overflow-x-auto py-4 px-1 gap-4 snap-x scrollbar-hide">
+              
+              {testimonials.map((item, index) => (
+                /* --- CARD UI START --- */
+                <div 
+                  key={index}
+                  className="
+                    flex flex-col 
+                    w-[206px] 
+                    h-auto 
+                    rounded-[12px] 
+                    border border-[#D0D0D0]
+                    bg-[#FBFBFB] 
+                    p-[16px] 
+                    gap-[16px] 
+                    snap-start
+                    shrink-0
+                    cursor-pointer
+                    transition-all duration-300 ease-out
+                    hover:-translate-y-1
+                    hover:scale-[1.02]
+                    hover:shadow-[0_16px_40px_rgba(20,147,123,0.15),0_4px_12px_rgba(0,0,0,0.06)]
+                    hover:border-[#14937B]
+                  "
+                >
+                  {/* 1. Rating Flow */}
+                  <div className="flex items-center gap-1.5">
+                    <div className="flex text-[#FFC955]">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-                          <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
-                        </svg>
+                        <StarIcon key={i} style={{ fontSize: '14px' }} />
                       ))}
                     </div>
-                    <span className="ml-2 text-gray-700 font-semibold text-sm">5/5</span>
+                    <span className="text-[#141414] font-bold text-[12px]">5/5</span>
                   </div>
-                  <h3 className="font-normal text-gray-900 mb-3 text-[0.95rem]">
-                    {testimonial.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 flex-grow leading-relaxed text-sm">
-                    {testimonial.text}
-                  </p>
-                  <div className="flex items-center mt-auto mb-2">
+
+                  {/* 2. Content Flow (Title + Quote) */}
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-[#343434] font-bold text-[14px] leading-snug">
+                      {item.title}
+                    </h3>
+                    <p className="text-[#343434] text-[12px] leading-relaxed">
+                      {item.text}
+                    </p>
+                  </div>
+
+                  {/* 3. Profile Flow */}
+                  <div className="flex items-center gap-3 mt-auto">
                     <img 
-                      src={testimonial.avatar} 
-                      alt={testimonial.name} 
-                      className="w-9 h-9 rounded-full object-cover mr-4"
+                      src={item.avatar} 
+                      alt={item.name} 
+                      className="w-[36px] h-[36px] rounded-full object-cover border border-gray-100"
                     />
-                    <div>
-                      <h4 className="font-bold text-gray-900 leading-tight text-sm">
-                        {testimonial.name}
-                      </h4>
-                      <p className="text-gray-500 text-xs">
-                        {testimonial.role}
-                      </p>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-[#343434] text-[13px] leading-none mb-1">
+                        {item.name}
+                      </span>
+                      <span className="text-[#838383] text-[11px]">
+                        {item.role}
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+                /* --- CARD UI END --- */
+              ))}
+
+            </div>
           </div>
 
         </div>
       </Container>
+
+      {/* Utility style to hide scrollbar while swiping */}
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </section>
   );
 };

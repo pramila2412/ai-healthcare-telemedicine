@@ -1,12 +1,11 @@
-import './CtaSection.css';
-import React from 'react';
 import { Container } from '@mui/material';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
-
+import React from 'react';
+import './CtaSection.css';
+import bookingImg from '../../../../assets/LandingPage/booking.png';
+import { Icon } from "@iconify/react";
 const CtaSection = () => {
   return (
-    <section className="py-16 md:py-32 bg-white">
+    <section className="py-6 md:py-10 bg-white">
       <Container maxWidth="lg">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           
@@ -14,7 +13,7 @@ const CtaSection = () => {
           <div className="w-full md:w-1/2">
             <div className="relative flex justify-center">
               <img
-                src="/images/booking.png"
+                src={bookingImg}
                 alt="Medical professionals"
                 className="w-full max-w-[600px] h-auto object-cover hidden"
                 style={{
@@ -48,12 +47,14 @@ const CtaSection = () => {
               </p>
               
               <div className="flex flex-col items-start gap-4 w-full max-w-[360px]">
-                <button className="w-full py-3.5 flex items-center justify-center gap-2 text-base font-semibold bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors border-none cursor-pointer">
-                  <CalendarTodayOutlinedIcon className="text-[20px]" />
+                <button className="w-full py-3.5 flex items-center justify-center gap-2 text-base font-normal bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors border-none cursor-pointer">
+                   <Icon
+                                            icon="uil:calender" className="text-[20px]" />
                   Book Appointment
                 </button>
-                <button className="w-full py-3.5 flex items-center justify-center gap-2 text-base font-semibold border-[1.5px] border-primary text-primary bg-transparent rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
-                  <VideocamOutlinedIcon className="text-[20px]" />
+                <button className="w-full py-3.5 flex items-center justify-center gap-2 text-base font-normal border border-primary text-primary bg-transparent rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
+                  <Icon
+                                           icon="tabler:video" className="text-[20px]" />
                   Consult Online
                 </button>
               </div>
