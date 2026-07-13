@@ -4,7 +4,7 @@ import React from "react";
 import logo from "@assets/assets/logo.svg";
 import tick from "@assets/patientRegistration/tick.svg";
 
-import { REGISTRATION_STEPS } from "@/shared/constants/patientRegistration/registrationSteps";
+import { REGISTRATION_STEPS } from "@/shared/constants/PatientRegistration/registrationSteps";
 import ProfileProgressCard from "./ProfileProgressCard";
 
 const RegistrationSidebar = ({

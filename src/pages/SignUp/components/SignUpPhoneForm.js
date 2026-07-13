@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { setPhoneNumbers } from "../../../state-management/modules/security/securityActions";
 
 export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, onSubmit, onBack }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [error, setError] = useState('');
 
   const handlePhoneChange = (e) => {
@@ -22,6 +25,7 @@ export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, onSubmit,
       return;
     }
     setError('');
+    dispatch(setPhoneNumbers(`+91 ${phoneNumber}`));
     onSubmit(e);
   };
 

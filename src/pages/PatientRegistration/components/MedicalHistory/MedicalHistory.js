@@ -142,7 +142,7 @@ const MedicalHistory = () => {
   );
 
   return (
-    <div className="px-7 md:px-10 mt-6 md:mt-12 pb-8">
+    <div className="px-7 md:px-10 mt-6 md:mt-12 pb-8 h-[calc(100vh-160px)] overflow-y-auto">
       <div className="max-w-[880px] space-y-8">
         {renderTextAreaWithCounter({
           label: "Allergies",
@@ -176,7 +176,7 @@ const MedicalHistory = () => {
         })}
       </div>
 
-      <div className="mt-16 md:mt-24 flex items-center justify-between pb-10 md:pb-0">
+      <div className="mt-16 md:mt-24 flex items-center justify-between pb-10 md:pb-10">
         <ActionButtons
           skip={{
             label: "Skip for now",

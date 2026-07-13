@@ -1,7 +1,8 @@
 import AvailableIcon from "@assets/patientRegistration/AvailableIcon.svg";
 import CheckCircleIcon from "@assets/patientRegistration/CheckCircleIcon.svg";
 import CircleIcon from "@assets/patientRegistration/CircleIcon.svg";
-import EyeIcon from "@assets/patientRegistration/eye.svg";
+import EyeOff from "@assets/patientRegistration/eye.svg";
+import EyeOn from "@assets/patientRegistration/eyeOn.svg";
 import LockIcon from "@assets/patientRegistration/lock.svg";
 import RefreshIcon from "@assets/patientRegistration/refresh.svg";
 import TakenIcon from "@assets/patientRegistration/TakenIcon.svg";
@@ -14,6 +15,7 @@ import SectionHeader from "@/shared/components/PatientRegistration/common/Sectio
 import { setReviewComplete } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectReviewComplete } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const randomSuffix = () => {
@@ -277,14 +279,17 @@ const PasswordInput = ({
             className="flex-1 border-none bg-transparent text-xs font-normal text-[#141414] outline-none placeholder:text-[#999999] font-TypeFace"
           />
 
-          {/* Eye — 24×24, single asset */}
           <button
             type="button"
             onClick={() => setVisible((v) => !v)}
-            className={`flex shrink-0 items-center border-none bg-transparent p-0 cursor-pointer transition-opacity ${visible ? "opacity-100" : "opacity-40"}`}
+            className="flex shrink-0 items-center border-none bg-transparent p-0 cursor-pointer"
             aria-label={visible ? "Hide password" : "Show password"}
           >
-            <img src={EyeIcon} alt="" className="h-6 w-6" />
+            <img
+              src={visible ? EyeOn : EyeOff}
+              alt={visible ? "Hide password" : "Show password"}
+              className="h-6 w-6"
+            />
           </button>
         </div>
 
@@ -313,6 +318,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
       ? reviewComplete.uniqueId.replace("PAT-", "")
       : "7G3H81",
   );
+  
 
   const [password, setPassword] = useState(reviewComplete?.password || "");
 
@@ -513,7 +519,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
       {/* ══════════════════════════════════════════════════════════════════
           FOOTER — absolute, pinned to bottom of the panel
       ══════════════════════════════════════════════════════════════════ */}
-      <div className="mt-2 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-4 px-7 pb-10 md:absolute md:bottom-8 md:left-0 md:right-2 md:pb-0 md:px-10 md:gap-6 md:mt-0">
+      <div className="mt-2 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-4 px-7 pb-10 md:absolute md:bottom-10 md:left-0 md:right-0 md:pb-0 md:px-10 md:gap-6 md:mt-0">
         {/* Go Back */}
         <button
           type="button"
