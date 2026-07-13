@@ -7,7 +7,7 @@ import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect"
 import FilePreviewCard from "@/shared/components/PatientRegistration/upload/FilePreviewCard";
 import UploadBox from "@/shared/components/PatientRegistration/upload/UploadBox";
 
-import { insuranceTypes } from "@/shared/constants/patientRegistration/registrationConfig";
+import { insuranceTypes } from "@/shared/constants/PatientRegistration/registrationConfig";
 
 import {
   formatFileSize,

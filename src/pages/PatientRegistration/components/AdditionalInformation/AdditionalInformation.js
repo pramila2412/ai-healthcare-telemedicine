@@ -2,7 +2,7 @@ import ActionButtons from "@/shared/components/PatientRegistration/common/Action
 import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
 import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
 import UnitToggle from "@/shared/components/PatientRegistration/form/UnitToggle";
-import { isValid, validateAdditionalInfo, validators } from "@/shared/constants/patientRegistration/validation";
+import { isValid, validateAdditionalInfo, validators } from "@/shared/constants/PatientRegistration/validation";
 import { setActiveStep, setAdditionalInfo, } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectAdditionalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 import React, { useRef, useState } from "react";
@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   activityLevels, alcoholOptions, dietaryPreferences, heightUnits, relationships, smokingStatuses,
   weightUnits,
-} from "../../../../shared/constants/patientRegistration/registrationConfig";
+} from "../../../../shared/constants/PatientRegistration/registrationConfig";
 
 // ── AdditionalInformation ──────────────────────────────────────────────────────
 const AdditionalInformation = () => {
