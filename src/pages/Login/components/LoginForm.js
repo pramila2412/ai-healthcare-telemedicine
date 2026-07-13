@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const validateUniqueId = (id) => {
@@ -59,7 +58,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-150 lg:min-h-auto font-TypeFace">
+    <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-[600px] lg:min-h-auto font-TypeFace">
       <div className="hidden lg:block h-6"></div>
 
       <div className="max-w-md w-full mx-auto my-auto py-6">

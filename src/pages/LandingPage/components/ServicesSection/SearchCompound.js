@@ -1,28 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Container } from "@mui/material";
 import { Icon } from "@iconify/react";
- 
-const locations = [
-  "New York",
-  "Los Angeles",
-  "Chicago",
-  "Houston",
-  "Phoenix",
-  "Philadelphia",
-  "San Antonio",
-  "San Diego",
-  "Dallas",
-  "San Jose",
-];
+import { SEARCH_LOCATIONS as locations, POPULAR_SEARCHES as popularSearches } from "../../../../shared/constants/landingPage";
  
 const SearchCompound = () => {
-  const popularSearches = [
-    "Dermatologist",
-    "Gynecologist",
-    "Paediatrician",
-    "Orthopaedic",
-    "Dentist",
-  ];
  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
