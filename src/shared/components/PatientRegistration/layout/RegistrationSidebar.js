@@ -1,12 +1,12 @@
 import { X } from "lucide-react";
 import React from "react";
-
+ 
 import logo from "@assets/assets/logo.svg";
 import tick from "@assets/patientRegistration/tick.svg";
-
+ 
 import { REGISTRATION_STEPS } from "@/shared/constants/PatientRegistration/registrationSteps";
 import ProfileProgressCard from "./ProfileProgressCard";
-
+ 
 const RegistrationSidebar = ({
   activeStep,
   setActiveStep,
@@ -16,23 +16,23 @@ const RegistrationSidebar = ({
 }) => {
   const patientInfo =
     JSON.parse(localStorage.getItem("patientInformation")) || {};
-
+ 
   const hasValue = (value) => {
   if (Array.isArray(value)) {
     return value.length > 0;
   }
-
+ 
   if (typeof value === "string") {
     return value.trim().length > 0;
   }
-
+ 
   if (value && typeof value === "object") {
     return Object.values(value).some(hasValue);
   }
-
+ 
   return value !== null && value !== undefined && value !== false;
 };
-
+ 
 const isStepCompleted = (key) => {
   switch (key) {
     case "personal":
@@ -44,13 +44,13 @@ const isStepCompleted = (key) => {
         patientInfo.personalInformation?.state &&
         patientInfo.personalInformation?.city
       );
-
+ 
     case "additional":
       return !!(
         patientInfo.additionalInformation?.emergencyRelationship?.trim() &&
         patientInfo.additionalInformation?.emergencyContact?.trim()
       );
-
+ 
     case "medical":
       return (
         hasValue(patientInfo.medicalHistory?.allergies) ||
@@ -60,7 +60,7 @@ const isStepCompleted = (key) => {
         hasValue(patientInfo.medicalHistory?.conditionTags) ||
         hasValue(patientInfo.medicalHistory?.previousSurgeries)
       );
-
+ 
     case "insurance":
       return (
         hasValue(patientInfo.insuranceInformation?.insuranceType) ||
@@ -68,28 +68,28 @@ const isStepCompleted = (key) => {
         hasValue(patientInfo.insuranceInformation?.insuranceCards) ||
         hasValue(patientInfo.insuranceInformation?.insuranceCard)
       );
-
+ 
     case "records":
       return (
         Array.isArray(patientInfo.healthRecords) &&
         patientInfo.healthRecords.length > 0
       );
-
+ 
     default:
       return false;
   }
 };
-
+ 
   const resolveIcon = (step, isActive) => {
     if (isActive) return step.activeIcon;
     if (isStepCompleted(step.key)) return tick;
     if (step.unlockedIcon && isStepCompleted("personal")) {
       return step.unlockedIcon;
     }
-
+ 
     return step.icon;
   };
-
+ 
   return (
     <>
       <div className="hidden md:block relative w-85.5 min-h-screen bg-[#FBFBFB] border-r border-[#E6E6E6]">
@@ -99,22 +99,22 @@ const isStepCompleted = (key) => {
             alt="MediConnect"
             className="w-12 h-11 object-contain"
           />
-
+ 
           <div className="flex flex-col">
             <h1 className="text-[16px] font-semibold leading-none text-[#096B58]">
               MediConnect
             </h1>
-
+ 
             <p className="text-[10px] font-normal leading-2.5 text-primary">
               Healthcare Ecosystem
             </p>
           </div>
         </div>
-
+ 
         <div className="absolute top-39 left-10 w-65.5 min-h-122">
           {REGISTRATION_STEPS.map((step, index) => {
             const isActive = activeStep === step.key;
-
+ 
             return (
               <div key={step.key}>
                 <div
@@ -134,7 +134,7 @@ const isStepCompleted = (key) => {
                       className="w-6 h-6"
                     />
                   </div>
-
+ 
                   <div
                     className={`flex-1 ${
                       isActive
@@ -156,7 +156,7 @@ const isStepCompleted = (key) => {
                     </span>
                   </div>
                 </div>
-
+ 
                 {index !== REGISTRATION_STEPS.length - 1 && (
                   <div
                     className={`ml-3.5 h-9 w-0.5 ${
@@ -170,10 +170,10 @@ const isStepCompleted = (key) => {
             );
           })}
         </div>
-
+ 
         <ProfileProgressCard variant="desktop" progress={progress} />
       </div>
-
+ 
       <div
         className={`fixed inset-0 z-50 bg-[#000000]/40 backdrop-blur-xs transition-opacity duration-300 md:hidden ${
           isOpen
@@ -182,7 +182,7 @@ const isStepCompleted = (key) => {
         }`}
         onClick={onClose}
       />
-
+ 
       <div
         className={`fixed inset-y-0 left-0 z-50 flex w-[320px] max-w-[85vw] flex-col bg-[#FBFBFB] border-r border-[#E6E6E6] pt-10 pb-10 shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -195,18 +195,18 @@ const isStepCompleted = (key) => {
               alt="MediConnect"
               className="w-12 h-11 object-contain"
             />
-
+ 
             <div className="flex flex-col">
               <h1 className="text-[16px] font-semibold leading-none text-[#096B58]">
                 MediConnect
               </h1>
-
+ 
               <p className="text-[10px] font-normal leading-2.5 text-primary">
                 Healthcare Ecosystem
               </p>
             </div>
           </div>
-
+ 
           <button
             type="button"
             onClick={onClose}
@@ -217,11 +217,11 @@ const isStepCompleted = (key) => {
             <X size={18} strokeWidth={2} />
           </button>
         </div>
-
+ 
         <div className="flex flex-col gap-0 mt-8 overflow-y-auto flex-1 pl-10 pr-6 py-1">
           {REGISTRATION_STEPS.map((step, index) => {
             const isActive = activeStep === step.key;
-
+ 
             return (
               <div key={step.key} className="flex flex-col">
                 <div
@@ -244,7 +244,7 @@ const isStepCompleted = (key) => {
                       className="w-6 h-6"
                     />
                   </div>
-
+ 
                   <div
                     className={`flex-1 ${
                       isActive
@@ -266,7 +266,7 @@ const isStepCompleted = (key) => {
                     </span>
                   </div>
                 </div>
-
+ 
                 {index !== REGISTRATION_STEPS.length - 1 && (
                   <div
                     className={`ml-3.5 h-7 w-0.5 ${
@@ -280,7 +280,7 @@ const isStepCompleted = (key) => {
             );
           })}
         </div>
-
+ 
         <div className="px-10 mt-auto shrink-0">
           <ProfileProgressCard variant="mobile" progress={progress} />
         </div>
@@ -288,5 +288,5 @@ const isStepCompleted = (key) => {
     </>
   );
 };
-
+ 
 export default RegistrationSidebar;

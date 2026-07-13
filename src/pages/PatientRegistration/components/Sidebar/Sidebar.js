@@ -1,28 +1,28 @@
 import React from "react";
 import { X } from "lucide-react";
-
+ 
 import logo from "../../../../assets/assets/logo.svg";
 import time from "../../../../assets/patientRegistration/time.svg";
-
+ 
 import user from "../../../../assets/patientRegistration/user.svg";
 import userwhite from "../../../../assets/patientRegistration/userwhite.svg";
-
+ 
 import AddInfor from "../../../../assets/patientRegistration/AddInfor.svg";
 import AddInforwhite from "../../../../assets/patientRegistration/AddInforwhite.svg";
-
+ 
 import medHis from "../../../../assets/patientRegistration/medHis.svg";
 import medHiswhite from "../../../../assets/patientRegistration/medHiswhite.svg";
-
+ 
 import insurInfor from "../../../../assets/patientRegistration/insurInfor.svg";
 import insurInforwhite from "../../../../assets/patientRegistration/insurInforwhite.svg";
-
+ 
 import healthRec from "../../../../assets/patientRegistration/healthRec.svg";
 import healthRecwhite from "../../../../assets/patientRegistration/healthRecwhite.svg";
-
+ 
 import reviewCom from "../../../../assets/patientRegistration/review&com.svg";
 import reviewCom1 from "../../../../assets/patientRegistration/review&com1.svg";
 import reviewComwhite from "../../../../assets/patientRegistration/reviewComwhite.svg";
-
+ 
 import tick from "../../../../assets/patientRegistration/tick.svg";
 import { useSelector } from "react-redux";
 import {
@@ -33,7 +33,7 @@ import {
   selectHealthRecords,
   selectReviewComplete,
 } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
-
+ 
 const steps = [
   {
     key: "personal",
@@ -72,7 +72,7 @@ const steps = [
     activeIcon: reviewComwhite,
   },
 ];
-
+ 
 const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
   const personalInformation = useSelector(selectPersonalInfo);
   const additionalInformation = useSelector(selectAdditionalInfo);
@@ -80,7 +80,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
   const insuranceInformation = useSelector(selectInsuranceInfo);
   const healthRecords = useSelector(selectHealthRecords);
   const reviewComplete = useSelector(selectReviewComplete);
-
+ 
   const isStepCompleted = (key) => {
     switch (key) {
       case "personal":
@@ -99,10 +99,10 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
         return false;
     }
   };
-
+ 
   const internalCalculateProgress = () => {
     let internalProgress = 10; // base 10% always
-
+ 
     // Personal Information — all fields must have data (+10%)
     const personal = patientInfo.personalInformation;
     if (
@@ -115,7 +115,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
     ) {
       internalProgress += 20;
     }
-
+ 
     // Additional Information (+20%)
     const additional = patientInfo.additionalInformation;
     if (
@@ -126,7 +126,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
     ) {
       internalProgress += 10;
     }
-
+ 
     // Medical History (+10%)
     const medical = patientInfo.medicalHistory;
     if (
@@ -137,7 +137,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
     ) {
       internalProgress += 20;
     }
-
+ 
     // Insurance Information (+20%)
     const insurance = patientInfo.insuranceInformation;
     if (
@@ -148,7 +148,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
     ) {
       internalProgress += 10;
     }
-
+ 
     // Health Records (+15%)
     const records = patientInfo.healthRecords;
     if (
@@ -159,7 +159,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
     ) {
       internalProgress += 15;
     }
-
+ 
     // Review & Complete (+15%)
     const review = patientInfo.reviewComplete;
     if (
@@ -170,13 +170,13 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
     ) {
       internalProgress += 15;
     }
-
+ 
     return internalProgress;
   };
-
+ 
   const currentProgress =
     progress !== undefined ? progress : internalCalculateProgress();
-
+ 
   return (
     <>
       {/* Desktop Sidebar (unchanged layout) */}
@@ -188,23 +188,23 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
             alt="MediConnect"
             className="w-12 h-11 object-contain"
           />
-
+ 
           <div className="flex flex-col">
             <h1 className="text-[16px] font-semibold leading-none text-[#096B58]">
               MediConnect
             </h1>
-
+ 
             <p className="text-[10px] font-normal leading-2.5 text-primary">
               Healthcare Ecosystem
             </p>
           </div>
         </div>
-
+ 
         {/* Steps */}
         <div className="absolute top-39 left-10 w-65.5 min-h-122">
           {steps.map((step, index) => {
             const isActive = activeStep === step.key;
-
+ 
             return (
               <div key={step.key}>
                 <div
@@ -235,7 +235,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
                       className="w-6 h-6"
                     />
                   </div>
-
+ 
                   {/* Title */}
                   <div
                     className={` flex-1 ${
@@ -258,7 +258,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
                     </span>
                   </div>
                 </div>
-
+ 
                 {index !== steps.length - 1 && (
                   <div
                     className={`ml-3.5 h-9 w-0.5 ${
@@ -272,7 +272,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
             );
           })}
         </div>
-
+ 
         {/* Progress Card */}
         <div
           className="absolute left-10 bottom-10 w-65.5 h-44.75 rounded-lg border-[0.5px] border-[#D0D0D0] bg-white px-6 py-5 flex flex-col"
@@ -284,19 +284,19 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
           <h4 className="text-[16px] font-medium text-[#111827] leading-none">
             Profile Progress
           </h4>
-
+ 
           <div className="mt-8">
             <p className="text-[14px] font-semibold text-[#2E6B5F] leading-none mb-4">
               {currentProgress}% Complete
             </p>
-
+ 
             <div className="w-full h-2 bg-[#E5E7EB] rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#2E6B5F] rounded-full transition-all duration-500"
                 style={{ width: `${currentProgress}%` }}
               />
             </div>
-
+ 
             <p className="mt-7 flex items-center gap-1 text-[10px] font-normal text-[#6B7280] leading-none">
               <img src={time} alt="Time" className="w-3 h-3" />
               <span className="mt-1">Estimated Time: 2-3 Minutes</span>
@@ -304,7 +304,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
           </div>
         </div>
       </div>
-
+ 
       {/* Mobile/Tablet Sidebar Drawer */}
       {/* Backdrop */}
       <div
@@ -315,7 +315,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
         }`}
         onClick={onClose}
       />
-
+ 
       {/* Drawer Panel */}
       <div
         className={`fixed inset-y-0 left-0 z-50 flex w-[320px] max-w-[85vw] flex-col justify-between bg-[#FBFBFB] border-r border-[#E6E6E6] p-6 shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
@@ -339,7 +339,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
               </p>
             </div>
           </div>
-
+ 
           <button
             type="button"
             onClick={onClose}
@@ -350,12 +350,12 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
             <X size={18} strokeWidth={2} />
           </button>
         </div>
-
+ 
         {/* Steps navigation */}
         <div className="flex flex-col gap-0 mt-6 overflow-y-auto flex-1 pr-1 py-1">
           {steps.map((step, index) => {
             const isActive = activeStep === step.key;
-
+ 
             return (
               <div key={step.key} className="flex flex-col">
                 <div
@@ -391,7 +391,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
                       className="w-6 h-6"
                     />
                   </div>
-
+ 
                   {/* Title */}
                   <div
                     className={`flex-1 ${
@@ -414,7 +414,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
                     </span>
                   </div>
                 </div>
-
+ 
                 {/* Connecting Line */}
                 {index !== steps.length - 1 && (
                   <div
@@ -429,7 +429,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
             );
           })}
         </div>
-
+ 
         {/* Progress Card at bottom of drawer */}
         <div
           className="mt-4 w-full rounded-lg border-[0.5px] border-[#D0D0D0] bg-white px-4 py-3.5 flex flex-col shrink-0"
@@ -441,19 +441,19 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
           <h4 className="text-[14px] font-medium text-[#111827] leading-none font-TypeFace">
             Profile Progress
           </h4>
-
+ 
           <div className="mt-4">
             <p className="text-[13px] font-semibold text-[#2E6B5F] leading-none mb-2.5 font-TypeFace">
               {currentProgress}% Complete
             </p>
-
+ 
             <div className="w-full h-1.5 bg-[#E5E7EB] rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#2E6B5F] rounded-full transition-all duration-500"
                 style={{ width: `${currentProgress}%` }}
               />
             </div>
-
+ 
             <p className="mt-3 flex items-center gap-1 text-[9.5px] font-normal text-[#6B7280] leading-none font-TypeFace">
               <img src={time} alt="Time" className="w-3 h-3" />
               <span className="mt-0.5">Estimated Time: 1-2 Minutes</span>
@@ -464,5 +464,5 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
     </>
   );
 };
-
+ 
 export default Sidebar;
