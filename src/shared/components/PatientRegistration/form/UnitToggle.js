@@ -51,7 +51,7 @@ const UnitToggle = ({ value, options = [], onChange }) => {
               }}
               className={`w-full h-8 px-4 text-left text-sm font-normal transition-colors cursor-pointer ${
                 opt === value
-                  ? "bg-[#EEF4F3] text-[#096B58] font-semibold"
+                  ? "bg-secondary text-[#096B58] font-semibold"
                   : "text-[#141414] hover:bg-[#F5F5F5]"
               }`}
             >

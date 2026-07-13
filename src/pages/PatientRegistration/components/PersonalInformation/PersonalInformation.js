@@ -8,6 +8,7 @@ import RequiredNotice from "@/shared/components/PatientRegistration/common/Requi
 import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
 import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
 import { bloodGroups, genders, stateCities, states, } from "@/shared/constants/patientRegistration/registrationConfig";
+import { isValid, validatePersonalInfo, validators, } from "@/shared/constants/patientRegistration/validation";
 import { setActiveStep, setPersonalInfo, } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectPersonalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 
@@ -21,71 +22,12 @@ import locations from "@assets/patientRegistration/location.svg";
 import phone from "@assets/patientRegistration/phone.svg";
 import user from "@assets/patientRegistration/user.svg";
 
-// ── Validation ────────────────────────────────────────────────────────────────
-const validateField = (name, value) => {
-  switch (name) {
-    case "fullName":
-      return !value?.trim() ? "Please enter your full name!" : "";
-    case "dob": {
-      if (!value) return "Please select your date of birth.";
-
-      const dob = new Date(value);
-      const today = new Date();
-
-      // Remove time portion
-      dob.setHours(0, 0, 0, 0);
-      today.setHours(0, 0, 0, 0);
-
-      if (dob >= today) {
-        return "Date of birth must be before today.";
-      }
-
-      return "";
-    }
-    case "gender":
-      return !value ? "Please select your gender!" : "";
-    case "bloodGroup":
-      return !value ? "Please select your blood group!" : "";
-    case "state":
-      return !value ? "Please select your state!" : "";
-    case "city":
-      return !value ? "Please select your current city!" : "";
-    case "email": {
-      // Optional field
-      if (!value.trim()) return "";
-
-      const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-
-      if (!emailRegex.test(value.trim())) {
-        return "Please enter a valid email address.";
-      }
-
-      return "";
-    }
-    default:
-      return "";
-  }
-};
-
-const REQUIRED_FIELDS = [
-  "fullName",
-  "dob",
-  "gender",
-  "bloodGroup",
-  "state",
-  "city",
-  "email",
-];
-
 // ── PersonalInformation ───────────────────────────────────────────────────────
 const PersonalInformation = () => {
   const dispatch = useDispatch();
   const saved = useSelector(selectPersonalInfo);
 
-  
-  const phoneNumber = useSelector(
-      (state) => state.security.phoneNumber
-    );
+  const phoneNumber = useSelector((state) => state.security.phoneNumber);
 
   const [formData, setFormData] = useState(
     saved || {
@@ -107,36 +49,39 @@ const PersonalInformation = () => {
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
   const handleChange = (e) => {
-  const { name, value } = e.target;
+    const { name, value } = e.target;
 
-  let updatedValue = value;
+    let updatedValue = value;
 
-  if (name === "email") {
-    updatedValue = value.replace(/\s/g, "");
-  }
+    if (name === "email") {
+      updatedValue = value.replace(/\s/g, "");
+    }
 
-  if (name === "emergencyContact") {
-    updatedValue = value.replace(/\D/g, "").slice(0, 10);
-  }
+    const updated = {
+      ...formData,
+      [name]: updatedValue,
+    };
 
-  const updated = {
-    ...formData,
-    [name]: updatedValue,
+    setFormData(updated);
+
+    if (touched[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: validators[name]?.(updatedValue) || "",
+      }));
+    }
   };
 
-  setFormData(updated);
+  const handleBlur = (name, value) => {
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
 
-  if (touched[name]) {
     setErrors((prev) => ({
       ...prev,
-      [name]: validateField(name, updatedValue, updated),
+      [name]: validators[name]?.(value) || "",
     }));
-  }
-};
-
-  const handleBlur = (name, value) => {
-    setTouched((prev) => ({ ...prev, [name]: true }));
-    setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
   };
 
   const handleSelectChange = (name, value) => {
@@ -145,33 +90,50 @@ const PersonalInformation = () => {
       [name]: value,
       ...(name === "state" ? { city: "" } : {}),
     };
+
     setFormData(updated);
-    setTouched((prev) => ({ ...prev, [name]: true }));
+
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
+
     setErrors((prev) => ({
       ...prev,
-      [name]: validateField(name, value),
+      [name]: validators[name]?.(value) || "",
       ...(name === "state" ? { city: "" } : {}),
     }));
   };
 
   const handleSelectBlur = (name) => {
     if (!formData[name]) {
-      setTouched((prev) => ({ ...prev, [name]: true }));
+      setTouched((prev) => ({
+        ...prev,
+        [name]: true,
+      }));
+
       setErrors((prev) => ({
         ...prev,
-        [name]: validateField(name, formData[name]),
+        [name]: validators[name]?.(formData[name]) || "",
       }));
     }
   };
 
-  // ── Submit ────────────────────────────────────────────────────────────────────
+  // Submit
   const handleNext = () => {
-    const newErrors = {};
-    REQUIRED_FIELDS.forEach((f) => {
-      newErrors[f] = validateField(f, formData[f]);
-    });
-    const hasErrors = Object.values(newErrors).some((e) => e !== "");
-    if (hasErrors) return;
+    const newErrors = validatePersonalInfo(formData);
+
+    setErrors(newErrors);
+
+    // Mark all fields as touched
+    setTouched(
+      Object.keys(newErrors).reduce((acc, key) => {
+        acc[key] = true;
+        return acc;
+      }, {}),
+    );
+
+    if (!isValid(newErrors)) return;
 
     dispatch(setPersonalInfo(formData));
     dispatch(setActiveStep("additional"));
@@ -242,7 +204,7 @@ const PersonalInformation = () => {
 
                 setErrors((prev) => ({
                   ...prev,
-                  dob: validateField("dob", value),
+                  dob: validators.dob(value),
                 }));
               }}
               onChangeRaw={(e) => {
@@ -256,7 +218,7 @@ const PersonalInformation = () => {
 
                   setErrors((prev) => ({
                     ...prev,
-                    dob: validateField("dob", formatted),
+                    dob: validators.dob(formatted),
                   }));
                 }
               }}
@@ -265,7 +227,7 @@ const PersonalInformation = () => {
                   setTouched((prev) => ({ ...prev, dob: true }));
                   setErrors((prev) => ({
                     ...prev,
-                    dob: validateField("dob", formData.dob),
+                    dob: validators.dob(formData.dob),
                   }));
                 }
               }}

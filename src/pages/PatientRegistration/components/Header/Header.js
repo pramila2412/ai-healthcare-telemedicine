@@ -51,7 +51,7 @@ const Header = ({ title, description }) => {
       {/* Mobile Support Modal */}
       {showSupportModal && (
         <div className="fixed inset-0 z-999 flex items-center justify-center bg-[#000000]/40 backdrop-blur-xs p-4 md:hidden">
-          <div className="w-full max-w-[280px] rounded-2xl bg-white p-6 shadow-2xl flex flex-col items-center text-center">
+          <div className="w-full max-w-70 rounded-2xl bg-white p-6 shadow-2xl flex flex-col items-center text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F4FAF7] text-[#096B58] mb-4">
               <img src={headphone} alt="" className="w-6 h-6" />
             </div>

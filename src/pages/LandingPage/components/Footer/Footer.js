@@ -1,12 +1,9 @@
-import "./Footer.css";
-import React from "react";
-import { Container } from "@mui/material";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import FacebookIcon from "@mui/icons-material/Facebook";
-
+import { Container } from "@mui/material";
+import React from "react";
+import "./Footer.css";
+import logoImg from '../../../../assets/LandingPage/logo.png';
+import { Icon } from "@iconify/react";
 const footerLinks = [
   {
     title: "Platform",
@@ -41,7 +38,7 @@ const Footer = () => {
             <div className="mb-8">
               <div className="flex items-center mb-6">
                 <img
-                  src="/images/logo.png"
+                  src={logoImg}
                   alt="MedConnect Logo"
                   className="h-10 mr-2 hidden"
                   onError={(e) => {
@@ -118,7 +115,7 @@ const Footer = () => {
                 className="flex-grow h-full px-3 text-[13.5px] border border-gray-300 rounded-l focus:outline-none focus:border-primary"
               />
               <button className="h-full w-12 bg-primary text-white rounded-r flex items-center justify-center hover:bg-primary/90 transition-colors border-none cursor-pointer">
-                <ArrowForwardIcon className="text-[20px]" />
+                <Icon icon="solar:arrow-right-linear" className="text-[20px]" />
               </button>
             </div>
 
@@ -131,32 +128,45 @@ const Footer = () => {
                 href="#"
                 className="text-gray-500 hover:text-primary transition-colors flex items-center justify-center"
               >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-                </svg>
+                <Icon
+                  icon="prime:twitter"
+                  width={24}
+                  height={24}
+                  className="text-[20px]"
+                />
               </a>
               <a
                 href="#"
                 className="text-gray-500 hover:text-primary transition-colors flex items-center justify-center"
               >
-                <YouTubeIcon className="text-[20px]" />
+                <Icon
+                  icon="mdi:youtube"
+                  width={24}
+                  height={24}
+                  className="text-[20px]"
+                />
               </a>
               <a
                 href="#"
                 className="text-gray-500 hover:text-primary transition-colors flex items-center justify-center"
               >
-                <FacebookIcon className="text-[20px]" />
+                <Icon
+                  icon="ic:outline-facebook"
+                  width={24}
+                  height={24}
+                  className="text-[20px]"
+                />
               </a>
               <a
                 href="#"
                 className="text-gray-500 hover:text-primary transition-colors flex items-center justify-center"
               >
-                <LinkedInIcon className="text-[20px]" />
+                <Icon
+                  icon="mdi:linkedin"
+                  width={24}
+                  height={24}
+                  className="text-[20px]"
+                />
               </a>
             </div>
           </div>

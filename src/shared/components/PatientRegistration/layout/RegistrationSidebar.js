@@ -17,42 +17,62 @@ const RegistrationSidebar = ({
   const patientInfo =
     JSON.parse(localStorage.getItem("patientInformation")) || {};
 
-  const isStepCompleted = (key) => {
+  const hasValue = (value) => {
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+
+  if (typeof value === "string") {
+    return value.trim().length > 0;
+  }
+
+  if (value && typeof value === "object") {
+    return Object.values(value).some(hasValue);
+  }
+
+  return value !== null && value !== undefined && value !== false;
+};
+
+const isStepCompleted = (key) => {
   switch (key) {
     case "personal":
-      return (
-        !!patientInfo.personalInformation &&
-        activeStep !== "personal"
+      return !!(
+        patientInfo.personalInformation?.fullName?.trim() &&
+        patientInfo.personalInformation?.dob &&
+        patientInfo.personalInformation?.gender &&
+        patientInfo.personalInformation?.bloodGroup &&
+        patientInfo.personalInformation?.state &&
+        patientInfo.personalInformation?.city
       );
 
     case "additional":
-      return (
-        !!patientInfo.additionalInformation &&
-        activeStep !== "additional"
+      return !!(
+        patientInfo.additionalInformation?.emergencyRelationship?.trim() &&
+        patientInfo.additionalInformation?.emergencyContact?.trim()
       );
 
     case "medical":
       return (
-        !!patientInfo.medicalHistory &&
-        activeStep !== "medical"
+        hasValue(patientInfo.medicalHistory?.allergies) ||
+        hasValue(patientInfo.medicalHistory?.allergyTags) ||
+        hasValue(patientInfo.medicalHistory?.currentMedications) ||
+        hasValue(patientInfo.medicalHistory?.existingConditions) ||
+        hasValue(patientInfo.medicalHistory?.conditionTags) ||
+        hasValue(patientInfo.medicalHistory?.previousSurgeries)
       );
 
     case "insurance":
       return (
-        !!patientInfo.insuranceInformation &&
-        activeStep !== "insurance"
+        hasValue(patientInfo.insuranceInformation?.insuranceType) ||
+        hasValue(patientInfo.insuranceInformation?.policyNumber) ||
+        hasValue(patientInfo.insuranceInformation?.insuranceCards) ||
+        hasValue(patientInfo.insuranceInformation?.insuranceCard)
       );
 
     case "records":
       return (
-        !!patientInfo.healthRecords &&
-        activeStep !== "records"
-      );
-
-    case "review":
-      return (
-        !!patientInfo.reviewComplete &&
-        activeStep !== "review"
+        Array.isArray(patientInfo.healthRecords) &&
+        patientInfo.healthRecords.length > 0
       );
 
     default:
@@ -61,22 +81,14 @@ const RegistrationSidebar = ({
 };
 
   const resolveIcon = (step, isActive) => {
-  if (isActive) {
-    return step.activeIcon;
-  }
+    if (isActive) return step.activeIcon;
+    if (isStepCompleted(step.key)) return tick;
+    if (step.unlockedIcon && isStepCompleted("personal")) {
+      return step.unlockedIcon;
+    }
 
-  if (isStepCompleted(step.key)) {
-    return tick;
-  }
-
-  if (step.key === "review") {
-    return isStepCompleted("personal")
-      ? step.unlockedIcon || step.icon
-      : step.icon;
-  }
-
-  return step.icon;
-};
+    return step.icon;
+  };
 
   return (
     <>

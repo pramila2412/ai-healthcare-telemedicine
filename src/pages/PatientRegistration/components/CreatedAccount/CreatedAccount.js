@@ -21,6 +21,7 @@ const CreatedAccount = () => {
   const emailOrPhone =
     patientInfo.personalInformation?.email ||
     patientInfo.personalInformation?.phone ||
+    
     "--";
 
   const displayContact = /^\+91\s\d{10}$/.test(emailOrPhone)
@@ -140,14 +141,14 @@ const CreatedAccount = () => {
           {/* Buttons — last element, card ends right after */}
           <div className="w-full max-w-100 h-auto flex flex-col sm:flex-row gap-4">
             <button
-              className="w-full sm:w-48 h-12 rounded-lg px-6 bg-[#EEF4F3] text-[#096B58] text-[14px] font-medium cursor-pointer"
+              className="w-full sm:w-48 h-12 rounded-lg px-6 bg-secondary text-[#096B58] text-[14px] font-medium cursor-pointer"
               onClick={() => navigate("/patient-registration")}
             >
               View Profile
             </button>
             <button
               onClick={() => navigate("/")}
-              className="w-full sm:w-48 h-12 rounded-lg px-6 bg-[#096B58] text-white text-[14px] font-medium shadow-[0px_1px_1px_0px_#096B583D,0px_2px_2px_0px_#096B5812,0px_4px_4px_0px_#096B5812,0px_8px_8px_0px_#096B5812]"
+              className="w-full sm:w-48 h-12 rounded-lg px-6 bg-[#096B58] text-white text-[14px] font-medium cursor-pointer shadow-[0px_1px_1px_0px_#096B583D,0px_2px_2px_0px_#096B5812,0px_4px_4px_0px_#096B5812,0px_8px_8px_0px_#096B5812]"
             >
               Go to Dashboard
             </button>

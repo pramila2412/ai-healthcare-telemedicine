@@ -15,6 +15,7 @@ import SectionHeader from "@/shared/components/PatientRegistration/common/Sectio
 import { setReviewComplete } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectReviewComplete } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const randomSuffix = () => {
@@ -317,6 +318,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
       ? reviewComplete.uniqueId.replace("PAT-", "")
       : "7G3H81",
   );
+  
 
   const [password, setPassword] = useState(reviewComplete?.password || "");
 
@@ -517,7 +519,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
       {/* ══════════════════════════════════════════════════════════════════
           FOOTER — absolute, pinned to bottom of the panel
       ══════════════════════════════════════════════════════════════════ */}
-      <div className="mt-2 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-4 px-7 pb-10 md:absolute md:bottom-8 md:left-0 md:right-2 md:pb-0 md:px-10 md:gap-6 md:mt-0">
+      <div className="mt-2 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-4 px-7 pb-10 md:absolute md:bottom-10 md:left-0 md:right-0 md:pb-0 md:px-10 md:gap-6 md:mt-0">
         {/* Go Back */}
         <button
           type="button"

@@ -125,9 +125,11 @@ const FormSelect = ({
 
       {/* Dropdown panel */}
       {isOpen && (
-        <div className={`absolute left-0 right-0 z-30 overflow-hidden rounded-lg border border-[#E5E7EB] bg-white shadow-[0_10px_28px_rgba(20,20,20,0.14)] ${
-          openUpward ? "bottom-[calc(100%+6px)]" : "top-[calc(100%+6px)]"
-        }`}>
+        <div
+          className={`absolute left-0 right-0 z-30 overflow-hidden rounded-lg border border-[#E5E7EB] bg-white shadow-[0_10px_28px_rgba(20,20,20,0.14)] ${
+            openUpward ? "bottom-[calc(100%+6px)]" : "top-[calc(100%+6px)]"
+          }`}
+        >
           {/* Search input */}
           <div className="p-3">
             <div className="relative">
@@ -161,7 +163,7 @@ const FormSelect = ({
                     onClick={() => handleSelect(option)}
                     className={`relative flex h-12 w-full items-center border-b border-[#E5E7EB] text-left text-sm font-normal last:border-b-0 cursor-pointer px-3 transition-colors duration-150 ${
                       isSelected
-                        ? "text-[#096B58] font-semibold"
+                        ? "bg-[#F0F7F5] text-[#096B58] font-semibold before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-[#096B58]"
                         : "text-[#141414] hover:bg-[#F5F5F5]"
                     }`}
                   >

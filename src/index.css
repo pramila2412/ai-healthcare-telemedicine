@@ -3,7 +3,26 @@
 
 @theme {
   --color-primary: #0D8B72;
+  --color-secondary: #EEF4F3;
   --font-TypeFace:"TypeFace" "Inter", "system-ui", "-apple-system", "sans-serif";
+}
+
+/* Force Tailwind classes in case JIT compiler is cached */
+.bg-primary { background-color: var(--color-primary) !important; }
+.bg-secondary { background-color: var(--color-secondary) !important; }
+.text-primary { color: var(--color-primary) !important; }
+.text-secondary { color: var(--color-secondary) !important; }
+
+.section-kicker {
+  font-family: var(--font-TypeFace);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #096B58;
+  display: block;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
 }
 
 /* Global Styles */
@@ -29,7 +48,7 @@ img {
 
 @layer components {
   .section-padding {
-    @apply py-16 md:py-24 bg-white;
+    @apply py-8 md:py-12 bg-white;
   }
   .section-overline {
     @apply text-primary font-bold tracking-wide uppercase block mb-4;
@@ -52,127 +71,39 @@ select {
   background-image: none;
 }
 
-.dob-datepicker-popper {
-  left: 60px !important;
-  z-index: 50;
+.date-input {
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.react-datepicker {
-  font-family: inherit;
-  border: 1px solid #E5E7EB;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  background-color: #ffffff;
+.date-input-empty::-webkit-datetime-edit {
+  opacity: 0;
 }
 
-/* Header */
-.react-datepicker__header {
-  background-color: #F0F7F5;
-  border-bottom: 1px solid #E5E7EB;
-  padding-top: 12px;
+.date-input-empty::-webkit-date-and-time-value {
+  opacity: 0;
 }
 
-.react-datepicker__current-month {
-  color: #141414;
-  font-weight: 700;
-  font-size: 14px;
+.date-input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  top: 10;
+  left: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }
 
-.react-datepicker__navigation {
-  top: 14px;
-}
-
-.react-datepicker__navigation-icon::before {
-  border-color: #096B58;
-  border-width: 2px 2px 0 0;
-}
-
-.react-datepicker__navigation:hover *::before {
-  border-color: #075443;
-}
-
-/* Year dropdown */
-.react-datepicker__year-read-view--down-arrow,
-.react-datepicker__month-read-view--down-arrow {
-  border-color: #096B58;
-  top: 5px;
-}
-
-.react-datepicker__year-dropdown {
-  background-color: #ffffff;
-  border: 1px solid #E5E7EB;
-  border-radius: 8px;
-}
-
-.react-datepicker__year-option:hover {
-  background-color: #E6F2EF;
-}
-
-.react-datepicker__year-option--selected_year {
-  color: #096B58;
-  font-weight: 700;
-}
-
-/* Day names */
-.react-datepicker__day-name {
-  color: #666666;
-  font-size: 12px;
-  font-weight: 600;
-  width: 32px;
-}
-
-/* Days */
-.react-datepicker__day {
-  width: 32px;
-  line-height: 32px;
-  border-radius: 8px;
-  color: #141414;
-  font-size: 13px;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.react-datepicker__day:hover {
-  background-color: #E6F2EF;
-  color: #096B58;
-}
-
-.react-datepicker__day--outside-month {
-  color: #B0B0B0;
-}
-
-.react-datepicker__day--today {
-  font-weight: 700;
-  color: #096B58;
-}
-
-/* Selected day */
-.react-datepicker__day--selected,
-.react-datepicker__day--keyboard-selected {
-  background-color: #096B58 !important;
-  color: #ffffff !important;
-  font-weight: 600;
-}
-
-.react-datepicker__day--selected:hover,
-.react-datepicker__day--keyboard-selected:hover {
-  background-color: #075443 !important;
-}
-
-/* Disabled days */
-.react-datepicker__day--disabled {
-  color: #D1D5DB;
-  cursor: not-allowed;
-}
-
-.react-datepicker__day--disabled:hover {
-  background-color: transparent;
-}
-
-/* Triangle pointer */
-.react-datepicker__triangle {
+.date-input::-webkit-inner-spin-button,
+.date-input::-webkit-clear-button {
   display: none;
 }
+
+.date-input-empty {
+  color: transparent;
+}
+
 /* ==========================================================================
    4K and Ultra-Large Screen Responsive Scaling
    ========================================================================== */
