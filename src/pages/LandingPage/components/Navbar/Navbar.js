@@ -8,7 +8,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logoImg from '../../../../assets/LandingPage/logo.png';
-import { NAVBAR_ITEMS as navItems } from '../../../../shared/constants/landingPage';
+
+const navItems = ['Home', 'Solutions', 'For Patients', 'For Providers', 'Pricing', 'Resources'];
 
 const Navbar = () => {
   const navigate = useNavigate();

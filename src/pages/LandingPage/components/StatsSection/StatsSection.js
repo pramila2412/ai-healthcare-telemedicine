@@ -1,7 +1,14 @@
 import { Icon } from "@iconify/react";
 import { Container } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import { STATS as statsData } from '../../../../shared/constants/landingPage';
+
+
+const statsData = [
+  { end: 1,    suffix: 'M+',   label: 'Patients Supported',       iconColor: '#6B0953', bgColor: '#F4EEF3' },
+  { end: 50,   suffix: 'K+',   label: 'Appointments Completed',   iconColor: '#093D6B', bgColor: '#EBF4FC' },
+  { end: 500,  suffix: '+',    label: 'Healthcare Providers',      iconColor: '#22096B', bgColor: '#F6F4FC' },
+  { end: 99.9, suffix: '%',    label: 'Platform Availability',     iconColor: '#6B3309', bgColor: '#FEF2E9' },
+];
 
 const useCountUp = (end, duration = 2000, start = false) => {
   const [count, setCount] = useState(0);

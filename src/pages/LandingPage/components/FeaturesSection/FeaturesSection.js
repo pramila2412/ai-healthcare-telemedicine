@@ -2,6 +2,12 @@ import React from "react";
 import { Container } from "@mui/material";
 
 import { Icon } from "@iconify/react";
+import AiHealthInsightsImage from "../../../../assets/LandingPage/AiHealthInsights.png";
+import ConnectedMedicalRecordsImage from "../../../../assets/LandingPage/ConnectedMedicalRecords.png";
+import SecureHealthcareNetworkImage from "../../../../assets/LandingPage/SecureHealthcareNetwork.png";
+import ContinuousCareImage from "../../../../assets/LandingPage/ContinuousCare.png";
+
+import { Icon } from "@iconify/react";
 import { FEATURES as features } from "../../../../shared/constants/landingPage";
 const FeaturesSection = () => {
   return (

@@ -4,7 +4,29 @@ import React from "react";
 import "./Footer.css";
 import logoImg from '../../../../assets/LandingPage/logo.png';
 import { Icon } from "@iconify/react";
-import { FOOTER_LINKS as footerLinks } from "../../../../shared/constants/landingPage";
+const footerLinks = [
+  {
+    title: "Platform",
+    links: [
+      "Hospital Management",
+      "Telemedicine",
+      "Pharmacy System",
+      "Lab Management",
+      "Health Insurance",
+      "Appointment and Scheduling",
+      "Remote monitoring",
+      "AI & Analytics",
+    ],
+  },
+  {
+    title: "Resources",
+    links: ["Documentation", "API Reference", "Integration", "Case studies"],
+  },
+  {
+    title: "Company",
+    links: ["About Us", "Careers", "Press", "Partners", "Blog", "Contact Us"],
+  },
+];
 
 const Footer = () => {
   return (

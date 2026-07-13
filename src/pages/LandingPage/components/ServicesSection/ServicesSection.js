@@ -2,7 +2,91 @@ import { Icon } from "@iconify/react";
 import { Container } from "@mui/material";
 import React from "react";
 import "./ServicesSection.css";
-import { SERVICES as services } from "../../../../shared/constants/landingPage";
+import recordsImg from "../../../../assets/LandingPage/Records.svg";
+import insuranceImg from "../../../../assets/LandingPage/Insurance.svg";
+import monitorImg from "../../../../assets/LandingPage/Monitor.svg";
+const services = [
+  {
+    title: "Doctor\nConsultation",
+    description:
+      "Book appointments\nwith verified doctors\nacross specialities.",
+    icon: (
+      <Icon
+        icon="hugeicons:doctor-01"
+        width={24}
+        height={24}
+        className="text-primary"
+      />
+    ),
+  },
+  {
+    title: "Lab Tests",
+    description: "Book lab tests at\nhome with certified\nlaboratories.",
+    icon: (
+      <Icon
+        icon="hugeicons:ai-dna"
+        width={24}
+        height={24}
+        className="text-primary"
+      />
+    ),
+  },
+  {
+    title: "Online\nPharmacy",
+    description:
+      "Order medicines\nonline and get them\ndelivered to your doorstep.",
+    icon: (
+      <Icon
+        icon="mage:tablet"
+        width={24}
+        height={24}
+        className="text-primary"
+      />
+    ),
+  },
+{
+    title: "Health\nRecords",
+    description:
+      "Access prescriptions,\nreports and medical\nhistory securely.",
+    icon: (
+      <img
+        src={recordsImg}
+        alt="Records"
+        style={{ width: 24, height: 24 }}
+      />
+    ),
+  },
+  {
+    title: "Insurance\nClaims",
+    description: "Verify coverage, file\nclaims and track\napprovals.",
+    icon: (
+      <img
+        src={insuranceImg}
+        alt="Insurance"
+        style={{ width: 24, height: 24 }}
+      />
+    ),
+  },
+  {
+    title: "Remote\nMonitoring",
+    description: "Track your vitals and\nstay connected with\nyour care team.",
+    icon: (
+      <img
+        src={monitorImg}
+        alt="Monitor"
+        style={{ width: 24, height: 24 }}
+      />
+    ),
+  },
+];
+
+const popularSearches = [
+  "Dermatologist",
+  "Gynecologist",
+  "Paediatrician",
+  "Orthopaedic",
+  "Dentist",
+];
 
 const ServicesSection = () => {
   return (

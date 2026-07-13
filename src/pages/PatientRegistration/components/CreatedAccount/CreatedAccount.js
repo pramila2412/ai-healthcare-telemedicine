@@ -5,7 +5,6 @@ import { Copy, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const CreatedAccount = () => {
-
   const navigate = useNavigate();
 
   const [copied, setCopied] = useState(false);
@@ -15,9 +14,19 @@ const CreatedAccount = () => {
 
   const reviewData = patientInfo.reviewComplete || {};
 
-  const uniqueId = (reviewData.uniqueId || "PAT7N6S93").replace(/[^A-Za-z0-9]/g, "");
-  const email =
-    reviewData.email || patientInfo.personalInformation?.email || "--";
+  const uniqueId = (reviewData.uniqueId || "PAT7N6S93").replace(
+    /[^A-Za-z0-9]/g,
+    "",
+  );
+  const emailOrPhone =
+    patientInfo.personalInformation?.email ||
+    patientInfo.personalInformation?.phone ||
+    
+    "--";
+
+  const displayContact = /^\+91\s\d{10}$/.test(emailOrPhone)
+    ? emailOrPhone.replace(/^(\+91\s)(\d{6})(\d{4})$/, "$1xxxxxx$3")
+    : emailOrPhone;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(uniqueId);
@@ -54,7 +63,11 @@ const CreatedAccount = () => {
         <div className="flex flex-col items-center gap-8 w-full">
           {/* Success block */}
           <div className="flex flex-col items-center gap-6 w-full max-w-100">
-            <img src={SuccessIcon} alt="" className="w-16 h-16 sm:w-20 sm:h-20 rounded-full" />
+            <img
+              src={SuccessIcon}
+              alt=""
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full"
+            />
 
             <div className="flex flex-col items-center gap-2 w-full max-w-100">
               <h2 className="text-[16px] sm:text-[18px] font-semibold text-center leading-[100%] text-[#141414]">
@@ -63,8 +76,8 @@ const CreatedAccount = () => {
                 Successfully!
               </h2>
               <p className="w-full max-w-69.5 text-[10px] font-normal text-center leading-3.5 text-[#666666]">
-                Your patient account has been created successfully. You can
-                now access your healthcare dashboard and manage your records
+                Your patient account has been created successfully. You can now
+                access your healthcare dashboard and manage your records
                 securely.
               </p>
             </div>
@@ -81,7 +94,7 @@ const CreatedAccount = () => {
                     {idPrefix}
                   </span>
                 </div>
-                <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3">
+                <div className="flex items-center gap-3 sm:gap-4 px-2 sm:px-3">
                   {idDigits.map((char, i) => (
                     <span
                       key={i}
@@ -107,7 +120,9 @@ const CreatedAccount = () => {
               <p className="w-full max-w-78.5 text-xs font-normal text-center text-[#666666]">
                 Your unique ID has also been sent to
                 <br />
-                <span className="font-medium text-[#141414] break-all">{email}</span>
+                <span className="font-semibold text-[#141414] break-all">
+                  {displayContact}
+                </span>
               </p>
             </div>
           </div>
@@ -125,14 +140,16 @@ const CreatedAccount = () => {
 
           {/* Buttons — last element, card ends right after */}
           <div className="w-full max-w-100 h-auto flex flex-col sm:flex-row gap-4">
-            <button className="w-full sm:w-48 h-12 rounded-lg px-6 bg-[#EEF4F3] text-[#096B58] text-[14px] font-medium cursor-pointer"
+            <button
+              className="w-full sm:w-48 h-12 rounded-lg px-6 bg-secondary text-[#096B58] text-[14px] font-medium cursor-pointer"
               onClick={() => navigate("/patient-registration")}
             >
               View Profile
             </button>
             <button
-            onClick={() => navigate("/")}
-             className="w-full sm:w-48 h-12 rounded-lg px-6 bg-[#096B58] text-white text-[14px] font-medium shadow-[0px_1px_1px_0px_#096B583D,0px_2px_2px_0px_#096B5812,0px_4px_4px_0px_#096B5812,0px_8px_8px_0px_#096B5812]">
+              onClick={() => navigate("/")}
+              className="w-full sm:w-48 h-12 rounded-lg px-6 bg-[#096B58] text-white text-[14px] font-medium cursor-pointer shadow-[0px_1px_1px_0px_#096B583D,0px_2px_2px_0px_#096B5812,0px_4px_4px_0px_#096B5812,0px_8px_8px_0px_#096B5812]"
+            >
               Go to Dashboard
             </button>
           </div>

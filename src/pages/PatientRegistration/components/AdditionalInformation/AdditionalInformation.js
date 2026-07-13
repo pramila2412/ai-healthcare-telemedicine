@@ -1,106 +1,52 @@
-import React, { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
 import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
 import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
 import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
 import UnitToggle from "@/shared/components/PatientRegistration/form/UnitToggle";
-import {
-  activityLevels,
-  alcoholOptions,
-  dietaryPreferences,
-  heightUnits,
-  relationships,
-  smokingStatuses,
-  weightUnits,
-} from "../../../../shared/constants/patientRegistration/registrationConfig";
-
-import {
-  setActiveStep,
-  setAdditionalInfo,
-} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+import { isValid, validateAdditionalInfo, validators } from "@/shared/constants/PatientRegistration/validation";
+import { setActiveStep, setAdditionalInfo, } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
 import { selectAdditionalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
-
-
-// ── Validation ────────────────────────────────────────────────────────────────
-const validateField = (name, value, data = {}) => {
-  switch (name) {
-    case "height": {
-      if (!value && value !== 0) return "";
-      const num = parseFloat(value);
-      if (isNaN(num)) return "Please enter a valid height.";
-      if (data.heightUnit === "cm" && (num < 50 || num > 250))
-        return "Height should be between 50 cm and 250 cm.";
-      if (data.heightUnit === "ft" && (num < 1 || num > 9))
-        return "Height should be between 1 ft and 9 ft.";
-      return "";
-    }
-    case "weight": {
-      if (!value && value !== 0) return "";
-      const num = parseFloat(value);
-      if (isNaN(num)) return "Please enter a valid weight.";
-      if (data.weightUnit === "kg" && (num < 2 || num > 500))
-        return "Weight should be between 2 kg and 500 kg.";
-      if (data.weightUnit === "lb" && (num < 5 || num > 1100))
-        return "Weight should be between 5 lb and 1100 lb.";
-      return "";
-    }
-    case "bloodPressure":
-      if (!value) return "";
-      if (!/^\d{2,3}\/\d{2,3}$/.test(value))
-        return "Enter blood pressure in the format: 120/80 mmHg.";
-      return "";
-    case "bloodSugar": {
-      if (!value) return "";
-      const num = parseFloat(value);
-      if (isNaN(num) || num < 0) return "Blood sugar cannot be negative.";
-      return "";
-    }
-    case "emergencyRelationship":
-      return !value
-        ? "Please select your relationship with the emergency contact."
-        : "";
-    case "emergencyContact":
-      if (!value) return ""; // Optional field
-
-      if (!/^\d{10}$/.test(value)) {
-        return "Emergency contact number must be exactly 10 digits.";
-      }
-
-      return "";
-  }
-};
-
-const VALIDATED_FIELDS = [
-  "height",
-  "weight",
-  "bloodPressure",
-  "bloodSugar",
-  "emergencyRelationship",
-  "emergencyContact",
-];
+import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  activityLevels, alcoholOptions, dietaryPreferences, heightUnits, relationships, smokingStatuses,
+  weightUnits,
+} from "../../../../shared/constants/PatientRegistration/registrationConfig";
 
 // ── AdditionalInformation ──────────────────────────────────────────────────────
 const AdditionalInformation = () => {
-  const dispatch = useDispatch();
-  const saved = useSelector(selectAdditionalInfo);
 
-  const [formData, setFormData] = useState(
-    saved || {
-      height: "",
-      heightUnit: "cm",
-      weight: "",
-      weightUnit: "kg",
-      bloodPressure: "",
-      bloodSugar: "",
-      activityLevel: "",
-      dietaryPreference: "",
-      smokingStatus: "",
-      alcoholConsumption: "",
-      emergencyRelationship: "",
-      emergencyContact: "",
-    },
-  );
+  const dispatch = useDispatch();
+  const savedAdditionalInformation = useSelector(selectAdditionalInfo);
+
+  const normalizeAdditionalInformation = (data) => {
+  const defaultData = {
+    height: "",
+    heightUnit: "cm",
+    weight: "",
+    weightUnit: "kg",
+    bloodPressure: "",
+    bloodSugar: "",
+    activityLevel: "",
+    dietaryPreference: "",
+    smokingStatus: "",
+    alcoholConsumption: "",
+    emergencyRelationship: "",
+    emergencyContact: "",
+  };
+
+  if (!data) {
+    return defaultData;
+  }
+
+  return {
+    ...defaultData,
+    ...data,
+  };
+};
+
+const [formData, setFormData] = useState(() =>
+  normalizeAdditionalInformation(savedAdditionalInformation)
+);
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -111,94 +57,127 @@ const AdditionalInformation = () => {
   const showError = (name) => !!touched[name];
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+ const handleChange = (e) => {
+  const { name, value } = e.target;
 
-    let updatedValue = value;
+  let updatedValue = value;
 
-    if (name === "emergencyContact") {
-      updatedValue = value.replace(/\D/g, "").slice(0, 10);
-    }
+  if (name === "emergencyContact") {
+    updatedValue = value.replace(/\D/g, "").slice(0, 10);
+  }
 
-    const updated = {
-      ...formData,
-      [name]: updatedValue,
-    };
-
-    setFormData(updated);
-
-    if (touched[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: validateField(name, updatedValue, updated),
-      }));
-    }
+  const updated = {
+    ...formData,
+    [name]: updatedValue,
   };
 
-  const handleBlur = (name, value) => {
-    setTouched((prev) => ({ ...prev, [name]: true }));
+  setFormData(updated);
+
+  if (touched[name]) {
     setErrors((prev) => ({
       ...prev,
-      [name]: validateField(name, value, formData),
+      [name]:
+        name === "height" || name === "weight"
+          ? validators[name](updatedValue, updated)
+          : validators[name]?.(updatedValue) || "",
     }));
+  }
+};
+
+const handleBlur = (name, value) => {
+  setTouched((prev) => ({ ...prev, [name]: true }));
+
+  setErrors((prev) => ({
+    ...prev,
+    [name]:
+      name === "height" || name === "weight"
+        ? validators[name](value, formData)
+        : validators[name]?.(value) || "",
+  }));
+};
+
+const handleSelectChange = (name, value) => {
+  const updated = {
+    ...formData,
+    [name]: value,
   };
 
-  const handleSelectChange = (name, value) => {
-    const updated = { ...formData, [name]: value };
-    setFormData(updated);
-    setTouched((prev) => ({ ...prev, [name]: true }));
+  setFormData(updated);
+  setTouched((prev) => ({ ...prev, [name]: true }));
+
+  setErrors((prev) => ({
+    ...prev,
+    [name]:
+      name === "height" || name === "weight"
+        ? validators[name](value, updated)
+        : validators[name]?.(value) || "",
+  }));
+};
+
+const handleSelectBlur = (name) => {
+  setTouched((prev) => ({ ...prev, [name]: true }));
+
+  setErrors((prev) => ({
+    ...prev,
+    [name]:
+      name === "height" || name === "weight"
+        ? validators[name](formData[name], formData)
+        : validators[name]?.(formData[name]) || "",
+  }));
+};
+
+const handleUnitChange = (unitField, unit) => {
+  const updated = {
+    ...formData,
+    [unitField]: unit,
+  };
+
+  setFormData(updated);
+
+  const valueField =
+    unitField === "heightUnit" ? "height" : "weight";
+
+  if (touched[valueField]) {
     setErrors((prev) => ({
       ...prev,
-      [name]: validateField(name, value, updated),
+      [valueField]: validators[valueField](
+        updated[valueField],
+        updated
+      ),
     }));
-  };
+  }
+};
 
-  const handleSelectBlur = (name) => {
-    if (!formData[name]) {
-      setTouched((prev) => ({ ...prev, [name]: true }));
-      setErrors((prev) => ({
-        ...prev,
-        [name]: validateField(name, formData[name], formData),
-      }));
-    }
-  };
-
-  const handleUnitChange = (unitField, unit) => {
-    const updated = { ...formData, [unitField]: unit };
-    setFormData(updated);
-    const valueField = unitField === "heightUnit" ? "height" : "weight";
-    if (touched[valueField]) {
-      setErrors((prev) => ({
-        ...prev,
-        [valueField]: validateField(valueField, formData[valueField], updated),
-      }));
-    }
-  };
-
-  // ── Submit / Navigation ───────────────────────────────────────────────────────
-  const handleNext = () => {
-    const newErrors = {};
-    VALIDATED_FIELDS.forEach((f) => {
-      newErrors[f] = validateField(f, formData[f], formData);
-    });
-    if (Object.values(newErrors).some((e) => e !== "")) return;
-
+  const saveAdditionalInformation = () => {
     dispatch(setAdditionalInfo(formData));
-    dispatch(setActiveStep("medical"));
+  };
+
+  const handleNext = () => {
+     const newErrors = validateAdditionalInfo(formData);
+    
+        setErrors(newErrors);
+    
+        // Mark all fields as touched
+        setTouched(
+          Object.keys(newErrors).reduce((acc, key) => {
+            acc[key] = true;
+            return acc;
+          }, {}),
+        );
+    
+        if (!isValid(newErrors)) return;
+
+       saveAdditionalInformation();
+       dispatch(setActiveStep("medical"));
+  };
+
+  const handleGoBack = () => {
+    saveAdditionalInformation();
+    dispatch(setActiveStep("personal"));
   };
 
   const handleSkip = () => dispatch(setActiveStep("medical"));
-  const handleGoBack = () => dispatch(setActiveStep("personal"));
 
-  const isSkipEnabled =
-    formData.height &&
-    formData.weight &&
-    formData.bloodPressure &&
-    formData.bloodSugar &&
-    validateField("height", formData.height, formData) === "" &&
-    validateField("weight", formData.weight, formData) === "" &&
-    validateField("bloodPressure", formData.bloodPressure, formData) === "" &&
-    validateField("bloodSugar", formData.bloodSugar, formData) === "";
 
   const labelClass = "block mb-2 text-[12px] font-normal text-[#202020]";
 
@@ -392,12 +371,11 @@ const AdditionalInformation = () => {
       </div>
 
       {/* CTA Buttons */}
-      <div className="mt-16 md:mt-30.5 flex flex-col-reverse sm:flex-row gap-4 items-stretch sm:items-center sm:justify-between pb-10 md:pb-0">
+      <div className="mt-16 md:mt-28 flex flex-col-reverse sm:flex-row gap-4 items-stretch sm:items-center sm:justify-between pb-10 md:pb-10">
         <ActionButtons
           skip={{
             label: "Skip for now",
             onClick: handleSkip,
-            disabled: !isSkipEnabled,
           }}
           back={{
             label: "Go Back",
@@ -406,7 +384,6 @@ const AdditionalInformation = () => {
           next={{
             label: "Add Medical History",
             onClick: handleNext,
-            disabled: false,
           }}
         />
       </div>
