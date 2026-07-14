@@ -1,7 +1,8 @@
 import { Icon } from "@iconify/react";
 import { Container } from "@mui/material";
-
+import React from "react";
 import { FEATURES as features } from "../../../../shared/constants/landingPage";
+
 const FeaturesSection = () => {
   return (
     <section className="py-8 md:py-12 bg-white">
