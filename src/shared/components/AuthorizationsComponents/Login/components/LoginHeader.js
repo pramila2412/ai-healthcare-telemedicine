@@ -1,6 +1,6 @@
-import React from "react";
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
-import logoImg from '../../../assets/LandingPage/logo.png';
+import React from "react";
+import logoImg from '../../../../../assets/assets/logo.svg';
 
 const LoginHeader = ({ onLogoClick }) => {
   return (

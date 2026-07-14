@@ -1,8 +1,8 @@
-import React from "react";
-import { Container } from "@mui/material";
-
 import { Icon } from "@iconify/react";
+import { Container } from "@mui/material";
+import React from "react";
 import { FEATURES as features } from "../../../../shared/constants/landingPage";
+
 const FeaturesSection = () => {
   return (
     <section className="py-8 md:py-12 bg-white">
@@ -41,8 +41,8 @@ const FeaturesSection = () => {
                 {/* Title & Icon Flow */}
                 <div className="flex items-start gap-3 mb-4">
                 <div className="w-10 h-10 rounded-[15px] bg-[#EEF4F3] flex items-center justify-center shrink-0">
-  {feature.icon}
-</div>
+                  {feature.icon}
+                </div>
                   <h3 className="text-[#141414] font-bold text-[17px] leading-tight whitespace-pre-line mt-1">
                     {feature.title}
                   </h3>
@@ -70,7 +70,7 @@ const FeaturesSection = () => {
                       </span>
                     </li>
                   ))}
-                </ul>
+                </ul> 
               </div>
             </div>
           ))}

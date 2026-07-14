@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { showError, showSuccess } from "@/state-management/modules/notification/notificationActions";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import LoginBranding from "../Login/components/LoginBranding";
 import LoginFooter from "../Login/components/LoginFooter";
 import LoginHeader from "../Login/components/LoginHeader";
@@ -9,8 +11,10 @@ import SignUpOtpForm from "./components/SignUpOtpForm";
 import SignUpPhoneForm from "./components/SignUpPhoneForm";
 import SignUpRoleGrid from "./components/SignUpRoleGrid";
 
+
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   
   // Signup State Flow
   const [step, setStep] = useState(1);
@@ -35,23 +39,26 @@ const SignUp = () => {
   };
 
   // Phone Number Submission Handler (Step 2 -> Step 3)
-  const handlePhoneSubmit = (e) => {
-    e.preventDefault();
-    if (!phoneNumber) return;
+  const handlePhoneSubmit = (submittedPhoneNumber) => {
+    const normalizedPhoneNumber = (submittedPhoneNumber || phoneNumber || "").toString().trim();
+    if (!/^\d{10}$/.test(normalizedPhoneNumber)) return;
+    setPhoneNumber(normalizedPhoneNumber);
     setTimer(30);
     setStep(3);
   };
 
   // OTP Verification Submission Handler (Step 3 Submit)
-  const handleOtpVerify = (e) => {
-    e.preventDefault();
-    const code = otp.join('');
-    if (code.length < 6) {
-      alert('Please enter all 6 digits of the OTP.');
+  const handleOtpVerify = (values) => {
+    console.log("OTP Submitted:", values.otp);
+    // const code = values.otp.join('');
+    
+    if (values.otp.length < 6) {
+      dispatch(showError('Please enter all 6 digits of the OTP.'));
       return;
     }
     // Simulate signup success
-    navigate('/login'); // Send user to login page
+    dispatch(showSuccess('Account created successfully! Redirecting to login...'));
+    navigate('/patient-registration'); // Send user to patient registration page
   };
 
   // Handler for resending code
@@ -84,7 +91,7 @@ const SignUp = () => {
             <SignUpPhoneForm 
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
-              onSubmit={handlePhoneSubmit}
+              handlePhoneSubmit={handlePhoneSubmit}
               onBack={() => setStep(1)}
             />
           )}
