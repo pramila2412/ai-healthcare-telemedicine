@@ -1,4 +1,4 @@
-import OtpForm from '@/shared/components/OtpForm/OtpForm';
+import OtpForm from '@/shared/components/AuthorizationsComponents/OtpForm/OtpForm';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 

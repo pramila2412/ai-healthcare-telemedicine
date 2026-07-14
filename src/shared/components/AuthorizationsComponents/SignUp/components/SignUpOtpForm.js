@@ -1,4 +1,4 @@
-import OtpForm from '@/shared/components/OtpForm/OtpForm';
+import OtpForm from '@/shared/components/AuthorizationsComponents/OtpForm/OtpForm';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
