@@ -1,61 +1,46 @@
+import { LoginWithPhone } from '@/shared/components/LoginAndSignup/LoginWithPhone';
+import { InputBase } from '@mui/material';
+import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const validateUniqueId = (id) => {
-  if (id.length !== 10) return 'Unique ID must be exactly 10 characters.';
-  if (/[a-z]/.test(id) || !/[A-Z]/.test(id)) return 'Unique ID must be in all capital letters.';
-  if (!/\d/.test(id)) return 'Unique ID must contain at least one number.';
-  if (!/[^A-Za-z0-9]/.test(id)) return 'Unique ID must contain at least one special character.';
-  return '';
-};
+import * as Yup from 'yup';
+import LoginMethod from '../../../../constants/LoginMethods/LoginMethod';
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  // State to manage which tab is active ('phone' or 'uniqueId')
-  const [loginMethod, setLoginMethod] = useState('phone');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [uniqueId, setUniqueId] = useState('');
-  const [error, setError] = useState('');
+  const [loginMethod, setLoginMethod] = useState(LoginMethod.PHONE);
 
-  const handlePhoneChange = (e) => {
-    const cleaned = e.target.value.replace(/\D/g, '');
-    if (cleaned.length <= 10) {
-      setPhoneNumber(cleaned);
-      if (cleaned.length === 10) {
-        setError('');
+  const formik = useFormik({
+    initialValues: {
+      phoneNumber: '',
+      uniqueId: ''
+    },
+    validateOnChange: true,
+    validateOnBlur: true,
+    validationSchema: Yup.object({
+      phoneNumber: Yup.string()
+        .trim()
+        .matches(/^\d{10}$/, 'Phone number must be exactly 10 digits.')
+        .required('Phone number is required'),
+      uniqueId: Yup.string()
+        .max(10, 'Unique ID must be at most 10 characters.')
+        .test('valid-format', 'Unique ID must contain uppercase letters, numbers, and special characters.', function(value) {
+          if (!value) return true; // Allow empty for now, required check elsewhere
+          if (value.length !== 10) return this.createError({ message: 'Unique ID must be exactly 10 characters.' });
+          if (!/[A-Z]/.test(value)) return this.createError({ message: 'Unique ID must contain at least one uppercase letter.' });
+          if (!/\d/.test(value)) return this.createError({ message: 'Unique ID must contain at least one number.' });
+          if (!/[^A-Za-z0-9]/.test(value)) return this.createError({ message: 'Unique ID must contain at least one special character.' });
+          return true;
+        })
+    }),
+    onSubmit: async (values) => {
+      if (loginMethod === 'phone') {
+        navigate('/verify', { state: { phoneNumber: `+91 ${values.phoneNumber}` } });
+      } else {
+        navigate('/password', { state: { uniqueId: values.uniqueId } });
       }
     }
-  };
-
-  const handleUniqueIdChange = (e) => {
-    const value = e.target.value;
-    if (value.length <= 10) {
-      setUniqueId(value);
-      setError('');
-    }
-  };
-
-  const handleContinue = (e) => {
-    e.preventDefault();
-
-    if (loginMethod === 'phone') {
-      if (phoneNumber.length !== 10) {
-        setError('Phone number must be exactly 10 digits.');
-        return;
-      }
-      setError('');
-      navigate('/verify', { state: { phoneNumber: `+91 ${phoneNumber}` } });
-    } else {
-      const uniqueIdError = validateUniqueId(uniqueId);
-      if (uniqueIdError) {
-        setError(uniqueIdError);
-        return;
-      }
-      setError('');
-      navigate('/password', { state: { uniqueId } });
-    }
-  };
+  });
 
   return (
     <div className="flex-1 md:w-1/2 lg:w-1/2 p-8 lg:p-5 flex flex-col justify-between bg-white min-h-[600px] lg:min-h-auto font-TypeFace">
@@ -77,7 +62,7 @@ export default function LoginForm() {
             {/* Phone Number Tab */}
             <button
               type="button"
-              onClick={() => { setLoginMethod('phone'); setError(''); }}
+              onClick={() => { setLoginMethod(LoginMethod.PHONE) }}
               className={`flex items-center justify-center gap-2 text-xs font-medium py-2.5 px-4 rounded-lg transition-all cursor-pointer ${loginMethod === 'phone'
                 ? 'bg-emerald-50 text-emerald-800 border border-emerald-100/50 shadow-sm'
                 : 'text-gray-500 hover:text-gray-800'
@@ -101,7 +86,7 @@ export default function LoginForm() {
             {/* Unique ID Tab */}
             <button
               type="button"
-              onClick={() => { setLoginMethod('uniqueId'); setError(''); }}
+              onClick={() => { setLoginMethod(LoginMethod.UNIQUEID)}}
               className={`flex items-center justify-center gap-2 text-xs font-medium py-2.5 px-4 rounded-lg transition-all cursor-pointer ${loginMethod === 'uniqueId'
                 ? 'bg-emerald-50 text-emerald-800 border border-emerald-100/50 shadow-sm'
                 : 'text-gray-500 hover:text-gray-800'
@@ -127,33 +112,10 @@ export default function LoginForm() {
           </div>
         </div>
 
-        <form className="space-y-5" onSubmit={handleContinue}>
+        <form className="space-y-5" onSubmit={formik.handleSubmit}>
           {/* Dynamic Input Switching based on Tab Selection */}
-          {loginMethod === "phone" ? (
-            <div className="animate-fade-in">
-              <label className="login-form-label block text-xs font-semibold text-gray-500 mb-2">
-                Phone Number
-              </label>
-              <div className="flex border border-gray-200 rounded-xl focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden bg-white">
-                <div className="flex items-center gap-1 px-3 bg-slate-50 border-r border-gray-100 text-sm font-medium text-slate-700 cursor-pointer">
-                  <span>🇮🇳</span> <span>+91</span>{" "}
-                  <span className="text-[10px] text-gray-400">▼</span>
-                </div>
-                <input
-                  type="tel"
-                  placeholder="Enter phone number"
-                  required
-                  value={phoneNumber}
-                  onChange={handlePhoneChange}
-                  className="login-form-input w-full px-4 py-3 text-sm text-slate-800 placeholder-gray-400 outline-none"
-                />
-              </div>
-              {error && (
-                <p className="text-red-500 text-xs font-semibold mt-2 animate-pulse">
-                  {error}
-                </p>
-              )}
-            </div>
+          {loginMethod === LoginMethod.PHONE ? (
+            <LoginWithPhone formikValues={formik}/>
           ) : (
             <div className="animate-fade-in">
               <label className="login-form-label block text-xs font-semibold text-gray-500 mb-2">
@@ -175,19 +137,20 @@ export default function LoginForm() {
                   />
                 </svg>
 
-                <input
+                <InputBase
                   type="text"
+                  name="uniqueId"
                   placeholder="Enter your unique ID"
-                  required
-                  value={uniqueId}
-                  onChange={handleUniqueIdChange}
-                  maxLength={10}
+                  value={formik.values.uniqueId}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  inputProps={{ maxLength: 10 }}
                   className="w-full text-sm text-slate-800 placeholder-gray-400 outline-none ml-2"
                 />
               </div>
-              {error && (
+              {formik.touched.uniqueId && formik.errors.uniqueId && (
                 <p className="text-red-500 text-xs font-semibold mt-2 animate-pulse">
-                  {error}
+                  {formik.errors.uniqueId}
                 </p>
               )}
             </div>

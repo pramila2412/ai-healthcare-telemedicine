@@ -1,4 +1,5 @@
 
+import logoImg from '@/assets/assets/logo.svg';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; // Fallback logo icon
@@ -7,7 +8,6 @@ import { AppBar, Button, Container, IconButton, Toolbar } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import logoImg from '../../../../assets/LandingPage/logo.png';
 
 const navItems = ['Home', 'Solutions', 'For Patients', 'For Providers', 'Pricing', 'Resources'];
 

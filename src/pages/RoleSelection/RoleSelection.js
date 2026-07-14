@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoginHeader from "../Login/components/LoginHeader";
-import LoginBranding from "../Login/components/LoginBranding";
+import LoginBranding from "../../shared/components/AuthorizationsComponents/Login/components/LoginBranding";
+import LoginFooter from "../../shared/components/AuthorizationsComponents/Login/components/LoginFooter";
+import LoginHeader from "../../shared/components/AuthorizationsComponents/Login/components/LoginHeader";
 import RoleGrid from "./components/RoleGrid";
-import LoginFooter from "../Login/components/LoginFooter";
 
 const RoleSelection = () => {
   const navigate = useNavigate();

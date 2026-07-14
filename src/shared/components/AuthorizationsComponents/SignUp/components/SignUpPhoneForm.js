@@ -1,10 +1,11 @@
-import { Button, InputBase } from '@mui/material';
+import { LoginWithPhone } from '@/shared/components/LoginAndSignup/LoginWithPhone';
+import { Button } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { setPhoneNumbers } from "../../../state-management/modules/security/securityActions";
+import { setPhoneNumbers } from "../../../../../state-management/modules/security/securityActions";
 
 
 export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, handlePhoneSubmit, onBack }) {
@@ -58,29 +59,10 @@ export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, handlePho
         </div>
 
         <form onSubmit={formik.handleSubmit} className="space-y-5">
-          <div>
-            <label className="login-form-label block text-xs font-semibold text-gray-500 mb-2">Phone Number</label>
-            <div className={`flex rounded-xl focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden bg-white ${formik.touched.phoneNumber && formik.errors.phoneNumber ? 'border border-red-500' : 'border border-gray-200'}`}>
-              <div className="flex items-center gap-1 px-3 bg-slate-50 border-r border-gray-100 text-sm font-medium text-slate-700 cursor-pointer">
-                <span>🇮🇳</span> <span>+91</span> <span className="text-[10px] text-gray-400">▼</span>
-              </div>
-              <InputBase
-                type="tel"
-                name="phoneNumber"
-                placeholder="Enter phone number"
-                value={formik.values.phoneNumber}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="login-form-input w-full px-4 py-3 text-sm text-slate-800 placeholder-gray-400 outline-none"
-              />
-            </div>
-            {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-              <p className="text-red-500 text-xs font-semibold mt-2 animate-pulse">
-                {formik.errors.phoneNumber}
-              </p>
-            )}
-          </div>
-
+          
+          <LoginWithPhone
+            formikValues = {formik}
+          />
           <Button
             type="submit"
             className="login-form-btn w-full bg-emerald-800 hover:bg-emerald-900 text-white font-medium text-sm py-3 px-4 rounded-xl shadow-md transition-colors duration-200 mt-2 cursor-pointer"

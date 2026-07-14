@@ -1,4 +1,6 @@
+import { showError, showSuccess } from "@/state-management/modules/notification/notificationActions";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import LoginBranding from "../Login/components/LoginBranding";
 import LoginFooter from "../Login/components/LoginFooter";
@@ -12,6 +14,7 @@ import SignUpRoleGrid from "./components/SignUpRoleGrid";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   
   // Signup State Flow
   const [step, setStep] = useState(1);
@@ -45,15 +48,17 @@ const SignUp = () => {
   };
 
   // OTP Verification Submission Handler (Step 3 Submit)
-  const handleOtpVerify = (e) => {
-    e.preventDefault();
-    const code = otp.join('');
-    if (code.length < 6) {
-      alert('Please enter all 6 digits of the OTP.');
+  const handleOtpVerify = (values) => {
+    console.log("OTP Submitted:", values.otp);
+    // const code = values.otp.join('');
+    
+    if (values.otp.length < 6) {
+      dispatch(showError('Please enter all 6 digits of the OTP.'));
       return;
     }
     // Simulate signup success
-    navigate('/login'); // Send user to login page
+    dispatch(showSuccess('Account created successfully! Redirecting to login...'));
+    navigate('/patient-registration'); // Send user to patient registration page
   };
 
   // Handler for resending code

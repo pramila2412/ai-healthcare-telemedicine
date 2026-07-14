@@ -1,9 +1,9 @@
+import logoImg from '@/assets/assets/logo.svg';
+import { Icon } from "@iconify/react";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import { Container } from "@mui/material";
 import React from "react";
 import "./Footer.css";
-import logoImg from '../../../../assets/LandingPage/logo.png';
-import { Icon } from "@iconify/react";
 const footerLinks = [
   {
     title: "Platform",
