@@ -7,9 +7,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Container, IconButton, Toolbar } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { NAVBAR_ITEMS as navItems } from '../../../../shared/constants/landingPage';
 import './Navbar.css';
-
-const navItems = ['Home', 'Solutions', 'For Patients', 'For Providers', 'Pricing', 'Resources'];
 
 const Navbar = () => {
   const navigate = useNavigate();

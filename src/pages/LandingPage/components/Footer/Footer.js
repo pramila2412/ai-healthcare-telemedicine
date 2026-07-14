@@ -3,30 +3,8 @@ import { Icon } from "@iconify/react";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import { Container } from "@mui/material";
 import React from "react";
+import { FOOTER_LINKS as footerLinks } from "../../../../shared/constants/landingPage";
 import "./Footer.css";
-const footerLinks = [
-  {
-    title: "Platform",
-    links: [
-      "Hospital Management",
-      "Telemedicine",
-      "Pharmacy System",
-      "Lab Management",
-      "Health Insurance",
-      "Appointment and Scheduling",
-      "Remote monitoring",
-      "AI & Analytics",
-    ],
-  },
-  {
-    title: "Resources",
-    links: ["Documentation", "API Reference", "Integration", "Case studies"],
-  },
-  {
-    title: "Company",
-    links: ["About Us", "Careers", "Press", "Partners", "Blog", "Contact Us"],
-  },
-];
 
 const Footer = () => {
   return (
