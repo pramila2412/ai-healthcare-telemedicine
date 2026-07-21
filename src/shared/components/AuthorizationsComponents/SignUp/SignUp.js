@@ -58,7 +58,7 @@ const SignUp = () => {
     }
     // Simulate signup success
     dispatch(showSuccess('Account created successfully! Redirecting to login...'));
-    navigate('/patient-registration'); // Send user to patient registration page
+    navigate('/registration'); // Send user to patient registration page
   };
 
   // Handler for resending code
