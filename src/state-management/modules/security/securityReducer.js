@@ -9,7 +9,7 @@ import {
 
 const initialState = {
   user: null,
-  phoneNumber: localStorage.getItem("phoneNumber") || "",
+  phoneNumber: "",
   isLoading: false,
   isError: null,
   isAuthenticated: true,
@@ -46,12 +46,6 @@ const secuirityReducer = (state = initialState, action) => {
       };
 
     case SET_PHONE_NUMBER:
-      if (action.payload) {
-        localStorage.setItem("phoneNumber", action.payload);
-      } else {
-        localStorage.removeItem("phoneNumber");
-      }
-
       return {
         ...state,
         phoneNumber: action.payload,
