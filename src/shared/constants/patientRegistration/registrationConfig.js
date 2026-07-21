@@ -168,3 +168,20 @@ export const stateCities = {
   "West Bengal": ["Kolkata", "Howrah", "Durgapur"],
   Other: ["Other"],
 };
+
+export const materialStatus = [
+  "Single",
+  "Married",
+  "Prefer Not to Say",
+];
+
+export const occupations =[
+  "Student",
+  "Employed",
+  "Self-employed",
+  "Business Owner",
+  "Government Employee",
+  "Retired",
+  "Unemployed",
+  "Other",
+]
