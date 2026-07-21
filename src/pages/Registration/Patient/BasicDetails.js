@@ -6,4 +6,4 @@ const BasicDetails = () => {
   )
 }
 
-export default BasicDetails
+export default BasicDetails;

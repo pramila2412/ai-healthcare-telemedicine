@@ -5,14 +5,14 @@ const patientSidebar = [
   {
     key: 'personal',
     label: 'Personal Information',
-    icon: 'lucide:user',
+    icon: 'tabler:user',
     title: 'Personal Information',
     subtitle: DEFAULT_SECTION_SUBTITLE,
     children: [
       {
         key: 'basic',
         label: 'Basic Details',
-        icon: 'lucide:user',
+        icon: 'tabler:user',
         title: 'Basic Details',
         subtitle: 'Tell us a little about yourself so we can personalize your healthcare experience.',
         showSkip: false,
