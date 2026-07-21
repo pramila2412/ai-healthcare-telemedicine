@@ -8,6 +8,7 @@ const FormInput = ({
   placeholder = "",
   type = "text",
   icon,
+  startIcon,
   iconAlt = "",
   error = "",
   showError = false,
@@ -41,6 +42,16 @@ const FormInput = ({
         />
       )}
 
+      {startIcon && (
+        <span
+          className={`absolute left-4 top-1/2 z-10 flex -translate-y-1/2 items-center text-[#667085] pointer-events-none ${
+            disabled ? "opacity-50" : ""
+          }`}
+        >
+          {startIcon}
+        </span>
+      )}
+
       {/* Left prefix */}
       {prefix && (
         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-[#666666] z-10 pointer-events-none">
@@ -60,7 +71,7 @@ const FormInput = ({
           ${baseClass}
           ${disabled ? disabledClass : normalClass}
           ${errorClass}
-          ${icon || prefix ? "pl-12" : "px-4"}
+          ${icon || startIcon || prefix ? "pl-12" : "px-4"}
           ${suffix ? "pr-20" : ""}
           ${className}
         `}

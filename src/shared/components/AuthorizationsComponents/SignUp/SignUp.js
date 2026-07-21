@@ -1,4 +1,5 @@
 import { showError, showSuccess } from "@/state-management/modules/notification/notificationActions";
+import { setUserRole } from "@/state-management/modules/auth/authActions";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -57,7 +58,8 @@ const SignUp = () => {
       return;
     }
     // Simulate signup success
-    dispatch(showSuccess('Account created successfully! Redirecting to login...'));
+    dispatch(setUserRole(selectedRole));
+    dispatch(showSuccess('Account created successfully! Redirecting to registration...'));
     navigate('/registration'); // Send user to patient registration page
   };
 
