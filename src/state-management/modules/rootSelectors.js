@@ -1,10 +1,8 @@
-import * as securitySelectors from "./security/securitySelectors.js";
 import * as authSelectors from "./auth/authSelectors.js";
-import * as registrationSelectors from "./registration/registrationSelectors.js";
+import * as sideBarRegistrationSelectors from "./Registrations/SidebarRegistration/registrationSelectors.js";
+import * as securitySelectors from "./security/securitySelectors.js";
 
 export {
-    securitySelectors,
-    authSelectors,
-    registrationSelectors,
+    authSelectors, securitySelectors, sideBarRegistrationSelectors
 };
 

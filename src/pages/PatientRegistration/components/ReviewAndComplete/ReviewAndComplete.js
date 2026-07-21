@@ -11,8 +11,8 @@ import React, { useState } from "react";
 
 import InfoChip from "@/shared/components/PatientRegistration/common/InfoChip";
 import SectionHeader from "@/shared/components/PatientRegistration/common/SectionHeader";
-import { setReviewComplete } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
-import { selectReviewComplete } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+import { setReviewComplete } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationActions";
+import { selectReviewComplete } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationSelectors";
 import { useDispatch, useSelector } from "react-redux";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

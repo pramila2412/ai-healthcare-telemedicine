@@ -10,10 +10,10 @@ import sidebarByRole, { getStepComponent } from "@/shared/constants/RoleRegistra
 import {
   saveSectionData,
   setActiveSection,
-} from "@/state-management/modules/registration/registrationActions";
+} from "@/state-management/modules/Registrations/SidebarRegistration/registrationActions";
 import {
   authSelectors,
-  registrationSelectors,
+  sideBarRegistrationSelectors,
 } from "@/state-management/modules/rootSelectors";
 
 const findActiveSection = (sections, activeKey) => {
@@ -31,10 +31,9 @@ const RegistrationPage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const role = useSelector(authSelectors.getUserRole);
-  const activeSectionKey = useSelector(
-    registrationSelectors.getActiveSectionKey,
-  );
-  const sectionData = useSelector(registrationSelectors.getSectionData); // { [stepKey]: data }
+  const activeSectionKey = useSelector(sideBarRegistrationSelectors.getActiveSectionKey);
+  console.log("activeSectionKey:",activeSectionKey );
+  const sectionData = useSelector(sideBarRegistrationSelectors.getSectionData); // { [stepKey]: data }
 
   if (!role) return <Navigate to="/signup" />;
 

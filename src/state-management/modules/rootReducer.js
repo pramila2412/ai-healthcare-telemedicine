@@ -1,17 +1,13 @@
 import { combineReducers } from "redux";
 
 import notificationReducer from "./notification/notificationReducer";
-import patientRegistrationReducer from "./patientRegistration/patientRegistrationReducer";
+import RegistrationRootReducer from "./Registrations/RegistrationRootReducer";
 import secuirityReducer from "./security/securityReducer";
-import authReducer from "./auth/authReducer";
-import registrationReducer from "./registration/registrationReducer";
 
 const rootReducer = combineReducers({
   security: secuirityReducer,
-  patientRegistration: patientRegistrationReducer,
+  registrations: RegistrationRootReducer,
   notification: notificationReducer,
-  auth: authReducer,
-  registration:registrationReducer,
 });
 
 export default rootReducer;
