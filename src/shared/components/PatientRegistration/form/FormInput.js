@@ -1,4 +1,5 @@
 import React from "react";
+import { Icon } from "@iconify/react";
 
 const FormInput = ({
   name,
@@ -25,17 +26,17 @@ const FormInput = ({
   const disabledClass =
     "bg-[#F4F4F4] border-[0.5px] border-[#D0D0D0] text-[#8A8A8A] placeholder:text-[#8A8A8A] cursor-not-allowed";
 
-  const errorClass =
-    showError && error ? "border-[#EF4444]" : "";
+  const errorClass = showError && error ? "border-[#EF4444]" : "";
 
   return (
     <div className="relative">
       {/* Left icon */}
       {icon && (
-        <img
-          src={icon}
-          alt={iconAlt}
-          className={`absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 z-10 pointer-events-none ${
+        <Icon
+          icon={icon}
+          width={24}
+          height={24}
+          className={`absolute left-4 top-1/2 -translate-y-1/2  z-10 pointer-events-none ${
             disabled ? "opacity-50" : ""
           }`}
         />

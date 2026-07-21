@@ -1,6 +1,5 @@
 import { Container } from '@mui/material';
 import React from 'react';
-import './CtaSection.css';
 import bookingImg from '../../../../assets/LandingPage/booking.png';
 import { Icon } from "@iconify/react";
 const CtaSection = () => {

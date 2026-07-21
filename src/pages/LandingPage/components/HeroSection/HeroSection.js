@@ -1,6 +1,5 @@
 import { Container, Paper } from '@mui/material';
 import React from 'react';
-import './HeroSection.css';
 
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import heroImg from '../../../../assets/LandingPage/hero-image.png';

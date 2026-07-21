@@ -8,7 +8,6 @@ import { AppBar, Button, Container, IconButton, Toolbar } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NAVBAR_ITEMS as navItems } from '../../../../shared/constants/landingPage';
-import './Navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
