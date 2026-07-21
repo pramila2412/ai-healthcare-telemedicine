@@ -47,6 +47,20 @@ img {
 }
 
 @layer components {
+  .insurance-modal {
+    font-family: var(--font-TypeFace);
+    color: #0B1117;
+  }
+  .insurance-modal-subtitle {
+    color: #374151;
+  }
+  .insurance-modal-caption {
+    color: #4B5563;
+  }
+  .insurance-modal-note {
+    color: #0B1117;
+  }
+
   .section-padding {
     @apply py-8 md:py-12 bg-white;
   }
