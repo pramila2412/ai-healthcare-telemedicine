@@ -4,7 +4,6 @@ import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import { Container } from "@mui/material";
 import React from "react";
 import { FOOTER_LINKS as footerLinks } from "../../../../shared/constants/landingPage";
-import "./Footer.css";
 
 const Footer = () => {
   return (

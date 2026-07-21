@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Container } from "@mui/material";
 import React from "react";
-import "./ServicesSection.css";
 import { SERVICES as services } from "../../../../shared/constants/landingPage";
 
 const ServicesSection = () => {
