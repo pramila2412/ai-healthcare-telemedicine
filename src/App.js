@@ -12,6 +12,8 @@ import NotificationView from "./shared/components/Notification/NotificationView.
 import withSecurity from "./shared/components/WithSecurity/WithSecurity.js";
 import ScrollToTop from "./shared/ScrollToTop/ScrollToTop.jsx";
 import PatientRegistration from "./pages/PatientRegistration/PatientRegistration";
+import RegistrationPage from "./pages/Registration/RegistrationPage";
+
 
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
             <Route path="/password" element={<LoginPassword />} />
             <Route path="/role-selection" element={<RoleSelection />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/registration" element={<RegistrationPage />} />
           </Routes>
         </GlobalConfigView>
       </div>

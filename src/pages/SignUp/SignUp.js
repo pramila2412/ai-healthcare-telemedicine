@@ -11,12 +11,12 @@ import SignUpOtpForm from "./components/SignUpOtpForm";
 
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
-import {
-  resetRegistration,
-  setPersonalInfo,
-} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+import { setUserRole } from "@/state-management/modules/auth/authActions";
+// pages/SignUp/SignUp.js
+import { resetRegistration } from "@/state-management/modules/registration/registrationActions";  
 
 const SignUp = () => {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -38,9 +38,10 @@ const SignUp = () => {
 
   // Role Selection Continue Handler (Step 1 -> Step 2)
   const handleRoleSubmit = (e) => {
-    e.preventDefault();
-    setStep(2);
-  };
+  e.preventDefault();
+  dispatch(setUserRole(selectedRole));   // 🔑 persist role to Redux now
+  setStep(2);
+};
 
   // Phone Number Submission Handler (Step 2 -> Step 3)
   const handlePhoneSubmit = (e) => {
@@ -75,10 +76,9 @@ const SignUp = () => {
     });
 
     dispatch(resetRegistration());
-
-    navigate("/patient-registration");
+    navigate("/registration");
   };
-
+ /* navigate(`/${selectedRole}-registration`); */
   // Handler for resending code
   const handleResendOtp = () => {
     setTimer(30);
