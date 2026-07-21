@@ -1,4 +1,3 @@
-import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -10,81 +9,154 @@ import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import React, { useRef, useState } from "react";
 
 import {
+  createUploadStatus,
+  UPLOAD_STATUS_CODE,
+} from "@/shared/constants/uploadStatus";
+import {
   formatFileSize,
   getFileExtension,
   isAllowedFileType,
   isWithinMaxSize,
 } from "@/shared/utils/PatientRegistration/fileUtils";
+import { resolveUploadErrorStatus } from "@/shared/utils/uploadErrorUtils";
 
-const createDocumentRecord = (file, index) => ({
-  id: `${Date.now()}-${index}-${file.name}`,
-  name: file.name,
-  size: file.size,
-  type: file.type,
-  lastModified: file.lastModified,
+import UploadStatusSnackbar from "./UploadStatusSnackbar";
+
+const createDocumentRecord = (file, index, uploadedRecord = {}) => ({
+  id: uploadedRecord.id || `${Date.now()}-${index}-${file.name}`,
+  name: uploadedRecord.name || file.name,
+  size: uploadedRecord.size ?? file.size,
+  type: uploadedRecord.type || file.type,
+  lastModified: uploadedRecord.lastModified ?? file.lastModified,
+  url: uploadedRecord.url,
 });
+
+const isSameFile = (firstFile, secondFile) =>
+  firstFile.name === secondFile.name &&
+  firstFile.size === secondFile.size &&
+  firstFile.lastModified === secondFile.lastModified;
+
+const normalizeUploadResponse = (response, sourceFiles) => {
+  const responseData = response?.data ?? response;
+  const uploadedFiles = Array.isArray(responseData)
+    ? responseData
+    : Array.isArray(responseData?.files)
+      ? responseData.files
+      : [];
+
+  return sourceFiles.map((file, index) =>
+    createDocumentRecord(file, index, uploadedFiles[index]),
+  );
+};
 
 const DocumentDropzone = ({
   label,
   instruction,
   infoTooltip,
+  infoLabel,
   onInfoClick,
   value = [],
   onChange,
   rules,
   onUploadSuccess,
+  uploadFiles,
 }) => {
   const inputRef = useRef(null);
+  const retryFilesRef = useRef([]);
   const [isDragging, setIsDragging] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState(null);
 
   const files = Array.isArray(value) ? value : [];
   const maxFiles = rules?.maxFiles ?? Number.POSITIVE_INFINITY;
 
-  const addFiles = (fileList) => {
+  const getValidationStatus = (file, acceptedSourceFiles, remainingSlots) => {
+    if (!file?.name || !Number.isFinite(file.size) || file.size <= 0) {
+      return createUploadStatus(UPLOAD_STATUS_CODE.INVALID_FILE);
+    }
+
+    if (!isAllowedFileType(file.name, rules.allowedExtensions)) {
+      return createUploadStatus(UPLOAD_STATUS_CODE.UNSUPPORTED_FORMAT);
+    }
+
+    if (!isWithinMaxSize(file, rules.maxSizeMB)) {
+      return createUploadStatus(UPLOAD_STATUS_CODE.FILE_SIZE_EXCEEDED, {
+        message: `The selected file exceeds the maximum size limit of ${rules.maxSizeMB} MB.`,
+      });
+    }
+
+    const isDuplicate =
+      files.some((currentFile) => isSameFile(currentFile, file)) ||
+      acceptedSourceFiles.some((currentFile) => isSameFile(currentFile, file));
+
+    if (isDuplicate) {
+      return createUploadStatus(UPLOAD_STATUS_CODE.FILE_ALREADY_UPLOADED);
+    }
+
+    if (acceptedSourceFiles.length >= remainingSlots) {
+      return createUploadStatus(UPLOAD_STATUS_CODE.UPLOAD_LIMIT_REACHED, {
+        message: `You can upload up to ${maxFiles} files.`,
+      });
+    }
+
+    return null;
+  };
+
+  const addFiles = async (fileList) => {
     const selectedFiles = Array.from(fileList || []);
     if (!selectedFiles.length) return;
+    setUploadStatus(null);
 
     const remainingSlots = Number.isFinite(maxFiles)
       ? Math.max(maxFiles - files.length, 0)
       : Number.POSITIVE_INFINITY;
-    const acceptedFiles = [];
-    let invalidCount = 0;
+    const acceptedSourceFiles = [];
+    let firstValidationStatus = null;
 
-    selectedFiles.forEach((file, index) => {
-      const isDuplicate = files.some(
-        (currentFile) =>
-          currentFile.name === file.name &&
-          currentFile.size === file.size &&
-          currentFile.lastModified === file.lastModified,
+    selectedFiles.forEach((file) => {
+      const validationStatus = getValidationStatus(
+        file,
+        acceptedSourceFiles,
+        remainingSlots,
       );
-      const isValid =
-        isAllowedFileType(file.name, rules.allowedExtensions) &&
-        isWithinMaxSize(file, rules.maxSizeMB) &&
-        !isDuplicate &&
-        acceptedFiles.length < remainingSlots;
 
-      if (!isValid) {
-        invalidCount += 1;
+      if (validationStatus) {
+        firstValidationStatus ||= validationStatus;
         return;
       }
 
-      acceptedFiles.push(createDocumentRecord(file, index));
+      acceptedSourceFiles.push(file);
     });
 
-    setErrorMessage(
-      invalidCount
-        ? `Some files were skipped. Upload ${rules.supportedLabel} files up to ${rules.maxSizeMB}MB${
-            Number.isFinite(maxFiles)
-              ? ` and a maximum of ${maxFiles} files.`
-              : "."
-          }`
-        : "",
-    );
+    if (firstValidationStatus) setUploadStatus(firstValidationStatus);
 
-    if (acceptedFiles.length) {
-      onChange?.([...files, ...acceptedFiles]);
-      onUploadSuccess?.(acceptedFiles.length);
+    if (acceptedSourceFiles.length) {
+      retryFilesRef.current = acceptedSourceFiles;
+      setIsUploading(true);
+
+      try {
+        const response = uploadFiles
+          ? await uploadFiles(acceptedSourceFiles)
+          : null;
+        const uploadedRecords = normalizeUploadResponse(
+          response,
+          acceptedSourceFiles,
+        );
+
+        onChange?.([...files, ...uploadedRecords]);
+        if (!firstValidationStatus) {
+          onUploadSuccess?.(uploadedRecords.length);
+        }
+      } catch (error) {
+        setUploadStatus(
+          resolveUploadErrorStatus(error, {
+            maxSizeMB: rules.maxSizeMB,
+            maxFiles,
+          }),
+        );
+      } finally {
+        setIsUploading(false);
+      }
     }
 
     if (inputRef.current) inputRef.current.value = "";
@@ -92,6 +164,7 @@ const DocumentDropzone = ({
 
   const hasReachedLimit =
     Number.isFinite(maxFiles) && files.length >= maxFiles;
+  const isDropzoneDisabled = hasReachedLimit || isUploading;
 
   return (
     <div>
@@ -101,19 +174,31 @@ const DocumentDropzone = ({
         </label>
         {infoTooltip && (
           <Tooltip title={infoTooltip} arrow>
-            <IconButton
-              size="small"
-              onClick={onInfoClick}
-              aria-label={`${label} information`}
-              sx={{
-                width: 24,
-                height: 24,
-                color: "#0D8B72",
-                backgroundColor: "#F1F9F7",
-              }}
-            >
-              <InfoOutlinedIcon sx={{ fontSize: 14 }} />
-            </IconButton>
+            {infoLabel ? (
+              <button
+                type="button"
+                onClick={onInfoClick}
+                aria-label={`${label} information`}
+                className="flex h-6 items-center gap-1 rounded-full bg-[#F0FBFA] px-2 text-[10px] font-medium text-[#248B8F] hover:bg-[#E3F6F5]"
+              >
+                <InfoOutlinedIcon sx={{ fontSize: 12 }} />
+                <span>{infoLabel}</span>
+              </button>
+            ) : (
+              <IconButton
+                size="small"
+                onClick={onInfoClick}
+                aria-label={`${label} information`}
+                sx={{
+                  width: 24,
+                  height: 24,
+                  color: "#0D8B72",
+                  backgroundColor: "#F1F9F7",
+                }}
+              >
+                <InfoOutlinedIcon sx={{ fontSize: 14 }} />
+              </IconButton>
+            )}
           </Tooltip>
         )}
       </div>
@@ -129,28 +214,32 @@ const DocumentDropzone = ({
 
       <Box
         role="button"
-        tabIndex={hasReachedLimit ? -1 : 0}
-        aria-disabled={hasReachedLimit}
-        onClick={() => !hasReachedLimit && inputRef.current?.click()}
+        tabIndex={isDropzoneDisabled ? -1 : 0}
+        aria-disabled={isDropzoneDisabled}
+        aria-busy={isUploading}
+        onClick={() => !isDropzoneDisabled && inputRef.current?.click()}
         onKeyDown={(event) => {
-          if (!hasReachedLimit && (event.key === "Enter" || event.key === " ")) {
+          if (
+            !isDropzoneDisabled &&
+            (event.key === "Enter" || event.key === " ")
+          ) {
             event.preventDefault();
             inputRef.current?.click();
           }
         }}
         onDragEnter={(event) => {
           event.preventDefault();
-          if (!hasReachedLimit) setIsDragging(true);
+          if (!isDropzoneDisabled) setIsDragging(true);
         }}
         onDragOver={(event) => event.preventDefault()}
         onDragLeave={() => setIsDragging(false)}
         onDrop={(event) => {
           event.preventDefault();
           setIsDragging(false);
-          if (!hasReachedLimit) addFiles(event.dataTransfer.files);
+          if (!isDropzoneDisabled) addFiles(event.dataTransfer.files);
         }}
         className={`flex min-h-14 items-center justify-center rounded-lg border border-dashed px-5 py-4 text-center transition-colors ${
-          hasReachedLimit
+          isDropzoneDisabled
             ? "cursor-not-allowed border-[#E4E7EC] bg-[#F8F9FA] opacity-70"
             : isDragging
               ? "cursor-copy border-[#0D8B72] bg-[#F1F9F7]"
@@ -173,12 +262,6 @@ const DocumentDropzone = ({
           {Number.isFinite(maxFiles) ? ` | Upload up to ${maxFiles} files` : ""}
         </span>
       </div>
-
-      {errorMessage && (
-        <Alert severity="error" sx={{ mt: 1.5, fontSize: 12 }}>
-          {errorMessage}
-        </Alert>
-      )}
 
       {files.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-3">
@@ -207,7 +290,7 @@ const DocumentDropzone = ({
                   size="small"
                   onClick={(event) => {
                     event.stopPropagation();
-                    setErrorMessage("");
+                    setUploadStatus(null);
                     onChange?.(files.filter((item) => item.id !== file.id));
                   }}
                   aria-label={`Remove ${file.name}`}
@@ -220,6 +303,20 @@ const DocumentDropzone = ({
           })}
         </div>
       )}
+
+      <UploadStatusSnackbar
+        open={Boolean(uploadStatus)}
+        status={uploadStatus}
+        onClose={() => setUploadStatus(null)}
+        onRetry={
+          uploadStatus?.retryable && retryFilesRef.current.length
+            ? () => {
+                setUploadStatus(null);
+                addFiles(retryFilesRef.current);
+              }
+            : undefined
+        }
+      />
     </div>
   );
 };

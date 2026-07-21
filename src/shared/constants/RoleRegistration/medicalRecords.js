@@ -93,7 +93,7 @@ export const DOCUMENT_UPLOAD_RULES = Object.freeze({
 export const INSURANCE_TYPES = Object.freeze([
   "Private",
   "Government",
-  "Employer Sponsored",
+  "No insurance",
 ]);
 
 export const INSURANCE_PROVIDER_CONFIG = Object.freeze({
@@ -123,22 +123,6 @@ export const INSURANCE_PROVIDER_CONFIG = Object.freeze({
       "Aarogyasri Health Care Trust",
     ],
   },
-  "Employer Sponsored": {
-    label: "Insurance Provider",
-    placeholder: "Select your employer insurance provider",
-    options: [
-      "Star Health Insurance",
-      "LIC Health",
-      "HDFC ERGO",
-      "ICICI Lombard",
-      "Bajaj Allianz",
-      "Niva Bupa",
-      "Care Health Insurance",
-      "New India Assurance",
-      "United India Insurance",
-      "Oriental Insurance",
-    ],
-  },
 });
 
 export const DEFAULT_INSURANCE_INFORMATION = Object.freeze({
@@ -150,11 +134,15 @@ export const DEFAULT_INSURANCE_INFORMATION = Object.freeze({
   confirmation: false,
 });
 
-export const isInsuranceInformationComplete = (data = {}) =>
-  Boolean(
+export const isInsuranceInformationComplete = (data = {}) => {
+  if (data.insuranceType === "No insurance") return true;
+
+  return Boolean(
     data.insuranceType &&
       data.provider &&
       data.holderName?.trim() &&
       data.policyNumber?.trim() &&
+      data.documents?.length > 0 &&
       data.confirmation,
   );
+};

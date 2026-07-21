@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 import Footer from "@/shared/components/Registration/layout/Footer";
 import Header from "@/shared/components/Registration/layout/Header";
 import Sidebar from "@/shared/components/Registration/layout/Sidebar";
+import UploadSuccessSnackbar from "@/shared/components/Registration/upload/UploadSuccessSnackbar";
 import sidebarByRole, { getStepComponent } from "@/shared/constants/RoleRegistration";
 
 import {
@@ -36,6 +37,8 @@ const getOrderedSteps = (sections = []) =>
 const RegistrationPage = () => {
   const dispatch = useDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMedicalUploadSuccessOpen, setIsMedicalUploadSuccessOpen] =
+    useState(false);
 
   const role = useSelector(authSelectors.getUserRole);
   const activeSectionKey = useSelector(
@@ -68,6 +71,12 @@ const RegistrationPage = () => {
   };
 
   const handleContinue = () => {
+    if (
+      activeSectionKey === "medical" &&
+      activeSectionData.supportingRecords?.length > 0
+    ) {
+      setIsMedicalUploadSuccessOpen(true);
+    }
     dispatch(markSectionComplete(activeSectionKey));
     moveToNextSection();
   };
@@ -118,6 +127,11 @@ const RegistrationPage = () => {
             isContinueDisabled={isContinueDisabled}
           />
         </div>
+
+        <UploadSuccessSnackbar
+          open={isMedicalUploadSuccessOpen}
+          onClose={() => setIsMedicalUploadSuccessOpen(false)}
+        />
       </div>
     </div>
   );

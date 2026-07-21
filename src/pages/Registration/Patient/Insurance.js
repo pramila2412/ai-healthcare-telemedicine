@@ -3,15 +3,14 @@ import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import HealthAndSafetyOutlinedIcon from "@mui/icons-material/HealthAndSafetyOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
-import Alert from "@mui/material/Alert";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Snackbar from "@mui/material/Snackbar";
 import React, { useMemo, useState } from "react";
 
 import FormInput from "@/shared/components/Registration/form/FormInput";
 import FormSelect from "@/shared/components/Registration/form/FormSelect";
 import DocumentDropzone from "@/shared/components/Registration/upload/DocumentDropzone";
+import UploadSuccessSnackbar from "@/shared/components/Registration/upload/UploadSuccessSnackbar";
 import InsuranceInformationPopup from "@/shared/components/Popup/InsuranceInformationPopup";
 import {
   DEFAULT_INSURANCE_INFORMATION,
@@ -23,7 +22,7 @@ import {
 const normalizeInsuranceType = (insuranceType = "") => {
   const normalizedValue = insuranceType.toLowerCase();
   if (normalizedValue.includes("government")) return "Government";
-  if (normalizedValue.includes("employer")) return "Employer Sponsored";
+  if (normalizedValue.includes("no insurance")) return "No insurance";
   if (
     normalizedValue.includes("private") ||
     normalizedValue.includes("personal")
@@ -71,13 +70,14 @@ const Insurance = ({ data, onChange, stepConfig }) => {
 
   const handleInsuranceTypeChange = (insuranceType) => {
     onChange?.({
-      ...formData,
+      ...DEFAULT_INSURANCE_INFORMATION,
       insuranceType,
-      provider: "",
     });
   };
 
-  const hasSelectedInsuranceType = Boolean(formData.insuranceType);
+  const requiresInsuranceDetails =
+    Boolean(formData.insuranceType) &&
+    formData.insuranceType !== "No insurance";
 
   return (
     <section className="mx-auto w-full max-w-[1100px]">
@@ -108,7 +108,7 @@ const Insurance = ({ data, onChange, stepConfig }) => {
           />
         </div>
 
-        {hasSelectedInsuranceType && (
+        {requiresInsuranceDetails && (
           <div className="min-w-0">
             <label className="mb-2 block text-[14px] font-medium text-[#141414]">
               {providerConfig.label}
@@ -126,7 +126,7 @@ const Insurance = ({ data, onChange, stepConfig }) => {
           </div>
         )}
 
-        {hasSelectedInsuranceType && (
+        {requiresInsuranceDetails && (
           <>
             <div className="min-w-0">
               <label className="mb-2 block text-[14px] font-medium text-[#141414]">
@@ -163,13 +163,14 @@ const Insurance = ({ data, onChange, stepConfig }) => {
         )}
       </div>
 
-      {hasSelectedInsuranceType && (
+      {requiresInsuranceDetails && (
         <>
           <div className="mt-8 lg:mt-10">
             <DocumentDropzone
               label="Upload Insurance Documents"
               instruction="Drag and drop your insurance card or policy document here, or"
               infoTooltip="View insurance card upload guidance"
+              infoLabel="What to upload?"
               onInfoClick={() => setIsInformationPopupOpen(true)}
               value={formData.documents}
               onChange={(documents) => updateField("documents", documents)}
@@ -218,21 +219,10 @@ const Insurance = ({ data, onChange, stepConfig }) => {
         onClose={() => setIsInformationPopupOpen(false)}
       />
 
-      <Snackbar
+      <UploadSuccessSnackbar
         open={isUploadSnackbarOpen}
-        autoHideDuration={3500}
         onClose={() => setIsUploadSnackbarOpen(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      >
-        <Alert
-          severity="success"
-          variant="outlined"
-          onClose={() => setIsUploadSnackbarOpen(false)}
-          sx={{ backgroundColor: "#F0FBFA", borderColor: "#8FD5D2" }}
-        >
-          File uploaded successfully and added to your health records.
-        </Alert>
-      </Snackbar>
+      />
     </section>
   );
 };
