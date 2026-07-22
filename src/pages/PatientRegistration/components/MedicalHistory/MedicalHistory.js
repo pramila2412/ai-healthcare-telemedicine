@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import ActionButtons from "@/shared/components/PatientRegistration/common/ActionButtons";
 
 import {
-  setActiveStep,
-  setMedicalHistory,
-} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+    setActiveStep,
+    setMedicalHistory,
+} from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationActions";
 
-import { selectMedicalHistory } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+import { selectMedicalHistory } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationSelectors";
 
 const MAX_LENGTH = 500;
 

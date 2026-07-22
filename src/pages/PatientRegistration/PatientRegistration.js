@@ -11,12 +11,12 @@ import MedicalHistory from "./components/MedicalHistory/MedicalHistory";
 import PersonalInformation from "./components/PersonalInformation/PersonalInformation";
 import ReviewAndComplete from "./components/ReviewAndComplete/ReviewAndComplete";
 
-import { setActiveStep } from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+import { setActiveStep } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationActions";
 
 import {
     selectActiveStep,
     selectProgress,
-} from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+} from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationSelectors";
 
 import "./PatientRegistration.css";
 import CreatedAccount from "./components/CreatedAccount/CreatedAccount";

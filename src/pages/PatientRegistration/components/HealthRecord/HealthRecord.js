@@ -7,17 +7,17 @@ import FilePreviewCard from "@/shared/components/PatientRegistration/upload/File
 import UploadBox from "@/shared/components/PatientRegistration/upload/UploadBox";
 
 import {
-  formatFileSize,
-  isAllowedFileType,
-  isWithinMaxSize,
+    formatFileSize,
+    isAllowedFileType,
+    isWithinMaxSize,
 } from "@/shared/utils/PatientRegistration/fileUtils";
 
 import {
-  setActiveStep,
-  setHealthRecords,
-} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+    setActiveStep,
+    setHealthRecords,
+} from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationActions";
 
-import { selectHealthRecords } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+import { selectHealthRecords } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationSelectors";
 
 const supportedDocuments = [
   {

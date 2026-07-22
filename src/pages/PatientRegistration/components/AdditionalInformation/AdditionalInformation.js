@@ -6,20 +6,20 @@ import FormInput from "@/shared/components/PatientRegistration/form/FormInput";
 import FormSelect from "@/shared/components/PatientRegistration/form/FormSelect";
 import UnitToggle from "@/shared/components/PatientRegistration/form/UnitToggle";
 import {
-  activityLevels,
-  alcoholOptions,
-  dietaryPreferences,
-  heightUnits,
-  relationships,
-  smokingStatuses,
-  weightUnits,
+    activityLevels,
+    alcoholOptions,
+    dietaryPreferences,
+    heightUnits,
+    relationships,
+    smokingStatuses,
+    weightUnits,
 } from "../../../../shared/constants/patientRegistration/registrationConfig";
 
 import {
-  setActiveStep,
-  setAdditionalInfo,
-} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
-import { selectAdditionalInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+    setActiveStep,
+    setAdditionalInfo,
+} from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationActions";
+import { selectAdditionalInfo } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationSelectors";
 
 
 // ── Validation ────────────────────────────────────────────────────────────────

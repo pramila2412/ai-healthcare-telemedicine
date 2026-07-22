@@ -12,10 +12,10 @@ import {
   markSectionComplete,
   saveSectionData,
   setActiveSection,
-} from "@/state-management/modules/registration/registrationActions";
+} from "@/state-management/modules/Registrations/SidebarRegistration/registrationActions";
 import {
   authSelectors,
-  registrationSelectors,
+  sideBarRegistrationSelectors,
 } from "@/state-management/modules/rootSelectors";
 import { isInsuranceInformationComplete } from "@/shared/constants/RoleRegistration/medicalRecords";
 
@@ -41,12 +41,8 @@ const RegistrationPage = () => {
     useState(false);
 
   const role = useSelector(authSelectors.getUserRole);
-  const activeSectionKey = useSelector(
-    registrationSelectors.getActiveSectionKey,
-  );
-  const activeSectionData = useSelector((state) =>
-    registrationSelectors.getSectionData(state, activeSectionKey),
-  );
+  const activeSectionKey = useSelector(sideBarRegistrationSelectors.getActiveSectionKey);
+  const activeSectionData = useSelector(sideBarRegistrationSelectors.getSectionData); // { [stepKey]: data }
 
   if (!role) return <Navigate to="/signup" />;
 
@@ -82,8 +78,10 @@ const RegistrationPage = () => {
   };
 
   const isContinueDisabled =
-    activeSectionKey === "insurance" &&
-    !isInsuranceInformationComplete(activeSectionData);
+    (activeSectionKey === "insurance" &&
+      !isInsuranceInformationComplete(activeSectionData)) ||
+    (activeSectionKey === "information" && !activeSectionData?.isConfirmed) ||
+    (activeSectionKey === "loginid" && !activeSectionData?.isValid);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -102,7 +100,7 @@ const RegistrationPage = () => {
           onMenuClick={() => setIsSidebarOpen(true)}
         />
 
-        <div className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-10 py-6">
+        <div id="step-scroll-container" className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-10 py-6">
           {StepComponent ? (
             <StepComponent
               data={activeSectionData}
