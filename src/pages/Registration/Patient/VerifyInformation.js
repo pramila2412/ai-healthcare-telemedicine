@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   User, Calendar, Activity, Phone, MapPin, 
   Droplet, Users, Ruler, Scale, HeartPulse, 
   Coffee, Wind, Wine, Pill, Plus,
-  FileText, Shield, Map, ArrowUp
+  FileText, Shield, Map
 } from 'lucide-react';
 import { Icon } from '@iconify/react';
 
-const AccordionSection = ({ title, children, defaultExpanded = true }) => {
-  const [expanded, setExpanded] = useState(defaultExpanded);
+const AccordionSection = ({ title, children, expanded, onToggle }) => {
   return (
     <div className="mb-10">
       <button 
         type="button"
-        onClick={() => setExpanded(!expanded)}
+        onClick={onToggle}
         className="w-full flex items-center justify-between pb-3 border-b border-gray-200/80 cursor-pointer group"
       >
         <h3 className="text-[15px] font-semibold text-gray-800">{title}</h3>
@@ -34,12 +33,16 @@ const AccordionSection = ({ title, children, defaultExpanded = true }) => {
 };
 
 const Field = ({ label, value, icon: FieldIcon, fullWidth }) => (
-  <div className={`flex flex-col gap-1 ${fullWidth ? 'col-span-2' : ''}`}>
-    <div className="flex items-center gap-1.5 text-gray-400">
-      {FieldIcon && <FieldIcon size={13} strokeWidth={2} />}
+  <div className={`flex items-start gap-3 ${fullWidth ? 'col-span-2' : ''}`}>
+    {FieldIcon && (
+      <div className="mt-0.5 text-gray-400">
+        <FieldIcon size={18} strokeWidth={1.5} />
+      </div>
+    )}
+    <div className="flex flex-col gap-0.5">
       <span className="text-[11px] font-medium text-gray-400">{label}</span>
+      <span className="text-[12px] font-medium text-gray-800">{value}</span>
     </div>
-    <span className="text-[13px] font-semibold text-gray-800">{value}</span>
   </div>
 );
 
@@ -49,7 +52,7 @@ const DocumentItem = ({ filename, type, size }) => (
       <FileText size={18} strokeWidth={1.5} className="text-teal-600" />
     </div>
     <div className="flex flex-col">
-      <span className="text-[13px] font-semibold text-gray-800 break-all">{filename}</span>
+      <span className="text-[12px] font-medium text-gray-800 break-all">{filename}</span>
       <span className="text-[11px] font-medium text-gray-400 mt-0.5">{type} • {size}</span>
     </div>
   </div>
@@ -64,30 +67,36 @@ const DynamicSectionCard = ({
   documents = [], 
   children, 
   className = "", 
-  fieldsGridClass = "grid grid-cols-2 gap-y-6 gap-x-4" 
+  fieldsGridClass = "grid grid-cols-2 gap-y-8 gap-x-8" 
 }) => {
   return (
-    <div className={`p-5 rounded-2xl border border-gray-100 shadow-sm bg-white flex flex-col ${className}`}>
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-2">
-          {CardIcon && <CardIcon size={18} className="text-gray-500" strokeWidth={1.5} />}
-          <h4 className="text-[13px] font-semibold text-gray-800">{title}</h4>
-        </div>
-        <button 
-          type="button"
-          className="flex items-center gap-1.5 text-[13px] font-semibold bg-secondary text-primary px-3 py-1.5 rounded-lg hover:opacity-80 transition-opacity cursor-pointer"
-        >
-          {ActionIcon && (
-            typeof ActionIcon === 'string' ? 
-              <Icon icon={ActionIcon} width="16" height="16" /> :
-              <ActionIcon size={14} strokeWidth={2.5} />
+    <div className={`rounded-2xl border border-gray-100 shadow-sm bg-white flex flex-col overflow-hidden ${className}`}>
+      <div className="flex justify-between items-center p-5 border-b border-gray-50">
+        <div className="flex items-center gap-3">
+          {CardIcon && (
+            <div className="p-2 bg-gray-50 rounded-lg">
+              <CardIcon size={18} className="text-gray-600" strokeWidth={1.5} />
+            </div>
           )}
-          {actionLabel}
-        </button>
+          <h4 className="text-[12px] font-medium text-gray-800">{title}</h4>
+        </div>
+        {actionLabel && (
+          <button 
+            type="button"
+            className="flex items-center gap-1.5 text-[12px] font-medium bg-[#e6f4f1] text-teal-600 px-3 py-1.5 rounded-lg hover:bg-teal-50 transition-colors cursor-pointer"
+          >
+            {ActionIcon && (
+              typeof ActionIcon === 'string' ? 
+                <Icon icon={ActionIcon} width="16" height="16" /> :
+                <ActionIcon size={14} strokeWidth={2} />
+            )}
+            {actionLabel}
+          </button>
+        )}
       </div>
       
       {(fields.length > 0 || documents.length > 0 || children) && (
-        <div className={fieldsGridClass}>
+        <div className={`p-6 ${fieldsGridClass}`}>
           {fields.map((field, idx) => (
             <Field key={idx} {...field} />
           ))}
@@ -101,10 +110,51 @@ const DynamicSectionCard = ({
   );
 };
 
-const VerifyInformation = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+const VerifyInformation = ({ data = {}, onChange }) => {
+  const [expandedSections, setExpandedSections] = useState({
+    personal: true,
+    medical: true,
+    insurance: true
+  });
+  
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  useEffect(() => {
+    const container = document.getElementById('step-scroll-container') || window;
+    const handleScroll = () => {
+      let scrolledToBottom = false;
+      if (container === window) {
+        scrolledToBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 100;
+      } else {
+        scrolledToBottom = Math.ceil(container.clientHeight + container.scrollTop) >= container.scrollHeight - 100;
+      }
+      setIsAtBottom(scrolledToBottom);
+    };
+    
+    container.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check on initial render/load
+    
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
   };
+
+  const handleFabClick = () => {
+    const container = document.getElementById('step-scroll-container') || window;
+    if (isAtBottom) {
+      container.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const targetScroll = container === window ? document.documentElement.scrollHeight : container.scrollHeight;
+      container.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    }
+  };
+
+  const isAllMinimized = !expandedSections.personal && !expandedSections.medical && !expandedSections.insurance;
 
   const basicDetailsFields = [
     { label: "Full Name", value: "Deepika K", icon: User },
@@ -168,7 +218,11 @@ const VerifyInformation = () => {
 
   return (
     <div className="w-full max-w-4xl pb-24 relative">
-      <AccordionSection title="Personal Information">
+      <AccordionSection 
+        title="Personal Information" 
+        expanded={expandedSections.personal} 
+        onToggle={() => toggleSection('personal')}
+      >
         <DynamicSectionCard title="Basic Details" icon={User} actionLabel="Edit" actionIcon="tabler:edit" fields={basicDetailsFields} />
         <DynamicSectionCard title="Location" icon={MapPin} actionLabel="Edit" actionIcon="tabler:edit" fields={locationFields} />
         <DynamicSectionCard title="Emergency Contact" icon={Phone} actionLabel="Edit" actionIcon="tabler:edit" fields={emergencyFields} />
@@ -184,12 +238,20 @@ const VerifyInformation = () => {
         />
       </AccordionSection>
 
-      <AccordionSection title="Medical Records">
+      <AccordionSection 
+        title="Medical Records" 
+        expanded={expandedSections.medical} 
+        onToggle={() => toggleSection('medical')}
+      >
         <DynamicSectionCard title="Medical Records" icon={Activity} actionLabel="Edit" actionIcon="tabler:edit" fields={medicalRecordFields} />
         <DynamicSectionCard title="Uploaded Documents" icon={FileText} actionLabel="Upload" actionIcon={Plus} documents={medicalDocuments} />
       </AccordionSection>
 
-      <AccordionSection title="Insurance">
+      <AccordionSection 
+        title="Insurance" 
+        expanded={expandedSections.insurance} 
+        onToggle={() => toggleSection('insurance')}
+      >
         <DynamicSectionCard title="Insurance" icon={Shield} actionLabel="Edit" actionIcon="tabler:edit" fields={insuranceFields} />
         <DynamicSectionCard title="Uploaded Documents" icon={FileText} actionLabel="Upload" actionIcon={Plus} documents={insuranceDocuments} />
       </AccordionSection>
@@ -197,24 +259,35 @@ const VerifyInformation = () => {
       <div className="mt-8 pt-8 border-t border-gray-200">
         <label className="flex items-start gap-3 cursor-pointer group">
           <div className="relative flex items-center justify-center mt-0.5">
-            <input type="checkbox" className="peer w-5 h-5 border-2 border-gray-300 rounded appearance-none checked:bg-teal-600 checked:border-teal-600 transition-colors cursor-pointer" />
+            <input 
+              type="checkbox" 
+              checked={data.isConfirmed || false}
+              onChange={(e) => onChange && onChange({ ...data, isConfirmed: e.target.checked })}
+              className="peer w-5 h-5 border-2 border-gray-300 rounded appearance-none checked:bg-primary checked:border-primary transition-colors cursor-pointer" 
+            />
             <svg className="absolute w-3.5 h-3.5 text-white pointer-events-none opacity-0 peer-checked:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           </div>
           <p className="text-xs text-gray-500 leading-relaxed max-w-[90%]">
-            I confirm that all the information and documents provided are accurate to the best of my knowledge. I agree to the <a href="#" className="text-teal-600 font-medium hover:underline">Terms & Conditions</a> and <a href="#" className="text-teal-600 font-medium hover:underline">Privacy Policy</a>, and I authorize MediConnect to securely use my information for healthcare services in accordance with applicable regulations.
+            I confirm that all the information and documents provided are accurate to the best of my knowledge. I agree to the <a href="#" className="text-primary font-medium underline">Terms & Conditions</a> and <a href="#" className="text-primary font-medium underline">Privacy Policy</a>, and I authorize MediConnect to securely use my information for healthcare services in accordance with applicable regulations.
           </p>
         </label>
       </div>
 
-      <button 
-        onClick={scrollToTop}
-        className="fixed bottom-24 right-8 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-700 transition-colors z-50 cursor-pointer hidden md:flex"
-        aria-label="Scroll to top"
-      >
-        <ArrowUp size={24} />
-      </button>
+      {!isAllMinimized && (
+        <button 
+          onClick={handleFabClick}
+          className="fixed bottom-24 right-8 w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.2)] hover:opacity-95 transition-all duration-300 z-50 cursor-pointer hidden md:flex"
+          aria-label={isAtBottom ? "Scroll to top" : "Scroll to bottom"}
+        >
+          <Icon 
+            icon={isAtBottom ? "tabler:chevron-up" : "tabler:chevron-down"} 
+            width="28" 
+            height="28" 
+          />
+        </button>
+      )}
     </div>
   )
 }
