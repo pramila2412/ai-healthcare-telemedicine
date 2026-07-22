@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   User, Calendar, Activity, Phone, MapPin, 
   Droplet, Users, Ruler, Scale, HeartPulse, 
   Coffee, Wind, Wine, Pill, Plus,
-  FileText, Shield, Map, ArrowUp
+  FileText, Shield, Map
 } from 'lucide-react';
 import { Icon } from '@iconify/react';
 
-const AccordionSection = ({ title, children, defaultExpanded = true }) => {
-  const [expanded, setExpanded] = useState(defaultExpanded);
+const AccordionSection = ({ title, children, expanded, onToggle }) => {
   return (
     <div className="mb-10">
       <button 
         type="button"
-        onClick={() => setExpanded(!expanded)}
+        onClick={onToggle}
         className="w-full flex items-center justify-between pb-3 border-b border-gray-200/80 cursor-pointer group"
       >
         <h3 className="text-[15px] font-semibold text-gray-800">{title}</h3>
@@ -102,9 +101,42 @@ const DynamicSectionCard = ({
 };
 
 const VerifyInformation = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const [expandedSections, setExpandedSections] = useState({
+    personal: false,
+    medical: false,
+    insurance: false
+  });
+  
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolledToBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 100;
+      setIsAtBottom(scrolledToBottom);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check on initial render/load
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
   };
+
+  const handleFabClick = () => {
+    if (isAtBottom) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+    }
+  };
+
+  const isAllMinimized = !expandedSections.personal && !expandedSections.medical && !expandedSections.insurance;
 
   const basicDetailsFields = [
     { label: "Full Name", value: "Deepika K", icon: User },
@@ -168,7 +200,11 @@ const VerifyInformation = () => {
 
   return (
     <div className="w-full max-w-4xl pb-24 relative">
-      <AccordionSection title="Personal Information">
+      <AccordionSection 
+        title="Personal Information" 
+        expanded={expandedSections.personal} 
+        onToggle={() => toggleSection('personal')}
+      >
         <DynamicSectionCard title="Basic Details" icon={User} actionLabel="Edit" actionIcon="tabler:edit" fields={basicDetailsFields} />
         <DynamicSectionCard title="Location" icon={MapPin} actionLabel="Edit" actionIcon="tabler:edit" fields={locationFields} />
         <DynamicSectionCard title="Emergency Contact" icon={Phone} actionLabel="Edit" actionIcon="tabler:edit" fields={emergencyFields} />
@@ -184,12 +220,20 @@ const VerifyInformation = () => {
         />
       </AccordionSection>
 
-      <AccordionSection title="Medical Records">
+      <AccordionSection 
+        title="Medical Records" 
+        expanded={expandedSections.medical} 
+        onToggle={() => toggleSection('medical')}
+      >
         <DynamicSectionCard title="Medical Records" icon={Activity} actionLabel="Edit" actionIcon="tabler:edit" fields={medicalRecordFields} />
         <DynamicSectionCard title="Uploaded Documents" icon={FileText} actionLabel="Upload" actionIcon={Plus} documents={medicalDocuments} />
       </AccordionSection>
 
-      <AccordionSection title="Insurance">
+      <AccordionSection 
+        title="Insurance" 
+        expanded={expandedSections.insurance} 
+        onToggle={() => toggleSection('insurance')}
+      >
         <DynamicSectionCard title="Insurance" icon={Shield} actionLabel="Edit" actionIcon="tabler:edit" fields={insuranceFields} />
         <DynamicSectionCard title="Uploaded Documents" icon={FileText} actionLabel="Upload" actionIcon={Plus} documents={insuranceDocuments} />
       </AccordionSection>
@@ -197,24 +241,30 @@ const VerifyInformation = () => {
       <div className="mt-8 pt-8 border-t border-gray-200">
         <label className="flex items-start gap-3 cursor-pointer group">
           <div className="relative flex items-center justify-center mt-0.5">
-            <input type="checkbox" className="peer w-5 h-5 border-2 border-gray-300 rounded appearance-none checked:bg-teal-600 checked:border-teal-600 transition-colors cursor-pointer" />
+            <input type="checkbox" className="peer w-5 h-5 border-2 border-gray-300 rounded appearance-none checked:bg-primary checked:border-primary transition-colors cursor-pointer" />
             <svg className="absolute w-3.5 h-3.5 text-white pointer-events-none opacity-0 peer-checked:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           </div>
           <p className="text-xs text-gray-500 leading-relaxed max-w-[90%]">
-            I confirm that all the information and documents provided are accurate to the best of my knowledge. I agree to the <a href="#" className="text-teal-600 font-medium hover:underline">Terms & Conditions</a> and <a href="#" className="text-teal-600 font-medium hover:underline">Privacy Policy</a>, and I authorize MediConnect to securely use my information for healthcare services in accordance with applicable regulations.
+            I confirm that all the information and documents provided are accurate to the best of my knowledge. I agree to the <a href="#" className="text-primary font-medium hover:underline">Terms & Conditions</a> and <a href="#" className="text-primary font-medium hover:underline">Privacy Policy</a>, and I authorize MediConnect to securely use my information for healthcare services in accordance with applicable regulations.
           </p>
         </label>
       </div>
 
-      <button 
-        onClick={scrollToTop}
-        className="fixed bottom-24 right-8 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-700 transition-colors z-50 cursor-pointer hidden md:flex"
-        aria-label="Scroll to top"
-      >
-        <ArrowUp size={24} />
-      </button>
+      {!isAllMinimized && (
+        <button 
+          onClick={handleFabClick}
+          className="fixed bottom-24 right-8 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:opacity-90 transition-opacity z-50 cursor-pointer hidden md:flex"
+          aria-label={isAtBottom ? "Scroll to top" : "Scroll to bottom"}
+        >
+          <Icon 
+            icon={isAtBottom ? "tabler:circle-chevron-up" : "tabler:circle-chevron-down"} 
+            width="24" 
+            height="24" 
+          />
+        </button>
+      )}
     </div>
   )
 }
