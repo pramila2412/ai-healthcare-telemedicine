@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, RefreshCw, Lock, Loader2, XCircle } from 'lucide-react';
+import { RefreshCw, Lock, Loader2, XCircle } from 'lucide-react';
+import { Icon } from '@iconify/react';
+import { AVAILABLE_IDS, TAKEN_IDS } from '@/shared/constants/mockLoginIds';
 
 const CreateLoginId = ({ data = {}, onChange }) => {
-  const [idValue, setIdValue] = useState('');
-  const [status, setStatus] = useState('idle'); // 'idle', 'checking', 'available', 'unavailable'
+  const [idValue, setIdValue] = useState('AB1234');
+  const [status, setStatus] = useState('available'); // 'idle', 'checking', 'available', 'unavailable'
+  const [isTyping, setIsTyping] = useState(false);
+  const [isManualEntry, setIsManualEntry] = useState(false);
   
-  const suggestions = [
-    'PAT-7G3H81',
-    'PAT-6H2H81',
-    'PAT-8G3M81',
-    'PAT-6G3H81',
-    'PAT-9G3H81'
-  ];
+  const [suggestions, setSuggestions] = useState(AVAILABLE_IDS.slice(0, 5).map(id => `PAT-${id}`));
+
+  const generateMore = () => {
+    // Pick 5 random IDs from AVAILABLE_IDS that aren't currently shown
+    const currentVals = suggestions.map(s => s.replace('PAT-', ''));
+    const availablePool = AVAILABLE_IDS.filter(id => !currentVals.includes(id) && id !== idValue);
+    
+    const shuffled = [...availablePool].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 5);
+    
+    setSuggestions(selected.map(id => `PAT-${id}`));
+  };
 
   useEffect(() => {
     if (onChange) {
@@ -20,22 +29,23 @@ const CreateLoginId = ({ data = {}, onChange }) => {
   }, [idValue, status]); // Sync with parent layout
 
   useEffect(() => {
+    if (!isTyping) return;
+
     if (idValue.length === 6) {
       setStatus('checking');
       const timer = setTimeout(() => {
-        // Mock logic to determine availability
-        // For demonstration, any ID ending in '0' will be marked unavailable
-        if (idValue.endsWith('0') || idValue === '111111') {
+        if (TAKEN_IDS.includes(idValue)) {
           setStatus('unavailable');
         } else {
           setStatus('available');
         }
+        setIsTyping(false);
       }, 1500);
       return () => clearTimeout(timer);
     } else {
       setStatus('idle');
     }
-  }, [idValue]);
+  }, [idValue, isTyping]);
 
   let borderClass = 'border-gray-200 focus-within:ring-gray-300';
   let patBoxClass = 'bg-gray-200 text-gray-700';
@@ -44,17 +54,22 @@ const CreateLoginId = ({ data = {}, onChange }) => {
 
   if (status === 'checking') {
     message = <p className="text-[13px] font-medium text-gray-500 mt-1">Checking availability...</p>;
-    icon = <Loader2 size={18} className="text-gray-400 animate-spin shrink-0" />;
+    icon = <Loader2 size={20} className="text-gray-400 animate-spin shrink-0" />;
   } else if (status === 'available') {
     borderClass = 'border-primary focus-within:ring-primary/10';
     patBoxClass = 'bg-primary text-white';
-    message = <p className="text-[13px] font-medium text-primary mt-1">Great choice! This ID is available and ready to use for your account.</p>;
-    icon = <CheckCircle2 size={18} className="text-primary shrink-0" strokeWidth={2.5} />;
+    
+    const successMessage = isManualEntry 
+      ? 'Great choice! This ID is available and ready to use for your account.' 
+      : `PAT-${idValue} is available`;
+      
+    message = <p className="text-[13px] font-medium text-primary mt-1">{successMessage}</p>;
+    icon = <Icon icon="tabler:circle-check-filled" className="text-primary shrink-0" width="22" height="22" />;
   } else if (status === 'unavailable') {
     borderClass = 'border-red-500 focus-within:ring-red-100';
     patBoxClass = 'bg-red-500 text-white';
     message = <p className="text-[13px] font-medium text-red-500 mt-1">This ID is already in use. Try another ID or choose one of the suggestions below.</p>;
-    icon = <XCircle size={18} className="text-red-500 shrink-0" strokeWidth={2.5} />;
+    icon = <XCircle size={20} className="text-red-500 shrink-0" strokeWidth={2.5} />;
   }
 
   return (
@@ -75,6 +90,8 @@ const CreateLoginId = ({ data = {}, onChange }) => {
                 const val = e.target.value.toUpperCase();
                 if (val.length <= 6) {
                   setIdValue(val);
+                  setIsTyping(true);
+                  setIsManualEntry(true);
                 }
               }}
               className="flex-1 h-full px-4 text-gray-800 text-[14px] tracking-wide font-medium outline-none uppercase bg-transparent"
@@ -100,6 +117,7 @@ const CreateLoginId = ({ data = {}, onChange }) => {
           </div>
           <button 
             type="button"
+            onClick={generateMore}
             className="flex items-center justify-center gap-1.5 px-4 py-2 border border-primary/30 rounded-lg text-primary text-[13px] font-semibold hover:bg-secondary transition-colors cursor-pointer w-full sm:w-auto"
           >
             <RefreshCw size={15} strokeWidth={2.5} />
@@ -115,7 +133,12 @@ const CreateLoginId = ({ data = {}, onChange }) => {
             return (
               <button 
                 key={suggestion}
-                onClick={() => setIdValue(val)}
+                onClick={() => {
+                  setIdValue(val);
+                  setIsTyping(false);
+                  setIsManualEntry(false);
+                  setStatus('available');
+                }}
                 className={`px-5 py-2.5 border rounded-xl text-[13px] font-semibold transition-colors cursor-pointer ${
                   isSelected 
                     ? 'border-primary bg-secondary text-primary' 
