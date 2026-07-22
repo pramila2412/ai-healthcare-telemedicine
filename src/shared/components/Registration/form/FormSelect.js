@@ -26,6 +26,7 @@ const FormSelect = ({
   placeholder = "Select…",
   searchPlaceholder = "Search…",
   icon,
+  startIcon,
   iconAlt = "",
   onSelect,
   onBlur,
@@ -93,7 +94,7 @@ const FormSelect = ({
         ref={triggerRef}
         type="button"
         onClick={handleToggle}
-        className={`${triggerBase} relative flex items-center ${icon ? "pl-12" : "px-4"} ${
+        className={`${triggerBase} relative flex items-center ${icon || startIcon ? "pl-12" : "px-4"} ${
           value ? "text-[#141414]" : "text-[#666666]"
         } ${showError && error ? "border-[#EF4444]" : ""} ${className}`}
         aria-haspopup="listbox"
@@ -105,6 +106,11 @@ const FormSelect = ({
             alt={iconAlt}
             className="absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 pointer-events-none"
           />
+        )}
+        {startIcon && (
+          <span className="absolute left-4 top-1/2 flex -translate-y-1/2 items-center text-[#667085] pointer-events-none">
+            {startIcon}
+          </span>
         )}
         <span className="block truncate">{value || placeholder}</span>
         <img

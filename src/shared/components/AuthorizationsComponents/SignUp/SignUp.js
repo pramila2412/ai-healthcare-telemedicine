@@ -59,7 +59,6 @@ const SignUp = () => {
       dispatch(showError("Please enter all 6 digits of the OTP."));
       return;
     }
-
     // Save selected role in Redux
     dispatch(setUserRole(selectedRole));
 
