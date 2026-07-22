@@ -10,11 +10,11 @@ const Footer = ({
   autoSavedLabel = "Just now",
 }) => {
   return (
-    <footer className="shrink-0 bg-white border-t-[0.5px] border-[#D1D5DB] px-4 sm:px-6 md:px-10 lg:px-10 py-4 lg:py-10 flex items-center justify-between gap-4">
+    <footer className="flex shrink-0 items-center justify-between gap-2 border-t-[0.5px] border-[#D1D5DB] bg-white px-3 py-4 sm:gap-4 sm:px-6 md:px-10 lg:px-10 lg:py-10">
       {showSkip ? (
         <button
           onClick={onSkip}
-          className="flex items-center justify-center gap-2 text-xs font-medium text-[#6B7280] border border-[#D1D5DB] rounded-lg px-4 lg:px-6 py-2 lg:w-31.75 lg:h-14 hover:bg-slate-50 whitespace-nowrap"
+          className="flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-[#D1D5DB] px-3 py-2 text-xs font-medium text-[#6B7280] hover:bg-slate-50 sm:px-4 lg:h-14 lg:w-31.75 lg:px-6"
         >
           Skip for now
         </button>
@@ -34,7 +34,7 @@ const Footer = ({
         <button
           onClick={onContinue}
           disabled={isContinueDisabled}
-          className={`flex items-center justify-center gap-2 text-sm font-medium rounded-lg px-6 lg:px-6 py-2.5 lg:w-36.75 lg:h-14 whitespace-nowrap transition-opacity ${
+          className={`flex items-center justify-center gap-2 whitespace-nowrap rounded-lg px-3 py-2.5 text-xs font-medium transition-opacity sm:px-6 sm:text-sm lg:h-14 lg:w-36.75 lg:px-6 ${
             isContinueDisabled
               ? "bg-[#248B8F] text-white opacity-40 cursor-not-allowed"
               : "bg-[#248B8F] text-white hover:bg-[#1D7275]"

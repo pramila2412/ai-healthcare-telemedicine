@@ -1,10 +1,41 @@
 @import "tailwindcss";
 
-
 @theme {
   --color-primary: #0D8B72;
+  --color-primary-dark: #096B58;
+  --color-primary-hover: #0a7a65;
   --color-secondary: #EEF4F3;
-  --font-TypeFace:"TypeFace" "Inter", "system-ui", "-apple-system", "sans-serif";
+
+  --color-text-heading: #0B1117;
+  --color-text-body: #374151;
+  --color-text-muted: #4B5563;
+  --color-text-placeholder: #6B7280;
+
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-disabled-bg: #F2F2F2;
+  --color-disabled-text: #6B7280;
+  --color-white: #FFFFFF;
+
+  --font-TypeFace: "TypeFace", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --color-primary: #0D8B72;
+  --color-primary-dark: #096B58;
+  --color-primary-hover: #0a7a65;
+  --color-secondary: #EEF4F3;
+  --color-text-heading: #0B1117;
+  --color-text-body: #374151;
+  --color-text-muted: #4B5563;
+  --color-text-placeholder: #6B7280;
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-white: #FFFFFF;
+
+  --color-disabled-bg: #F2F2F2;
+  --color-disabled-text: #6B7280;
+  --font-TypeFace: "TypeFace", "Inter", system-ui, -apple-system, sans-serif;
 }
 
 /* Force Tailwind classes in case JIT compiler is cached */
@@ -12,6 +43,23 @@
 .bg-secondary { background-color: var(--color-secondary) !important; }
 .text-primary { color: var(--color-primary) !important; }
 .text-secondary { color: var(--color-secondary) !important; }
+
+/* Secure Account Modal */
+.secure-modal { font-family: var(--font-TypeFace); }
+.secure-modal-heading { color: var(--color-text-heading); }
+.secure-modal-body { color: var(--color-text-body); }
+.secure-modal-muted { color: var(--color-text-muted); }
+.secure-modal-placeholder { color: var(--color-text-placeholder); }
+.secure-modal-contact-btn {
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  background-color: transparent;
+  transition: background-color 0.2s, color 0.2s;
+}
+.secure-modal-contact-btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
 
 .section-kicker {
   font-family: var(--font-TypeFace);
@@ -47,11 +95,30 @@ img {
 }
 
 @layer components {
+  .insurance-modal {
+    font-family: var(--font-TypeFace);
+    color: #0B1117;
+  }
+  .insurance-modal-subtitle {
+    color: #374151;
+  }
+  .insurance-modal-caption {
+    color: #4B5563;
+  }
+  .insurance-modal-note {
+    color: #0B1117;
+  }
+
   .section-padding {
     @apply py-8 md:py-12 bg-white;
   }
   .section-overline {
-    @apply text-primary font-bold tracking-wide uppercase block mb-4;
+    color: var(--color-primary);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1rem;
   }
   .section-heading {
     @apply text-gray-900 font-extrabold text-3xl md:text-4xl lg:text-5xl leading-tight mb-6;
