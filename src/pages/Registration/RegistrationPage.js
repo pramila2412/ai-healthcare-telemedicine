@@ -12,10 +12,10 @@ import {
   markSectionComplete,
   saveSectionData,
   setActiveSection,
-} from "@/state-management/modules/registration/registrationActions";
+} from "@/state-management/modules/Registrations/SidebarRegistration/registrationActions";
 import {
   authSelectors,
-  registrationSelectors,
+  sideBarRegistrationSelectors,
 } from "@/state-management/modules/rootSelectors";
 import { isInsuranceInformationComplete } from "@/shared/constants/RoleRegistration/medicalRecords";
 
@@ -41,12 +41,8 @@ const RegistrationPage = () => {
     useState(false);
 
   const role = useSelector(authSelectors.getUserRole);
-  const activeSectionKey = useSelector(
-    registrationSelectors.getActiveSectionKey,
-  );
-  const activeSectionData = useSelector((state) =>
-    registrationSelectors.getSectionData(state, activeSectionKey),
-  );
+  const activeSectionKey = useSelector(sideBarRegistrationSelectors.getActiveSectionKey);
+  const sectionData = useSelector(sideBarRegistrationSelectors.getSectionData); // { [stepKey]: data }
 
   if (!role) return <Navigate to="/signup" />;
 
