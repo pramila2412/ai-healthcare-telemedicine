@@ -63,7 +63,7 @@ const patientSidebar = [
         title: 'Insurance',
         subtitle: 'Add your insurance information for seamless coverage and claims processing.',
         showSkip: true,
-        continueLabel: 'Save & Continue',
+        continueLabel: 'Review Details',
       },
     ],
   },

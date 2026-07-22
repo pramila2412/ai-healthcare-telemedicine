@@ -5,9 +5,11 @@ import { Navigate } from "react-router-dom";
 import Footer from "@/shared/components/Registration/layout/Footer";
 import Header from "@/shared/components/Registration/layout/Header";
 import Sidebar from "@/shared/components/Registration/layout/Sidebar";
+import UploadSuccessSnackbar from "@/shared/components/Registration/upload/UploadSuccessSnackbar";
 import sidebarByRole, { getStepComponent } from "@/shared/constants/RoleRegistration";
 
 import {
+  markSectionComplete,
   saveSectionData,
   setActiveSection,
 } from "@/state-management/modules/registration/registrationActions";
@@ -15,6 +17,7 @@ import {
   authSelectors,
   registrationSelectors,
 } from "@/state-management/modules/rootSelectors";
+import { isInsuranceInformationComplete } from "@/shared/constants/RoleRegistration/medicalRecords";
 
 const findActiveSection = (sections, activeKey) => {
   for (const section of sections) {
@@ -26,19 +29,28 @@ const findActiveSection = (sections, activeKey) => {
   return null;
 };
 
+const getOrderedSteps = (sections = []) =>
+  sections.flatMap((section) =>
+    section.children?.length ? section.children : [section],
+  );
+
 const RegistrationPage = () => {
   const dispatch = useDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMedicalUploadSuccessOpen, setIsMedicalUploadSuccessOpen] =
+    useState(false);
 
   const role = useSelector(authSelectors.getUserRole);
   const activeSectionKey = useSelector(
     registrationSelectors.getActiveSectionKey,
   );
-  const sectionData = useSelector(registrationSelectors.getSectionData); // { [stepKey]: data }
+  const activeSectionData = useSelector((state) =>
+    registrationSelectors.getSectionData(state, activeSectionKey),
+  );
 
   if (!role) return <Navigate to="/signup" />;
 
-  const sidebar = sidebarByRole[role];
+  const sidebar = sidebarByRole[role] || [];
   const activeSection = findActiveSection(sidebar, activeSectionKey);
 
   // Look up the child form component for this role + active step key
@@ -48,9 +60,30 @@ const RegistrationPage = () => {
     dispatch(setActiveSection(key));
   };
 
-  const handleFormSubmit = (data) => {
-    dispatch(saveSectionData(activeSectionKey, data));
+  const moveToNextSection = () => {
+    const orderedSteps = getOrderedSteps(sidebar);
+    const activeIndex = orderedSteps.findIndex(
+      (section) => section.key === activeSectionKey,
+    );
+    const nextSection = orderedSteps[activeIndex + 1];
+
+    if (nextSection) dispatch(setActiveSection(nextSection.key));
   };
+
+  const handleContinue = () => {
+    if (
+      activeSectionKey === "medical" &&
+      activeSectionData.supportingRecords?.length > 0
+    ) {
+      setIsMedicalUploadSuccessOpen(true);
+    }
+    dispatch(markSectionComplete(activeSectionKey));
+    moveToNextSection();
+  };
+
+  const isContinueDisabled =
+    activeSectionKey === "insurance" &&
+    !isInsuranceInformationComplete(activeSectionData);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -72,7 +105,8 @@ const RegistrationPage = () => {
         <div className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-10 py-6">
           {StepComponent ? (
             <StepComponent
-              data={sectionData?.[activeSectionKey]}
+              data={activeSectionData}
+              stepConfig={activeSection}
               onChange={(data) =>
                 dispatch(saveSectionData(activeSectionKey, data))
               }
@@ -84,18 +118,20 @@ const RegistrationPage = () => {
           )}
         </div>
 
-        {/* Footer: hidden on mobile, visible from tablet (sm) through laptop/l-laptop */}
-        <div className="hidden sm:block shrink-0">
+        <div className="shrink-0">
           <Footer
-            onSkip={() => {
-              /* handle skip */
-            }}
-            onContinue={handleFormSubmit}
+            onSkip={moveToNextSection}
+            onContinue={handleContinue}
             showSkip={activeSection?.showSkip ?? true}
             continueLabel={activeSection?.continueLabel ?? "Save & Continue"}
-            isContinueDisabled={false}
+            isContinueDisabled={isContinueDisabled}
           />
         </div>
+
+        <UploadSuccessSnackbar
+          open={isMedicalUploadSuccessOpen}
+          onClose={() => setIsMedicalUploadSuccessOpen(false)}
+        />
       </div>
     </div>
   );
