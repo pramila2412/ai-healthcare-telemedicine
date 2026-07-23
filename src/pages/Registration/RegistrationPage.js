@@ -42,8 +42,9 @@ const RegistrationPage = () => {
 
   const role = useSelector(authSelectors.getUserRole);
   const activeSectionKey = useSelector(sideBarRegistrationSelectors.getActiveSectionKey);
-  const activeSectionData = useSelector(sideBarRegistrationSelectors.getSectionData); // { [stepKey]: data }
-
+  const activeSectionData = useSelector((state) =>
+  sideBarRegistrationSelectors.getSectionData(state, activeSectionKey)
+);
   if (!role) return <Navigate to="/signup" />;
 
   const sidebar = sidebarByRole[role] || [];
