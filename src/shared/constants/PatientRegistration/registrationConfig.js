@@ -21,38 +21,37 @@ export const heightUnits = ["cm", "ft"];
 export const weightUnits = ["kg", "lb"];
 
 export const activityLevels = [
-  "Sedentary",
+  "Very Active",
+  "Moderately Active",
   "Lightly Active",
   "Moderately Active",
-  "Very Active",
-  "Highly Active",
+  "Athlete",
+  "Sedentary",
 ];
 
 export const dietaryPreferences = [
-  "No Preference",
   "Vegetarian",
+  "Non-Vegetarian",
   "Vegan",
   "Eggetarian",
-  "Pescatarian",
-  "Non-Vegetarian",
-  "Other",
+  "No Preference",
 ];
 
 export const smokingStatuses = [
   "Never Smoked",
+  "Regular Smoker",
   "Former Smoker",
   "Occasional Smoker",
-  "Regular Smoker",
-  "Prefer Not to Say",
+  "Trying to Quit",
 ];
 
 export const alcoholOptions = [
   "Never",
   "Occasionally",
-  "Monthly",
+  "Social Drinker",
+  "Former Drinker",
   "Weekly",
-  "Frequently",
-  "Prefer Not to Say",
+  "Daily",
 ];
 
 export const relationships = [
@@ -168,3 +167,43 @@ export const stateCities = {
   "West Bengal": ["Kolkata", "Howrah", "Durgapur"],
   Other: ["Other"],
 };
+
+export const materialStatus = ["Single", "Married", "Prefer not to say"];
+
+export const occupations = [
+  "Student",
+  "Employed",
+  "Self-employed",
+  "Business Owner",
+  "Government Employee",
+  "Retired",
+  "Unemployed",
+  "Other",
+];
+
+export const nationality = ["Indian"];
+
+export const emergencyContacts = [
+  "Father",
+  "Mother",
+  "Husband",
+  "wife",
+  "Son",
+  "Daughter",
+  "Brother",
+  "Sister",
+  "GrandFather",
+  "GrandMother",
+  "Uncle",
+  "Aunt",
+  "Cousin",
+  "Nephew",
+  "Guardian",
+  "Friend",
+  "Neighbor",
+  "Father-in-law",
+  "Mother-in-law",
+  "Brother-in-law",
+  "Sister-in-law",
+  "Other",
+];
