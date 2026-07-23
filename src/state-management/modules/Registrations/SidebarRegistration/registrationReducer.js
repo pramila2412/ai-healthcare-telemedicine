@@ -1,8 +1,8 @@
 import {
-  SET_ACTIVE_SECTION,
-  SAVE_SECTION_DATA,
   MARK_SECTION_COMPLETE,
   RESET_REGISTRATION,
+  SAVE_SECTION_DATA,
+  SET_ACTIVE_SECTION,
 } from './registrationActions';
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
   completedSections: [],         // ['basic', 'location', ...] for checkmarks/progress
 };
 
-export default function registrationReducer(state = initialState, action) {
+export const registrationReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_ACTIVE_SECTION:
       return { ...state, activeSectionKey: action.payload };

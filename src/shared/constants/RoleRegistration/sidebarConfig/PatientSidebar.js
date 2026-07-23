@@ -72,7 +72,7 @@ const patientSidebar = [
     label: 'Review & Complete',
     icon: 'tabler:checklist',
     title: 'Review & Complete',
-    subtitle: DEFAULT_SECTION_SUBTITLE,
+    subtitle: 'Review all the information you\u2019ve provided and edit any section before continuing.',
     children: [
       {
         key: 'information',

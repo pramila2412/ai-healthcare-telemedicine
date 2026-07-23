@@ -16,6 +16,7 @@
   --color-disabled-bg: #F2F2F2;
   --color-disabled-text: #6B7280;
   --color-white: #FFFFFF;
+  --color-card-border: #D1D5DB;
 
   --font-TypeFace: "TypeFace", "Inter", system-ui, -apple-system, sans-serif;
 }
@@ -32,7 +33,7 @@
   --color-danger: #EF4444;
   --color-warning: #F59E0B;
   --color-white: #FFFFFF;
-
+--color-card-border: #D1D5DB;
   --color-disabled-bg: #F2F2F2;
   --color-disabled-text: #6B7280;
   --font-TypeFace: "TypeFace", "Inter", system-ui, -apple-system, sans-serif;
@@ -44,6 +45,12 @@
 .text-primary { color: var(--color-primary) !important; }
 .text-secondary { color: var(--color-secondary) !important; }
 
+
+/* Verified Modal */
+
+.verified-modal-border { color: var(--color-card-border); }
+.verified-modal-btn { color: var(--color-primary); }
+.verified-modal-btn-solid { color: var(--color-white); }
 /* Secure Account Modal */
 .secure-modal { font-family: var(--font-TypeFace); }
 .secure-modal-heading { color: var(--color-text-heading); }

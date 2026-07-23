@@ -1,5 +1,5 @@
-import React from "react";
 import { X } from "lucide-react";
+import React from "react";
 
 import logo from "../../../../assets/assets/logo.svg";
 import time from "../../../../assets/patientRegistration/time.svg";
@@ -23,16 +23,16 @@ import reviewCom from "../../../../assets/patientRegistration/review&com.svg";
 import reviewCom1 from "../../../../assets/patientRegistration/review&com1.svg";
 import reviewComwhite from "../../../../assets/patientRegistration/reviewComwhite.svg";
 
-import tick from "../../../../assets/patientRegistration/tick.svg";
-import { useSelector } from "react-redux";
 import {
-  selectPersonalInfo,
-  selectAdditionalInfo,
-  selectMedicalHistory,
-  selectInsuranceInfo,
-  selectHealthRecords,
-  selectReviewComplete,
-} from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+    selectAdditionalInfo,
+    selectHealthRecords,
+    selectInsuranceInfo,
+    selectMedicalHistory,
+    selectPersonalInfo,
+    selectReviewComplete,
+} from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationSelectors";
+import { useSelector } from "react-redux";
+import tick from "../../../../assets/patientRegistration/tick.svg";
 
 const steps = [
   {

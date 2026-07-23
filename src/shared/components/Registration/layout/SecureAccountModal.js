@@ -1,11 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Icon } from "@iconify/react";
+import { useFormik } from 'formik';
 const SecureAccountModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const formik = useFormik({
+    initialValues: { password: "", confirmPassword: "" },
+    validate: (values) => {
+      const errors = {};
+      if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\d!@#$%^&*(),.?":{}|<>]).{8,}/.test(values.password))
+        errors.password = "Password does not meet requirements";
+      if (values.password !== values.confirmPassword)
+        errors.confirmPassword = "Passwords do not match";
+      return errors;
+    },
+    onSubmit: (values) => { onClose(); },
+  });
+
+  const { password, confirmPassword } = formik.values;
 
   // Validation Logic
   const requirements = [
@@ -30,6 +44,7 @@ const SecureAccountModal = ({ isOpen, onClose }) => {
   const metCount = requirements.filter((req) => req.test(password)).length;
 
   // Strength Configuration
+
   const getStrength = () => {
     if (password.length === 0) return { label: "", color: "var(--color-disabled-bg)", text: "", width: "0%" };
     if (metCount <= 1) return { label: "Poor",     color: "var(--color-danger)",   text: "text-[--color-danger]",   width: "25%" };
@@ -38,11 +53,10 @@ const SecureAccountModal = ({ isOpen, onClose }) => {
   };
 
   const strength = getStrength();
-  const isFormValid =
-    metCount === 4 && password === confirmPassword && password.length > 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40  secure-modal">
+      <form onSubmit={formik.handleSubmit}>
       <div className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 md:p-10 animate-in fade-in zoom-in duration-300">
         {/* Close Button (positioned outside like the image) */}
         <button
@@ -107,8 +121,9 @@ const SecureAccountModal = ({ isOpen, onClose }) => {
               />
               <input
                 type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 placeholder="Enter your new password"
                 className="w-full pl-11 pr-11 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:secure-modal-placeholder text-slate-700"
               />
@@ -140,8 +155,9 @@ const SecureAccountModal = ({ isOpen, onClose }) => {
               />
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                name="confirmPassword"
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
                 placeholder="Enter password again"
                 className="w-full pl-11 pr-11 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:secure-modal-placeholder text-[--color-text-heading]"
               />
@@ -209,10 +225,11 @@ const SecureAccountModal = ({ isOpen, onClose }) => {
 
         {/* Action Button */}
         <button
-          disabled={!isFormValid}
+          type="submit"
+          disabled={!formik.isValid || !formik.dirty}
           className={`w-full py-4 rounded-xl font-medium transition-all shadow-lg 
             ${
-              isFormValid
+              formik.isValid && formik.dirty
                 ? "bg-primary text-white hover:bg-(--color-primary-hover) shadow-teal-900/10 active:scale-[0.98]"
                 : "bg-(--color-disabled-bg) text-(--color-disabled-text) cursor-not-allowed shadow-none"
             }`}
@@ -220,6 +237,7 @@ const SecureAccountModal = ({ isOpen, onClose }) => {
           Create Profile
         </button>
       </div>
+      </form>
     </div>
   );
 };
