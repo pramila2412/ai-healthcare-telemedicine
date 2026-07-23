@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import downArrow from "@assets/patientRegistration/downarrow.svg";
+import { Icon } from "@iconify/react";
 
 /**
  * FormSelect — searchable custom dropdown, shared across all registration steps.
@@ -85,7 +86,7 @@ const FormSelect = ({
   };
 
   const triggerBase =
-    "h-10 w-full rounded-lg border border-[#E5E7EB] bg-white pr-10 text-xs font-normal outline-none text-left transition-colors duration-150 focus:border-[#096B58]";
+    "h-14 w-full rounded-lg border border-[#E5E7EB] bg-white pr-10 text-[#6B7280] text-xs font-normal outline-none text-left transition-colors duration-150 focus:border-[#096B58]";
 
   return (
     <div className="relative" ref={selectRef}>
@@ -96,16 +97,18 @@ const FormSelect = ({
         onClick={handleToggle}
         className={`${triggerBase} relative flex items-center ${icon || startIcon ? "pl-12" : "px-4"} ${
           value ? "text-[#141414]" : "text-[#666666]"
-        } ${showError && error ? "border-[#EF4444]" : ""} ${className}`}
+        } ${showError && error ? "border-danger" : ""} ${className}`}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
         {icon && (
-          <img
-            src={icon}
-            alt={iconAlt}
-            className="absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 pointer-events-none"
+          <Icon
+            icon={icon}
+            width="24"
+            height="21"
+            className="absolute left-4 top-1/2  -translate-y-1/2 pointer-events-none [&_path]:stroke-[1.5] text-text-muted"
           />
+          
         )}
         {startIcon && (
           <span className="absolute left-4 top-1/2 flex -translate-y-1/2 items-center text-[#667085] pointer-events-none">
@@ -113,18 +116,21 @@ const FormSelect = ({
           </span>
         )}
         <span className="block truncate">{value || placeholder}</span>
-        <img
-          src={downArrow}
-          alt=""
-          className={`absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2 transition-transform ${
+        <Icon
+          icon="tabler:circle-chevron-down"
+          width="24"
+          height="24"
+          className={`absolute right-4 top-1/2  -translate-y-1/2 transition-transform [&_path]:stroke-[1.5] text-text-muted ${
             isOpen ? "rotate-180" : ""
           }`}
+          
         />
+        
       </button>
 
       {/* Inline error */}
       {showError && error && (
-        <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-[#EF4444] leading-none">
+        <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-danger leading-none">
           {error}
         </p>
       )}
@@ -169,7 +175,7 @@ const FormSelect = ({
                     onClick={() => handleSelect(option)}
                     className={`relative flex h-12 w-full items-center border-b border-[#E5E7EB] text-left text-sm font-normal last:border-b-0 cursor-pointer px-3 transition-colors duration-150 ${
                       isSelected
-                        ? "bg-[#F0F7F5] text-[#096B58] font-semibold before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-[#096B58]"
+                        ? "bg-[#F0F7F5] text-primary-dark font-semibold before:absolute before:left-0 before:top-0 before:h-full before:w-0.75 before:bg-primary-dark"
                         : "text-[#141414] hover:bg-[#F5F5F5]"
                     }`}
                   >
