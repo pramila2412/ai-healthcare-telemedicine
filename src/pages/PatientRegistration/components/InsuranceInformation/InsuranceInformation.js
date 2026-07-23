@@ -10,17 +10,17 @@ import UploadBox from "@/shared/components/PatientRegistration/upload/UploadBox"
 import { insuranceTypes } from "@/shared/constants/patientRegistration/registrationConfig";
 
 import {
-  formatFileSize,
-  isAllowedFileType,
-  isWithinMaxSize,
+    formatFileSize,
+    isAllowedFileType,
+    isWithinMaxSize,
 } from "@/shared/utils/PatientRegistration/fileUtils";
 
 import {
-  setActiveStep,
-  setInsuranceInfo,
-} from "@/state-management/modules/patientRegistration/patientRegistrationActions";
+    setActiveStep,
+    setInsuranceInfo,
+} from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationActions";
 
-import { selectInsuranceInfo } from "@/state-management/modules/patientRegistration/patientRegistrationSelectors";
+import { selectInsuranceInfo } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationSelectors";
 
 import insurInfor from "@assets/patientRegistration/insurInfor.svg";
 
