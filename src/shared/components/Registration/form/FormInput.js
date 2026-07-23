@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import React from "react";
 
 const FormInput = ({
@@ -18,7 +19,7 @@ const FormInput = ({
   prefix,
 }) => {
   const baseClass =
-    "h-10 w-full rounded-lg border-[0.5px] border-[#D0D0D0] text-xs font-normal outline-none transition-colors duration-150";
+    "h-14 w-full rounded-lg border-[0.5px] border-[#D0D0D0] text-[#6B7280] text-xs font-normal outline-none transition-colors duration-150";
 
   const normalClass =
     "bg-white text-[#141414] placeholder:text-[#666666] focus:border-[#096B58]";
@@ -32,11 +33,13 @@ const FormInput = ({
   return (
     <div className="relative">
       {/* Left icon */}
-      {icon && (
-        <img
-          src={icon}
-          alt={iconAlt}
-          className={`absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 z-10 pointer-events-none ${
+       {icon && (
+        <Icon
+          icon={icon}
+          width="24"
+          height="24"
+          strokeWidth={1}
+          className={`absolute left-4 top-1/2 -translate-y-1/2  z-10 pointer-events-none [&_path]:stroke-[1.5] text-text-muted ${
             disabled ? "opacity-50" : ""
           }`}
         />
@@ -86,7 +89,7 @@ const FormInput = ({
 
       {/* Error */}
       {showError && error && (
-        <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-[#EF4444] leading-none">
+        <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-danger leading-none">
           {error}
         </p>
       )}
