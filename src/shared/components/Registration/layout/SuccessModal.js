@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import VerifiedBadge from "../../../../assets/patientRegistration/images/verified_check_icon.png";
 import { Icon } from "@iconify/react";
 
 const SuccessModal = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    if (!isOpen) return;
+    const timer = setTimeout(onClose, 5000);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
+
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40  secure-modal">

@@ -7,7 +7,8 @@ import Header from "@/shared/components/Registration/layout/Header";
 import Sidebar from "@/shared/components/Registration/layout/Sidebar";
 import UploadSuccessSnackbar from "@/shared/components/Registration/upload/UploadSuccessSnackbar";
 import sidebarByRole, { getStepComponent } from "@/shared/constants/RoleRegistration";
-
+import SecureAccountModal from "@/shared/components/Registration/layout/SecureAccountModal";
+import SuccessModal from "@/shared/components/Registration/layout/SuccessModal";
 import {
   markSectionComplete,
   saveSectionData,
@@ -39,6 +40,8 @@ const RegistrationPage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMedicalUploadSuccessOpen, setIsMedicalUploadSuccessOpen] =
     useState(false);
+  const [isSecureModalOpen, setIsSecureModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const role = useSelector(authSelectors.getUserRole);
   const activeSectionKey = useSelector(sideBarRegistrationSelectors.getActiveSectionKey);
@@ -68,6 +71,10 @@ const RegistrationPage = () => {
   };
 
   const handleContinue = () => {
+    if (activeSectionKey === "information" || activeSectionKey === "loginid") {
+      setIsSecureModalOpen(true);
+      return;
+    }
     if (
       activeSectionKey === "medical" &&
       activeSectionData.supportingRecords?.length > 0
@@ -76,6 +83,16 @@ const RegistrationPage = () => {
     }
     dispatch(markSectionComplete(activeSectionKey));
     moveToNextSection();
+  };
+
+  const handleSecureModalComplete = () => {
+    setIsSecureModalOpen(false);
+    dispatch(markSectionComplete(activeSectionKey));
+    if (activeSectionKey === "loginid") {
+      setIsSuccessModalOpen(true);
+    } else {
+      moveToNextSection();
+    }
   };
 
   const isContinueDisabled =
@@ -132,6 +149,16 @@ const RegistrationPage = () => {
           onClose={() => setIsMedicalUploadSuccessOpen(false)}
         />
       </div>
+
+      <SecureAccountModal
+        isOpen={isSecureModalOpen}
+        onClose={() => setIsSecureModalOpen(false)}
+        onComplete={handleSecureModalComplete}
+      />
+      <SuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+      />
     </div>
   );
 };

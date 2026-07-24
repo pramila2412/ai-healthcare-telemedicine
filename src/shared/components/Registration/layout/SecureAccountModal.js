@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import { useFormik } from 'formik';
-const SecureAccountModal = ({ isOpen, onClose }) => {
+const SecureAccountModal = ({ isOpen, onClose, onComplete }) => {
   if (!isOpen) return null;
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -16,7 +16,7 @@ const SecureAccountModal = ({ isOpen, onClose }) => {
         errors.confirmPassword = "Passwords do not match";
       return errors;
     },
-    onSubmit: (values) => { onClose(); },
+    onSubmit: () => { onComplete ? onComplete() : onClose(); },
   });
 
   const { password, confirmPassword } = formik.values;
