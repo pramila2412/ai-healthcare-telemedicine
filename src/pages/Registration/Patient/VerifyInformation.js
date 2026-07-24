@@ -278,7 +278,7 @@ const VerifyInformation = ({ data = {}, onChange }) => {
       {!isAllMinimized && (
         <button 
           onClick={handleFabClick}
-          className="fixed bottom-24 right-8 w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.2)] hover:opacity-95 transition-all duration-300 z-50 cursor-pointer hidden md:flex"
+          className="fixed bottom-24 lg:bottom-[160px] right-8 lg:right-12 w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.2)] hover:opacity-95 transition-all duration-300 z-50 cursor-pointer hidden md:flex"
           aria-label={isAtBottom ? "Scroll to top" : "Scroll to bottom"}
         >
           <Icon 
