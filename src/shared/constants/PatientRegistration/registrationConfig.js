@@ -17,7 +17,7 @@ export const bloodGroups = [
 ];
 
 // ── Additional Information ─────────────────────────────────────────────────────
-export const heightUnits = ["cm", "ft"];
+export const heightUnits = ["cm", "ft/in"];
 export const weightUnits = ["kg", "lb"];
 
 export const activityLevels = [

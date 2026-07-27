@@ -210,8 +210,8 @@ const VerifyInformation = ({ data = {}, onChange }) => {
   ].filter(f => !!f.value);
 
   const physicalFields = [
-    { label: "Height", value: health.height ? `${health.height} cm` : '', icon: Ruler },
-    { label: "Weight", value: health.weight ? `${health.weight} kg` : '', icon: Scale }
+    { label: "Height", value: health.height ? `${health.height} ${health.heightUnit || "cm"}` : '', icon: Ruler },
+    { label: "Weight", value: health.weight ? `${health.weight} ${health.weightUnit || "kg"}` : '', icon: Scale }
   ].filter(f => !!f.value);
 
   const healthFields = [

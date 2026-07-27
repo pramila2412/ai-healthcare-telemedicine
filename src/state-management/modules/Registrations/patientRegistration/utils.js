@@ -20,7 +20,9 @@ export const personalInformationInit = {
 
 export const healthRecordsInit = {
     height: '',
+    heightUnit: 'cm',
     weight: '',
+    weightUnit: 'kg',
     bloodPressure: '',
     bloodSugar: '',
     physicalActivityLevel: '',
