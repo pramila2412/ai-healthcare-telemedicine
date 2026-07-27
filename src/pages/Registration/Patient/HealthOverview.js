@@ -1,20 +1,84 @@
 import FormInput from "@/shared/components/Registration/form/FormInput";
 import FormSelect from "@/shared/components/Registration/form/FormSelect";
+import UnitToggle from "@/shared/components/Registration/form/UnitToggle";
 import {
   activityLevels,
   alcoholOptions,
   dietaryPreferences,
+  heightUnits,
   smokingStatuses,
+  weightUnits,
 } from "@/shared/constants/PatientRegistration/registrationConfig";
+import {
+  convertHeightValue,
+  convertWeightValue,
+} from "@/shared/utils/measurement";
 import React from "react";
 
-const HealthOverview = ({ data = {}, onChange }) => {
+export const formatBloodPressureInput = (value, inputType = "") => {
+  const normalizedValue = String(value ?? "").replace(/\s/g, "");
+
+  if (normalizedValue.includes("/")) {
+    const [systolic = "", diastolic = ""] = normalizedValue.split("/");
+    return `${systolic.replace(/\D/g, "").slice(0, 3)}/${diastolic
+      .replace(/\D/g, "")
+      .slice(0, 3)}`;
+  }
+
+  const digits = normalizedValue.replace(/\D/g, "").slice(0, 6);
+  if (inputType.startsWith("delete")) return digits;
+  if (digits.length < 3) return digits;
+
+  return `${digits.slice(0, 3)}/${digits.slice(3)}`;
+};
+
+const HealthOverview = ({
+  data = {},
+  onChange,
+  errors = {},
+  touched = {},
+  onFieldBlur,
+}) => {
   const updateField = (fieldName, value) => {
     onChange?.({
       ...data,
       [fieldName]: value,
     });
   };
+  const updateFields = (updates) => {
+    onChange?.({
+      ...data,
+      ...updates,
+    });
+  };
+  const heightUnit = data.heightUnit || "cm";
+  const weightUnit = data.weightUnit || "kg";
+  const handleHeightUnitChange = (nextUnit) => {
+    updateFields({
+      height: convertHeightValue(data.height, heightUnit, nextUnit),
+      heightUnit: nextUnit,
+    });
+  };
+  const handleWeightUnitChange = (nextUnit) => {
+    updateFields({
+      weight: convertWeightValue(data.weight, weightUnit, nextUnit),
+      weightUnit: nextUnit,
+    });
+  };
+  const handleBloodPressureChange = (event) => {
+    updateField(
+      "bloodPressure",
+      formatBloodPressureInput(
+        event.target.value,
+        event.nativeEvent?.inputType,
+      ),
+    );
+  };
+  const getValidationProps = (fieldName) => ({
+    error: errors[fieldName] || "",
+    showError: Boolean(touched[fieldName]),
+    onBlur: () => onFieldBlur?.(fieldName),
+  });
 
   return (
     <div className="space-y-8">
@@ -24,8 +88,8 @@ const HealthOverview = ({ data = {}, onChange }) => {
         </h2>
         <p className="mt-1 text-xs font-TypeFace font-normal text-[#6B7280]">
           Add your basic health information to help us provide more personalized
-          care and better health recommendation. You can skip any field if
-          you're unsure
+          care and better health recommendations. Height and weight are
+          required; you can skip the remaining fields if you're unsure.
         </p>
       </div>
 
@@ -37,16 +101,22 @@ const HealthOverview = ({ data = {}, onChange }) => {
           </label>
           <FormInput
             name="height"
-            type="number"
+            type={heightUnit === "cm" ? "number" : "text"}
+            inputMode={heightUnit === "cm" ? "decimal" : "text"}
             value={data.height || ""}
-            placeholder="Enter your height"
+            placeholder={
+              heightUnit === "cm" ? "Enter your height" : `e.g., 5' 10"`
+            }
             onChange={(event) => updateField("height", event.target.value)}
             suffix={
-              <span className="text-xs text-[#666666] pointer-events-none">
-                cm
-              </span>
+              <UnitToggle
+                value={heightUnit}
+                options={heightUnits}
+                onChange={handleHeightUnitChange}
+              />
             }
             icon="tabler:ruler-measure-2"
+            {...getValidationProps("height")}
           />
         </div>
 
@@ -62,11 +132,14 @@ const HealthOverview = ({ data = {}, onChange }) => {
             placeholder="Enter your weight"
             onChange={(event) => updateField("weight", event.target.value)}
             suffix={
-              <span className="text-xs text-[#666666] pointer-events-none">
-                kg
-              </span>
+              <UnitToggle
+                value={weightUnit}
+                options={weightUnits}
+                onChange={handleWeightUnitChange}
+              />
             }
             icon="tabler:scale-outline"
+            {...getValidationProps("weight")}
           />
         </div>
 
@@ -78,16 +151,17 @@ const HealthOverview = ({ data = {}, onChange }) => {
           <FormInput
             name="bloodPressure"
             value={data.bloodPressure || ""}
-            placeholder="120 / 80"
-            onChange={(event) =>
-              updateField("bloodPressure", event.target.value)
-            }
+            placeholder="120/80"
+            inputMode="numeric"
+            maxLength={7}
+            onChange={handleBloodPressureChange}
             suffix={
               <span className="text-xs text-[#666666] pointer-events-none">
                 mmHg
               </span>
             }
             icon="tabler:heartbeat"
+            {...getValidationProps("bloodPressure")}
           />
         </div>
 
@@ -108,6 +182,7 @@ const HealthOverview = ({ data = {}, onChange }) => {
               </span>
             }
             icon="tabler:droplet"
+            {...getValidationProps("bloodSugar")}
           />
         </div>
 

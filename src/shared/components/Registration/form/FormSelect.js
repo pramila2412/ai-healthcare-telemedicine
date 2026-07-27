@@ -37,6 +37,7 @@ const FormSelect = ({
   disabled = false,
   className = "",
 }) => {
+  const errorId = name ? `${name}-error` : undefined;
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [openUpward, setOpenUpward] = useState(false);
@@ -101,6 +102,7 @@ const FormSelect = ({
       <button
         ref={triggerRef}
         type="button"
+        name={name}
         onClick={handleToggle}
         disabled={disabled}
         className={`${triggerBase} relative flex items-center ${icon || startIcon ? "pl-12" : "px-4"} ${
@@ -110,6 +112,8 @@ const FormSelect = ({
         } ${className}`}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
+        aria-invalid={showError && Boolean(error)}
+        aria-describedby={showError && error ? errorId : undefined}
       >
         {icon && (
           <Icon
@@ -140,7 +144,10 @@ const FormSelect = ({
 
       {/* Inline error */}
       {showError && error && (
-        <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-danger leading-none">
+        <p
+          id={errorId}
+          className="absolute left-0 top-[calc(100%+2px)] text-xs text-danger leading-none"
+        >
           {error}
         </p>
       )}

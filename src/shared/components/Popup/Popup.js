@@ -17,6 +17,7 @@ const Popup = ({
   fullWidth = true,
   showCloseButton = true,
   closeOnBackdropClick = true,
+  closeOnEscapeKeyDown = true,
   paperSx = {},
 }) => {
   const generatedId = useId();
@@ -27,6 +28,7 @@ const Popup = ({
 
   const handleClose = (_event, reason) => {
     if (!closeOnBackdropClick && reason === "backdropClick") return;
+    if (!closeOnEscapeKeyDown && reason === "escapeKeyDown") return;
     onClose?.();
   };
 
@@ -38,6 +40,7 @@ const Popup = ({
       fullWidth={fullWidth}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
+      disableEscapeKeyDown={!closeOnEscapeKeyDown}
       slotProps={{
         paper: {
           sx: {

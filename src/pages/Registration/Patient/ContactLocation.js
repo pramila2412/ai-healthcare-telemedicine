@@ -8,7 +8,13 @@ import {
 } from "@/shared/constants/PatientRegistration/registrationConfig";
 import React from "react";
 
-const ContactLocation = ({ data = {}, onChange }) => {
+const ContactLocation = ({
+  data = {},
+  onChange,
+  errors = {},
+  touched = {},
+  onFieldBlur,
+}) => {
   const selectedState = data.state || "";
   const cityOptions = stateCities[selectedState] || [];
   const updateField = (fieldName, value) => {
@@ -24,6 +30,11 @@ const ContactLocation = ({ data = {}, onChange }) => {
       city: "",
     });
   };
+  const getValidationProps = (fieldName) => ({
+    error: errors[fieldName] || "",
+    showError: Boolean(touched[fieldName]),
+    onBlur: () => onFieldBlur?.(fieldName),
+  });
 
   return (
     <div className="space-y-8">
@@ -52,6 +63,7 @@ const ContactLocation = ({ data = {}, onChange }) => {
             placeholder="Select your emergency contact relationship"
             icon="tabler:heart-handshake"
             onSelect={updateField}
+            {...getValidationProps("emergencyContacts")}
           />
         </div>
 
@@ -67,6 +79,7 @@ const ContactLocation = ({ data = {}, onChange }) => {
             placeholder="Enter emergency contact name"
             icon="tabler:user"
             onChange={(event) => updateField("contactName", event.target.value)}
+            {...getValidationProps("contactName")}
           />
         </div>
 
@@ -83,6 +96,7 @@ const ContactLocation = ({ data = {}, onChange }) => {
             placeholder="Enter emergency contact phone number"
             icon="tabler:phone"
             onChange={(event) => updateField("phoneNumber", event.target.value)}
+            {...getValidationProps("phoneNumber")}
           />
         </div>
       </div>
@@ -108,6 +122,7 @@ const ContactLocation = ({ data = {}, onChange }) => {
             placeholder="Select your nationality"
             icon="tabler:map-pin"
             onSelect={updateField}
+            {...getValidationProps("nationality")}
           />
         </div>
 
@@ -124,6 +139,7 @@ const ContactLocation = ({ data = {}, onChange }) => {
             placeholder="Select state"
             searchPlaceholder="Search state"
             icon="tabler:map-pin"
+            {...getValidationProps("state")}
           />
         </div>
 
@@ -145,6 +161,7 @@ const ContactLocation = ({ data = {}, onChange }) => {
             icon="tabler:map-pin"
             disabled={!selectedState}
             onSelect={updateField}
+            {...getValidationProps("city")}
           />
         </div>
       </div>

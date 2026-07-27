@@ -4,7 +4,21 @@ import { bloodGroups, genders, materialStatus, occupations } from '@/shared/cons
 import React from 'react'
 import { useSelector } from 'react-redux';
 
-const BasicDetails = ({ data = {}, onChange }) => {
+const getTodayDateInputValue = () => {
+  const today = new Date();
+  const localToday = new Date(
+    today.getTime() - today.getTimezoneOffset() * 60_000,
+  );
+  return localToday.toISOString().split("T")[0];
+};
+
+const BasicDetails = ({
+  data = {},
+  onChange,
+  errors = {},
+  touched = {},
+  onFieldBlur,
+}) => {
 
   const phoneNumber = useSelector((state) => state.security.phoneNumber);
   const updateField = (fieldName, value) => {
@@ -13,6 +27,11 @@ const BasicDetails = ({ data = {}, onChange }) => {
       [fieldName]: value,
     });
   };
+  const getValidationProps = (fieldName) => ({
+    error: errors[fieldName] || "",
+    showError: Boolean(touched[fieldName]),
+    onBlur: () => onFieldBlur?.(fieldName),
+  });
 
   return (
     <div className="space-y-8">
@@ -37,6 +56,7 @@ const BasicDetails = ({ data = {}, onChange }) => {
             placeholder="Enter your full name"
             icon="tabler:user"
             onChange={(event) => updateField("fullName", event.target.value)}
+            {...getValidationProps("fullName")}
           />
         </div>
 
@@ -48,10 +68,14 @@ const BasicDetails = ({ data = {}, onChange }) => {
 
           <FormInput
             name="dob"
+            type="date"
             value={data.dob || ""}
             placeholder="Select your date of birth"
             icon="tabler:calendar"
+            max={getTodayDateInputValue()}
+            onClick={(event) => event.currentTarget.showPicker?.()}
             onChange={(event) => updateField("dob", event.target.value)}
+            {...getValidationProps("dob")}
           />
         </div>
 
@@ -68,6 +92,7 @@ const BasicDetails = ({ data = {}, onChange }) => {
             placeholder="Select your gender"
             icon="tabler:gender-bigender"
             onSelect={updateField}
+            {...getValidationProps("gender")}
           />
         </div>
 
@@ -84,6 +109,7 @@ const BasicDetails = ({ data = {}, onChange }) => {
             placeholder="Select your blood group"
             icon="tabler:droplet"
             onSelect={updateField}
+            {...getValidationProps("bloodGroup")}
           />
         </div>
 
@@ -145,6 +171,7 @@ const BasicDetails = ({ data = {}, onChange }) => {
             placeholder="Enter your email address"
             icon="tabler:mail"
             onChange={(event) => updateField("email", event.target.value)}
+            {...getValidationProps("email")}
           />
         </div>
       </div>

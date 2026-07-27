@@ -6,8 +6,14 @@ const FormInput = ({
   value,
   onChange,
   onBlur,
+  onClick,
   placeholder = "",
   type = "text",
+  inputMode,
+  maxLength,
+  min,
+  max,
+  step,
   icon,
   startIcon,
   iconAlt = "",
@@ -18,6 +24,7 @@ const FormInput = ({
   suffix,
   prefix,
 }) => {
+  const errorId = name ? `${name}-error` : undefined;
   const baseClass =
     "h-14 w-full rounded-lg border-[0.5px] border-[#D0D0D0] text-[#6B7280] text-xs font-normal outline-none transition-colors duration-150";
 
@@ -68,8 +75,16 @@ const FormInput = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        onClick={onClick}
         placeholder={placeholder}
         disabled={disabled}
+        inputMode={inputMode}
+        maxLength={maxLength}
+        min={min}
+        max={max}
+        step={step}
+        aria-invalid={showError && Boolean(error)}
+        aria-describedby={showError && error ? errorId : undefined}
         className={`
           ${baseClass}
           ${disabled ? disabledClass : normalClass}
@@ -89,7 +104,10 @@ const FormInput = ({
 
       {/* Error */}
       {showError && error && (
-        <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-danger leading-none">
+        <p
+          id={errorId}
+          className="absolute left-0 top-[calc(100%+2px)] text-xs text-danger leading-none"
+        >
           {error}
         </p>
       )}

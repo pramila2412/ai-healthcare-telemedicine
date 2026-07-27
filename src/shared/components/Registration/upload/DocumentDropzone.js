@@ -50,7 +50,9 @@ const normalizeUploadResponse = (response, sourceFiles) => {
 };
 
 const DocumentDropzone = ({
+  name,
   label,
+  required = false,
   instruction,
   infoTooltip,
   infoLabel,
@@ -60,6 +62,9 @@ const DocumentDropzone = ({
   rules,
   onUploadSuccess,
   uploadFiles,
+  error = "",
+  showError = false,
+  onBlur,
 }) => {
   const inputRef = useRef(null);
   const retryFilesRef = useRef([]);
@@ -170,7 +175,7 @@ const DocumentDropzone = ({
     <div>
       <div className="mb-2 flex items-center justify-between">
         <label className="text-[14px] font-medium leading-5 text-[#141414]">
-          {label}
+          {label} {required && <span className="text-danger">*</span>}
         </label>
         {infoTooltip && (
           <Tooltip title={infoTooltip} arrow>
@@ -213,10 +218,16 @@ const DocumentDropzone = ({
       />
 
       <Box
+        data-validation-field={name}
         role="button"
         tabIndex={isDropzoneDisabled ? -1 : 0}
         aria-disabled={isDropzoneDisabled}
         aria-busy={isUploading}
+        aria-invalid={showError && Boolean(error)}
+        aria-describedby={
+          showError && error && name ? `${name}-error` : undefined
+        }
+        onBlur={onBlur}
         onClick={() => !isDropzoneDisabled && inputRef.current?.click()}
         onKeyDown={(event) => {
           if (
@@ -241,6 +252,8 @@ const DocumentDropzone = ({
         className={`flex min-h-14 items-center justify-center rounded-lg border border-dashed px-5 py-4 text-center transition-colors ${
           isDropzoneDisabled
             ? "cursor-not-allowed border-[#E4E7EC] bg-[#F8F9FA] opacity-70"
+            : showError && error
+              ? "cursor-pointer border-danger bg-white"
             : isDragging
               ? "cursor-copy border-[#0D8B72] bg-[#F1F9F7]"
               : "cursor-pointer border-[#C9D1DC] bg-white hover:border-[#0D8B72] hover:bg-[#FBFEFD]"
@@ -262,6 +275,15 @@ const DocumentDropzone = ({
           {Number.isFinite(maxFiles) ? ` | Upload up to ${maxFiles} files` : ""}
         </span>
       </div>
+
+      {showError && error && (
+        <p
+          id={name ? `${name}-error` : undefined}
+          className="mt-1 text-xs leading-4 text-danger"
+        >
+          {error}
+        </p>
+      )}
 
       {files.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-3">

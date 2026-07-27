@@ -46,7 +46,14 @@ const normalizeInsuranceInformation = (data = {}) => ({
   confirmation: Boolean(data.confirmation),
 });
 
-const Insurance = ({ data, onChange, stepConfig }) => {
+const Insurance = ({
+  data,
+  onChange,
+  stepConfig,
+  errors = {},
+  touched = {},
+  onFieldBlur,
+}) => {
   const [isInformationPopupOpen, setIsInformationPopupOpen] = useState(false);
   const [isUploadSnackbarOpen, setIsUploadSnackbarOpen] = useState(false);
   const formData = normalizeInsuranceInformation(data);
@@ -78,6 +85,11 @@ const Insurance = ({ data, onChange, stepConfig }) => {
   const requiresInsuranceDetails =
     Boolean(formData.insuranceType) &&
     formData.insuranceType !== "No insurance";
+  const getValidationProps = (fieldName) => ({
+    error: errors[fieldName] || "",
+    showError: Boolean(touched[fieldName]),
+    onBlur: () => onFieldBlur?.(fieldName),
+  });
 
   return (
     <section className="mx-auto w-full max-w-[1100px]">
@@ -111,7 +123,7 @@ const Insurance = ({ data, onChange, stepConfig }) => {
         {requiresInsuranceDetails && (
           <div className="min-w-0">
             <label className="mb-2 block text-[14px] font-medium text-[#141414]">
-              {providerConfig.label}
+              {providerConfig.label} <span className="text-danger">*</span>
             </label>
             <FormSelect
               name="provider"
@@ -122,6 +134,7 @@ const Insurance = ({ data, onChange, stepConfig }) => {
               className="!h-14 !text-sm"
               startIcon={<HealthAndSafetyOutlinedIcon sx={{ fontSize: 20 }} />}
               onSelect={(_name, value) => updateField("provider", value)}
+              {...getValidationProps("provider")}
             />
           </div>
         )}
@@ -130,7 +143,7 @@ const Insurance = ({ data, onChange, stepConfig }) => {
           <>
             <div className="min-w-0">
               <label className="mb-2 block text-[14px] font-medium text-[#141414]">
-                Insurance Holder name
+                Insurance Holder name <span className="text-danger">*</span>
               </label>
               <FormInput
                 name="holderName"
@@ -141,12 +154,14 @@ const Insurance = ({ data, onChange, stepConfig }) => {
                 onChange={(event) =>
                   updateField("holderName", event.target.value)
                 }
+                {...getValidationProps("holderName")}
               />
             </div>
 
             <div className="min-w-0">
               <label className="mb-2 block text-[14px] font-medium text-[#141414]">
-                Customer ID / Policy Number
+                Customer ID / Policy Number{" "}
+                <span className="text-danger">*</span>
               </label>
               <FormInput
                 name="policyNumber"
@@ -157,6 +172,7 @@ const Insurance = ({ data, onChange, stepConfig }) => {
                 onChange={(event) =>
                   updateField("policyNumber", event.target.value)
                 }
+                {...getValidationProps("policyNumber")}
               />
             </div>
           </>
@@ -167,7 +183,9 @@ const Insurance = ({ data, onChange, stepConfig }) => {
         <>
           <div className="mt-8 lg:mt-10">
             <DocumentDropzone
+              name="documents"
               label="Upload Insurance Documents"
+              required
               instruction="Drag and drop your insurance card or policy document here, or"
               infoTooltip="View insurance card upload guidance"
               infoLabel="What to upload?"
@@ -176,6 +194,7 @@ const Insurance = ({ data, onChange, stepConfig }) => {
               onChange={(documents) => updateField("documents", documents)}
               onUploadSuccess={() => setIsUploadSnackbarOpen(true)}
               rules={DOCUMENT_UPLOAD_RULES.insuranceDocuments}
+              {...getValidationProps("documents")}
             />
           </div>
 
@@ -183,10 +202,12 @@ const Insurance = ({ data, onChange, stepConfig }) => {
             className="mt-5 items-start"
             control={
               <Checkbox
+                name="confirmation"
                 checked={formData.confirmation}
                 onChange={(event) =>
                   updateField("confirmation", event.target.checked)
                 }
+                onBlur={() => onFieldBlur?.("confirmation")}
                 sx={{
                   mt: -0.75,
                   color: "#98A2B3",
@@ -201,6 +222,14 @@ const Insurance = ({ data, onChange, stepConfig }) => {
               </span>
             }
           />
+          {touched.confirmation && errors.confirmation && (
+            <p
+              id="confirmation-error"
+              className="-mt-1 ml-3 text-xs leading-4 text-danger"
+            >
+              {errors.confirmation}
+            </p>
+          )}
 
           <div className="mt-8 flex max-w-[640px] items-start gap-3 rounded-lg bg-[#F1F9F7] px-4 py-3 text-[13px] leading-5 text-[#236C68]">
             <LockOutlinedIcon
