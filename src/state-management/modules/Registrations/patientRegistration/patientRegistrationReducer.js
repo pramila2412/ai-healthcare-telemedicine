@@ -9,13 +9,21 @@ import {
   SET_REVIEW_COMPLETE,
 } from "./patientRegistrationActions";
 
-import { medicalRecordsInit, personalInformationInit, reviewAndCompleteInit } from './utils';
+import { 
+  healthRecordsInit, 
+  insuranceInfoInit, 
+  medicalHistoryInit, 
+  personalInformationInit, 
+  reviewAndCompleteInit 
+} from './utils';
 
 const initialState = {
   activeStep: "personal",
-  personalInformation: {...personalInformationInit}|| null,
-  medicalRecords: {...medicalRecordsInit} || null,
-  reviewAndComplete: {...reviewAndCompleteInit}|| null
+  personalInformation: { ...personalInformationInit },
+  healthRecords: { ...healthRecordsInit },
+  medicalHistory: { ...medicalHistoryInit },
+  insuranceInformation: { ...insuranceInfoInit },
+  reviewAndComplete: { ...reviewAndCompleteInit }
 };
 
 export const patientRegistrationReducer = (state = initialState, action) => {
@@ -30,7 +38,7 @@ export const patientRegistrationReducer = (state = initialState, action) => {
     case SET_PERSONAL_INFO:
      return { 
       ...state, 
-      personalInformation: action.payload 
+      personalInformation: { ...state.personalInformation, ...action.payload }
     };
 
     case SET_ADDITIONAL_INFO:

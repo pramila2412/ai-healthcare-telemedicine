@@ -1,5 +1,5 @@
 // ── Base Selector ─────────────────────────────────────────────────────────────
-const selectRoot = (state) => state.patientRegistration;
+const selectRoot = (state) => state.registrations?.patientRegistration || {};
 
 // ── Step data selectors ───────────────────────────────────────────────────────
 export const selectActiveStep = (state) => selectRoot(state).activeStep;

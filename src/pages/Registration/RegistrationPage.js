@@ -14,6 +14,12 @@ import {
   saveSectionData,
   setActiveSection,
 } from "@/state-management/modules/Registrations/SidebarRegistration/registrationActions";
+import { 
+  setPersonalInfo, 
+  setMedicalHistory, 
+  setInsuranceInfo, 
+  setHealthRecords 
+} from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationActions";
 import {
   authSelectors,
   sideBarRegistrationSelectors,
@@ -71,7 +77,7 @@ const RegistrationPage = () => {
   };
 
   const handleContinue = () => {
-    if (activeSectionKey === "information" || activeSectionKey === "loginid") {
+    if (activeSectionKey === "loginid") {
       setIsSecureModalOpen(true);
       return;
     }
@@ -123,9 +129,14 @@ const RegistrationPage = () => {
             <StepComponent
               data={activeSectionData}
               stepConfig={activeSection}
-              onChange={(data) =>
-                dispatch(saveSectionData(activeSectionKey, data))
-              }
+              onChange={(data) => {
+                dispatch(saveSectionData(activeSectionKey, data));
+                if (activeSectionKey === 'basic') dispatch(setPersonalInfo({ basicDetails: data }));
+                if (activeSectionKey === 'contact') dispatch(setPersonalInfo({ contactLocation: data }));
+                if (activeSectionKey === 'health') dispatch(setHealthRecords(data));
+                if (activeSectionKey === 'medical') dispatch(setMedicalHistory(data));
+                if (activeSectionKey === 'insurance') dispatch(setInsuranceInfo(data));
+              }}
             />
           ) : (
             <p className="text-sm text-slate-400">
