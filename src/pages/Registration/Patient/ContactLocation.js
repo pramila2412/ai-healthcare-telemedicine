@@ -6,11 +6,24 @@ import {
   states,
   emergencyContacts,
 } from "@/shared/constants/PatientRegistration/registrationConfig";
-import React, { useState } from "react";
+import React from "react";
 
-const ContactLocation = () => {
-  const [selectedState, setSelectedState] = useState("");
+const ContactLocation = ({ data = {}, onChange }) => {
+  const selectedState = data.state || "";
   const cityOptions = stateCities[selectedState] || [];
+  const updateField = (fieldName, value) => {
+    onChange?.({
+      ...data,
+      [fieldName]: value,
+    });
+  };
+  const handleStateChange = (_fieldName, state) => {
+    onChange?.({
+      ...data,
+      state,
+      city: "",
+    });
+  };
 
   return (
     <div className="space-y-8">
@@ -34,10 +47,11 @@ const ContactLocation = () => {
 
           <FormSelect
             name="emergencyContacts"
-            value=""
+            value={data.emergencyContacts || ""}
             options={emergencyContacts}
             placeholder="Select your emergency contact relationship"
             icon="tabler:heart-handshake"
+            onSelect={updateField}
           />
         </div>
 
@@ -49,9 +63,10 @@ const ContactLocation = () => {
 
           <FormInput
             name="contactName"
-            value=""
+            value={data.contactName || ""}
             placeholder="Enter emergency contact name"
             icon="tabler:user"
+            onChange={(event) => updateField("contactName", event.target.value)}
           />
         </div>
 
@@ -64,9 +79,10 @@ const ContactLocation = () => {
 
           <FormInput
             name="phoneNumber"
-            value=""
+            value={data.phoneNumber || ""}
             placeholder="Enter emergency contact phone number"
             icon="tabler:phone"
+            onChange={(event) => updateField("phoneNumber", event.target.value)}
           />
         </div>
       </div>
@@ -87,10 +103,11 @@ const ContactLocation = () => {
 
           <FormSelect
             name="nationality"
-            value="Indian"
+            value={data.nationality || "Indian"}
             options={nationality}
             placeholder="Select your nationality"
             icon="tabler:map-pin"
+            onSelect={updateField}
           />
         </div>
 
@@ -102,7 +119,7 @@ const ContactLocation = () => {
           <FormSelect
             name="state"
             value={selectedState}
-            onChange={(val) => setSelectedState(val)}
+            onSelect={handleStateChange}
             options={states}
             placeholder="Select state"
             searchPlaceholder="Search state"
@@ -117,7 +134,7 @@ const ContactLocation = () => {
           </label>
           <FormSelect
             name="city"
-            value=""
+            value={data.city || ""}
             options={cityOptions}
             placeholder={
               selectedState
@@ -127,6 +144,7 @@ const ContactLocation = () => {
             searchPlaceholder="Search city"
             icon="tabler:map-pin"
             disabled={!selectedState}
+            onSelect={updateField}
           />
         </div>
       </div>
