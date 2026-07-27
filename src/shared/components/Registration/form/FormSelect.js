@@ -30,9 +30,11 @@ const FormSelect = ({
   startIcon,
   iconAlt = "",
   onSelect,
+  onChange,
   onBlur,
   error = "",
   showError = false,
+  disabled = false,
   className = "",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,13 +76,18 @@ const FormSelect = ({
   }, [isOpen]);
 
   const handleToggle = () => {
+    if (disabled) return;
     if (isOpen) onBlur?.(name);
     setIsOpen((cur) => !cur);
     setSearchTerm("");
   };
 
   const handleSelect = (option) => {
-    onSelect(name, option);
+    if (typeof onSelect === "function") {
+      onSelect(name, option);
+    } else {
+      onChange?.(option);
+    }
     setIsOpen(false);
     setSearchTerm("");
   };
@@ -95,9 +102,12 @@ const FormSelect = ({
         ref={triggerRef}
         type="button"
         onClick={handleToggle}
+        disabled={disabled}
         className={`${triggerBase} relative flex items-center ${icon || startIcon ? "pl-12" : "px-4"} ${
           value ? "text-[#141414]" : "text-[#666666]"
-        } ${showError && error ? "border-danger" : ""} ${className}`}
+        } ${showError && error ? "border-danger" : ""} ${
+          disabled ? "cursor-not-allowed bg-[#F4F4F4] opacity-60" : ""
+        } ${className}`}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >

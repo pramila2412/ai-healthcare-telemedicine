@@ -8,7 +8,14 @@ import {
 } from "@/shared/constants/PatientRegistration/registrationConfig";
 import React from "react";
 
-const HealthOverview = () => {
+const HealthOverview = ({ data = {}, onChange }) => {
+  const updateField = (fieldName, value) => {
+    onChange?.({
+      ...data,
+      [fieldName]: value,
+    });
+  };
+
   return (
     <div className="space-y-8">
       <div className="w-82">
@@ -31,8 +38,9 @@ const HealthOverview = () => {
           <FormInput
             name="height"
             type="number"
-            value=""
+            value={data.height || ""}
             placeholder="Enter your height"
+            onChange={(event) => updateField("height", event.target.value)}
             suffix={
               <span className="text-xs text-[#666666] pointer-events-none">
                 cm
@@ -50,8 +58,9 @@ const HealthOverview = () => {
           <FormInput
             name="weight"
             type="number"
-            value=""
+            value={data.weight || ""}
             placeholder="Enter your weight"
+            onChange={(event) => updateField("weight", event.target.value)}
             suffix={
               <span className="text-xs text-[#666666] pointer-events-none">
                 kg
@@ -68,8 +77,11 @@ const HealthOverview = () => {
           </label>
           <FormInput
             name="bloodPressure"
-            value=""
+            value={data.bloodPressure || ""}
             placeholder="120 / 80"
+            onChange={(event) =>
+              updateField("bloodPressure", event.target.value)
+            }
             suffix={
               <span className="text-xs text-[#666666] pointer-events-none">
                 mmHg
@@ -87,8 +99,9 @@ const HealthOverview = () => {
           <FormInput
             name="bloodSugar"
             type="number"
-            value=""
+            value={data.bloodSugar || ""}
             placeholder="95"
+            onChange={(event) => updateField("bloodSugar", event.target.value)}
             suffix={
               <span className="text-xs text-[#666666] pointer-events-none">
                 mg/dL
@@ -105,10 +118,11 @@ const HealthOverview = () => {
           </label>
           <FormSelect
             name="physicalActivityLevel"
-            value=""
+            value={data.physicalActivityLevel || ""}
             options={activityLevels}
             placeholder="Select your physical activity level"
             icon="tabler:run"
+            onSelect={updateField}
           />
         </div>
 
@@ -119,10 +133,11 @@ const HealthOverview = () => {
           </label>
           <FormSelect
             name="dietaryPreference"
-            value=""
+            value={data.dietaryPreference || ""}
             options={dietaryPreferences}
             placeholder="Select your dietary preference"
             icon="tabler:chef-hat"
+            onSelect={updateField}
           />
         </div>
 
@@ -133,10 +148,11 @@ const HealthOverview = () => {
           </label>
           <FormSelect
             name="smokingStatus"
-            value=""
+            value={data.smokingStatus || ""}
             options={smokingStatuses}
             placeholder="Select your smoking status"
             icon="tabler:smoking"
+            onSelect={updateField}
           />
         </div>
 
@@ -147,10 +163,11 @@ const HealthOverview = () => {
           </label>
           <FormSelect
             name="alcoholConsumption"
-            value=""
+            value={data.alcoholConsumption || ""}
             options={alcoholOptions}
             placeholder="Select your alcohol consumption"
             icon="tabler:glass-full"
+            onSelect={updateField}
           />
         </div>
       </div>

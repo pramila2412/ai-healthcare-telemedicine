@@ -4,9 +4,15 @@ import { bloodGroups, genders, materialStatus, occupations } from '@/shared/cons
 import React from 'react'
 import { useSelector } from 'react-redux';
 
-const BasicDetails = () => {
+const BasicDetails = ({ data = {}, onChange }) => {
 
   const phoneNumber = useSelector((state) => state.security.phoneNumber);
+  const updateField = (fieldName, value) => {
+    onChange?.({
+      ...data,
+      [fieldName]: value,
+    });
+  };
 
   return (
     <div className="space-y-8">
@@ -27,9 +33,10 @@ const BasicDetails = () => {
 
           <FormInput
             name="fullName"
-            value=""
+            value={data.fullName || ""}
             placeholder="Enter your full name"
             icon="tabler:user"
+            onChange={(event) => updateField("fullName", event.target.value)}
           />
         </div>
 
@@ -41,9 +48,10 @@ const BasicDetails = () => {
 
           <FormInput
             name="dob"
-            value=""
+            value={data.dob || ""}
             placeholder="Select your date of birth"
             icon="tabler:calendar"
+            onChange={(event) => updateField("dob", event.target.value)}
           />
         </div>
 
@@ -55,10 +63,11 @@ const BasicDetails = () => {
 
           <FormSelect
             name="gender"
-            value=""
+            value={data.gender || ""}
             options={genders}
             placeholder="Select your gender"
             icon="tabler:gender-bigender"
+            onSelect={updateField}
           />
         </div>
 
@@ -70,10 +79,11 @@ const BasicDetails = () => {
 
           <FormSelect
             name="bloodGroup"
-            value=""
+            value={data.bloodGroup || ""}
             options={bloodGroups}
             placeholder="Select your blood group"
             icon="tabler:droplet"
+            onSelect={updateField}
           />
         </div>
 
@@ -85,10 +95,11 @@ const BasicDetails = () => {
 
           <FormSelect
             name="maritalStatus"
-            value=""
+            value={data.maritalStatus || ""}
             options={materialStatus}
             placeholder="Select your marital status"
             icon="tabler:heart-handshake"
+            onSelect={updateField}
           />
         </div>
 
@@ -100,10 +111,11 @@ const BasicDetails = () => {
 
           <FormSelect
             name="occupation"
-            value=""
+            value={data.occupation || ""}
             options={occupations}
             placeholder="Select your occupation"
             icon="tabler:briefcase"
+            onSelect={updateField}
           />
         </div>
 
@@ -129,9 +141,10 @@ const BasicDetails = () => {
 
           <FormInput
             name="email"
-            value=""
+            value={data.email || ""}
             placeholder="Enter your email address"
             icon="tabler:mail"
+            onChange={(event) => updateField("email", event.target.value)}
           />
         </div>
       </div>
