@@ -47,7 +47,7 @@ const CreateLoginId = ({ data = {}, onChange }) => {
     }
   }, [idValue, isTyping]);
 
-  let borderClass = 'border-gray-200 focus-within:ring-gray-300';
+  let borderClass = 'border-gray-200';
   let patBoxClass = 'bg-gray-200 text-gray-700';
   let message = null;
   let icon = null;
@@ -56,7 +56,7 @@ const CreateLoginId = ({ data = {}, onChange }) => {
     message = <p className="text-[13px] font-medium text-gray-500 mt-1">Checking availability...</p>;
     icon = <Loader2 size={20} className="text-gray-400 animate-spin shrink-0" />;
   } else if (status === 'available') {
-    borderClass = 'border-primary focus-within:ring-primary/10';
+    borderClass = 'border-primary';
     patBoxClass = 'bg-primary text-white';
     
     const successMessage = isManualEntry 
@@ -66,19 +66,23 @@ const CreateLoginId = ({ data = {}, onChange }) => {
     message = <p className="text-[13px] font-medium text-primary mt-1">{successMessage}</p>;
     icon = <Icon icon="tabler:circle-check-filled" className="text-primary shrink-0" width="22" height="22" />;
   } else if (status === 'unavailable') {
-    borderClass = 'border-red-500 focus-within:ring-red-100';
+    borderClass = 'border-red-500';
     patBoxClass = 'bg-red-500 text-white';
-    message = <p className="text-[13px] font-medium text-red-500 mt-1">This ID is already in use. Try another ID or choose one of the suggestions below.</p>;
+    message = (
+      <p className="text-[13px] font-medium text-red-500 mt-1">
+        This ID is already in use. Try another ID <br /> or choose one of the suggestions below.
+      </p>
+    );
     icon = <XCircle size={20} className="text-red-500 shrink-0" strokeWidth={2.5} />;
   }
 
   return (
-    <div className="w-full max-w-4xl pb-24 mt-2">
+    <div className="w-full pb-24 mt-2">
       
       {/* Input Section */}
       <div className="flex flex-col gap-1.5 mb-10">
         <label className="text-[14px] font-semibold text-gray-800">MediConnect ID</label>
-        <div className={`flex w-full sm:w-[380px] h-[48px] border rounded-xl overflow-hidden focus-within:ring-4 transition-all duration-300 ${borderClass}`}>
+        <div className={`flex w-full sm:w-[380px] h-[48px] border rounded-xl overflow-hidden transition-all duration-300 ${borderClass}`}>
           <div className={`w-[60px] flex items-center justify-center font-medium text-[14px] tracking-wide transition-colors duration-300 ${patBoxClass}`}>
             PAT
           </div>
