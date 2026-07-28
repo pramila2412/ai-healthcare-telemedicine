@@ -32,7 +32,7 @@ const AccordionSection = ({ title, children, expanded, onToggle }) => {
         />
       </button>
       {expanded && (
-        <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4 auto-rows-fr">
           {children}
         </div>
       )}
@@ -282,7 +282,7 @@ const VerifyInformation = ({ data = {}, onChange }) => {
           expanded={expandedSections.medical} 
           onToggle={() => toggleSection('medical')}
         >
-          <DynamicSectionCard title="Medical Records" icon={Activity} actionLabel="Edit" actionIcon="tabler:edit" fields={medicalRecordFields} onAction={() => handleEdit('medical')} />
+          <DynamicSectionCard title="Medical Records" icon={Activity} actionLabel="Edit" actionIcon="tabler:edit" fields={medicalRecordFields} onAction={() => handleEdit('medical')} className="min-h-[320px]" />
           <DynamicSectionCard title="Uploaded Documents" icon={FileText} actionLabel="Upload" actionIcon={Plus} documents={medicalDocuments} onAction={() => handleEdit('medical')} />
         </AccordionSection>
       )}
@@ -293,7 +293,7 @@ const VerifyInformation = ({ data = {}, onChange }) => {
           expanded={expandedSections.insurance} 
           onToggle={() => toggleSection('insurance')}
         >
-          <DynamicSectionCard title="Insurance" icon={Shield} actionLabel="Edit" actionIcon="tabler:edit" fields={insuranceFields} onAction={() => handleEdit('insurance')} />
+          <DynamicSectionCard title="Insurance" icon={Shield} actionLabel="Edit" actionIcon="tabler:edit" fields={insuranceFields} onAction={() => handleEdit('insurance')} className="min-h-[320px]" />
           <DynamicSectionCard title="Uploaded Documents" icon={FileText} actionLabel="Upload" actionIcon={Plus} documents={insuranceDocuments} onAction={() => handleEdit('insurance')} />
         </AccordionSection>
       )}
