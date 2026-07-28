@@ -1,0 +1,227 @@
+/*
+  Premium react-datepicker theme
+  Load order in index.css:
+    @import "react-datepicker/dist/react-datepicker.css";
+    @import "./styles/datepicker.css";
+*/
+
+.dob-datepicker-popper {
+  z-index: 50;
+}
+
+.dob-datepicker-popper .react-datepicker {
+  font-family: inherit;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px -10px rgba(9, 107, 88, 0.28), 0 6px 14px -6px rgba(16, 24, 40, 0.12);
+  overflow: hidden;
+  background: #ffffff;
+  width: 252px;
+}
+
+.dob-datepicker-popper .react-datepicker__triangle {
+  display: none;
+}
+
+/* ---------- Header banner ---------- */
+.dob-datepicker-popper .react-datepicker__header {
+  background: linear-gradient(135deg, #0b7a65 0%, #096b58 55%, #06503f 100%);
+  border-bottom: none;
+  padding: 12px 10px 10px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.dob-datepicker-popper .react-datepicker__month-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dob-datepicker-popper .react-datepicker__current-month {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  margin-bottom: 4px;
+}
+
+.dob-datepicker-popper .react-datepicker__year-read-view,
+.dob-datepicker-popper .react-datepicker__year-read-view--down-arrow {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dob-datepicker-popper .react-datepicker__year-read-view {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.dob-datepicker-popper .react-datepicker__year-read-view--down-arrow {
+  border-color: rgba(255, 255, 255, 0.85);
+  top: 2px;
+}
+
+.dob-datepicker-popper .react-datepicker__day-names {
+  margin-top: 8px;
+  padding: 0 2px;
+}
+
+.dob-datepicker-popper .react-datepicker__day-name {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 1.85rem;
+  line-height: 1.3rem;
+}
+
+/* ---------- Nav arrows: circular glass buttons on the banner ---------- */
+/* We hide the library's own icon markup entirely and draw the chevron as a
+   pseudo-element on the button itself, centered with flexbox. The default
+   icon's absolute-offset positioning was tuned for the library's own default
+   button size, so once we resize the button those offsets drift off-center
+   — drawing our own avoids that class of bug completely. */
+.dob-datepicker-popper .react-datepicker__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.14);
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.dob-datepicker-popper .react-datepicker__navigation:hover {
+  background-color: rgba(255, 255, 255, 0.28);
+  transform: scale(1.08);
+}
+
+.dob-datepicker-popper .react-datepicker__navigation--previous {
+  left: 10px;
+}
+
+.dob-datepicker-popper .react-datepicker__navigation--next {
+  right: 10px;
+}
+
+.dob-datepicker-popper .react-datepicker__navigation-icon {
+  display: none;
+}
+
+.dob-datepicker-popper .react-datepicker__navigation::before {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 2px 2px 0 0;
+}
+
+.dob-datepicker-popper .react-datepicker__navigation--previous::before {
+  transform: rotate(-135deg);
+  margin-left: 2px;
+}
+
+.dob-datepicker-popper .react-datepicker__navigation--next::before {
+  transform: rotate(45deg);
+  margin-right: 2px;
+}
+
+/* ---------- Calendar body ---------- */
+.dob-datepicker-popper .react-datepicker__month {
+  margin: 8px 6px 10px;
+}
+
+.dob-datepicker-popper .react-datepicker__week {
+  display: flex;
+}
+
+.dob-datepicker-popper .react-datepicker__day {
+  width: 1.85rem;
+  line-height: 1.85rem;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #1f2937;
+  border-radius: 9999px;
+  margin: 2px;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dob-datepicker-popper .react-datepicker__day:hover {
+  background-color: #e6f5f1;
+  color: #096b58;
+  transform: scale(1.08);
+}
+
+.dob-datepicker-popper .react-datepicker__day--outside-month {
+  color: #d1d5db;
+}
+
+.dob-datepicker-popper .react-datepicker__day--disabled {
+  color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.dob-datepicker-popper .react-datepicker__day--disabled:hover {
+  background-color: transparent;
+  transform: none;
+}
+
+.dob-datepicker-popper .react-datepicker__day--keyboard-selected {
+  background-color: #e6f5f1;
+  color: #096b58;
+}
+
+/* Selected day: glowing filled circle, the visual centerpiece */
+.dob-datepicker-popper .react-datepicker__day--selected,
+.dob-datepicker-popper .react-datepicker__day--selected:hover {
+  background: linear-gradient(135deg, #0b8a72, #096b58);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 6px 14px -2px rgba(9, 107, 88, 0.55);
+  transform: scale(1.05);
+}
+
+/* Today: hollow ring so it's noticeable without competing with "selected" */
+.dob-datepicker-popper .react-datepicker__day--today:not(.react-datepicker__day--selected) {
+  color: #096b58;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1.5px #096b58;
+}
+
+/* ---------- Year dropdown ---------- */
+.dob-datepicker-popper .react-datepicker__year-dropdown {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 16px 32px -8px rgba(16, 24, 40, 0.22);
+  padding: 6px;
+}
+
+.dob-datepicker-popper .react-datepicker__year-option {
+  padding: 7px 8px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  transition: background-color 0.15s ease;
+}
+
+.dob-datepicker-popper .react-datepicker__year-option:hover {
+  background-color: #e6f5f1;
+  color: #096b58;
+}
+
+.dob-datepicker-popper .react-datepicker__year-option--selected_year {
+  color: #096b58;
+  font-weight: 700;
+}
+
+.dob-datepicker-popper .react-datepicker__navigation--years-upcoming::before,
+.dob-datepicker-popper .react-datepicker__navigation--years-previous::before {
+  border-color: #6b7280;
+}

@@ -1,8 +1,15 @@
-import FormInput from '@/shared/components/Registration/form/FormInput';
-import FormSelect from '@/shared/components/Registration/form/FormSelect';
-import { bloodGroups, genders, materialStatus, occupations } from '@/shared/constants/PatientRegistration/registrationConfig';
-import React from 'react'
-import { useSelector } from 'react-redux';
+import FormInput from "@/shared/components/Registration/form/FormInput";
+import FormSelect from "@/shared/components/Registration/form/FormSelect";
+import {
+  bloodGroups,
+  genders,
+  materialStatus,
+  occupations,
+} from "@/shared/constants/PatientRegistration/registrationConfig";
+import { Icon } from "@iconify/react";
+import React from "react";
+import DatePicker from "react-datepicker";
+import { useSelector } from "react-redux";
 
 const getTodayDateInputValue = () => {
   const today = new Date();
@@ -19,7 +26,6 @@ const BasicDetails = ({
   touched = {},
   onFieldBlur,
 }) => {
-
   const phoneNumber = useSelector((state) => state.security.phoneNumber);
   const updateField = (fieldName, value) => {
     onChange?.({
@@ -33,9 +39,11 @@ const BasicDetails = ({
     onBlur: () => onFieldBlur?.(fieldName),
   });
 
+  const dobValidation = getValidationProps("dob");
+
   return (
     <div className="space-y-8">
-      <div className='w-full sm:w-82'>
+      <div className="w-full sm:w-82">
         <h2 className="text-sm font-medium text-text-heading">Basic Details</h2>
         <p className="mt-1 text-xs font-TypeFace font-normal text-[#6B7280]">
           Tell us a little about yourself so we can personalize your healthcare
@@ -66,17 +74,59 @@ const BasicDetails = ({
             Date of Birth <span className="text-red-500">*</span>
           </label>
 
-          <FormInput
-            name="dob"
-            type="date"
-            value={data.dob || ""}
-            placeholder="Select your date of birth"
-            icon="tabler:calendar"
-            max={getTodayDateInputValue()}
-            onClick={(event) => event.currentTarget.showPicker?.()}
-            onChange={(event) => updateField("dob", event.target.value)}
-            {...getValidationProps("dob")}
-          />
+          <div className="relative">
+            <Icon
+              icon="tabler:cake"
+              width={24}
+              height={24}
+              strokeWidth={1}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 z-10 pointer-events-none [&_path]:stroke-[1.5] ${
+                data.dob ? "text-primary-dark" : "text-text-muted"
+              }`}
+            />
+
+            <DatePicker
+              selected={data.dob ? new Date(data.dob) : null}
+              maxDate={new Date(Date.now() - 24 * 60 * 60 * 1000)}
+              dateFormat="d MMMM yyyy"
+              placeholderText="Select your date of birth"
+              wrapperClassName="w-full"
+              popperClassName="dob-datepicker-popper"
+              className={`h-14 w-full rounded-lg border-[0.5px] border-[#D0D0D0] bg-white pl-12 pr-11 text-xs font-normal text-[#141414] outline-none placeholder:text-[#666666] transition-colors duration-150 focus:border-primary-dark ${
+                dobValidation.error ? "border-danger" : ""
+              }`}
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={100}
+              onChange={(date) => {
+                const value = date ? date.toISOString().split("T")[0] : "";
+                updateField("dob", value);
+              }}
+              onChangeRaw={(event) => {
+                const parsed = new Date(event.target.value);
+                if (!isNaN(parsed.getTime())) {
+                  updateField("dob", parsed.toISOString().split("T")[0]);
+                }
+              }}
+              onCalendarClose={() => {
+                dobValidation.onBlur?.();
+              }}
+            />
+
+            <Icon
+              icon="tabler:calendar-due"
+              width={24}
+              height={24}
+              strokeWidth={1}
+              className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none [&_path]:stroke-[1.5] text-text-muted"
+            />
+
+            {dobValidation.error && (
+              <p className="absolute left-0 top-[calc(100%+2px)] text-xs text-danger leading-none">
+                {dobValidation.error}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Gender */}

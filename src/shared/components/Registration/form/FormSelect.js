@@ -179,7 +179,7 @@ const FormSelect = ({
           </div>
 
           {/* Options list */}
-          <div className="max-h-52 overflow-y-auto px-3 pb-2" role="listbox">
+          <div className="max-h-46 overflow-y-auto px-3 pb-2" role="listbox">
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option) => {
                 const isSelected = option === value;
