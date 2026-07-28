@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  User, Calendar, Activity, Phone, MapPin, 
-  Droplet, Users, Ruler, Scale, HeartPulse, 
-  Coffee, Wind, Wine, Pill, Plus,
-  FileText, Shield, Map, Mail
-} from 'lucide-react';
+
 import { Icon } from '@iconify/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
@@ -14,6 +9,7 @@ import {
   selectHealthRecords 
 } from '@/state-management/modules/Registrations/patientRegistration/patientRegistrationSelectors';
 import { setActiveSection } from "@/state-management/modules/Registrations/SidebarRegistration/registrationActions";
+import { FIELD_LABELS_AND_ICONS } from "@/shared/constants/PatientRegistration/formFieldsConfig";
 
 const AccordionSection = ({ title, children, expanded, onToggle }) => {
   return (
@@ -44,7 +40,11 @@ const Field = ({ label, value, icon: FieldIcon, fullWidth }) => (
   <div className={`flex items-start gap-3 ${fullWidth ? 'col-span-2' : ''}`}>
     {FieldIcon && (
       <div className="mt-0.5 text-gray-400">
-        <FieldIcon size={18} strokeWidth={1.5} />
+        {typeof FieldIcon === 'string' ? (
+          <Icon icon={FieldIcon} width="18" height="18" />
+        ) : (
+          <FieldIcon size={18} strokeWidth={1.5} style={{ fontSize: 18 }} />
+        )}
       </div>
     )}
     <div className="flex flex-col gap-0.5">
@@ -57,7 +57,7 @@ const Field = ({ label, value, icon: FieldIcon, fullWidth }) => (
 const DocumentItem = ({ filename, type, size }) => (
   <div className="flex items-start gap-3">
     <div className="mt-0.5">
-      <FileText size={18} strokeWidth={1.5} className="text-teal-600" />
+      <Icon icon="tabler:file-text" width="18" height="18" className="text-teal-600" />
     </div>
     <div className="flex flex-col">
       <span className="text-[12px] font-medium text-gray-800 break-all">{filename}</span>
@@ -87,8 +87,12 @@ const DynamicSectionCard = ({
       <div className="flex justify-between items-center p-5 border-b border-gray-50">
         <div className="flex items-center gap-3">
           {CardIcon && (
-            <div className="p-2 bg-gray-50 rounded-lg">
-              <CardIcon size={18} className="text-gray-600" strokeWidth={1.5} />
+            <div className="p-2 bg-gray-50 rounded-lg flex items-center justify-center text-gray-600">
+              {typeof CardIcon === 'string' ? (
+                <Icon icon={CardIcon} width="18" height="18" />
+              ) : (
+                <CardIcon size={18} strokeWidth={1.5} />
+              )}
             </div>
           )}
           <h4 className="text-[12px] font-medium text-gray-800">{title}</h4>
@@ -186,55 +190,57 @@ const VerifyInformation = ({ data = {}, onChange }) => {
   };
 
   // Filter out any fields where value is falsely or empty string
+  const conf = FIELD_LABELS_AND_ICONS;
+  
   const basicDetailsFields = [
-    { label: "Full Name", value: basic.fullName, icon: User },
-    { label: "Date of Birth", value: basic.dob, icon: Calendar },
-    { label: "Gender", value: basic.gender, icon: Users },
-    { label: "Blood Group", value: basic.bloodGroup, icon: Droplet },
-    { label: "Marital Status", value: basic.maritalStatus, icon: Users },
-    { label: "Occupation", value: basic.occupation, icon: Users },
-    { label: "Phone Number", value: phoneNumber, icon: Phone },
-    { label: "Email Address", value: basic.email, icon: Mail }
+    { ...conf.basicDetails.fullName, value: basic.fullName },
+    { ...conf.basicDetails.dob, value: basic.dob },
+    { ...conf.basicDetails.gender, value: basic.gender },
+    { ...conf.basicDetails.bloodGroup, value: basic.bloodGroup },
+    { ...conf.basicDetails.maritalStatus, value: basic.maritalStatus },
+    { ...conf.basicDetails.occupation, value: basic.occupation },
+    { ...conf.basicDetails.phone, value: phoneNumber },
+    { ...conf.basicDetails.email, value: basic.email }
   ].filter(f => !!f.value);
 
   const locationFields = [
-    { label: "Nationality", value: contact.nationality || "Indian", icon: Map },
-    { label: "State", value: contact.state, icon: MapPin },
-    { label: "City", value: contact.city, icon: MapPin }
+    { ...conf.contactLocation.nationality, value: contact.nationality || "Indian" },
+    { ...conf.contactLocation.state, value: contact.state },
+    { ...conf.contactLocation.city, value: contact.city }
   ].filter(f => !!f.value);
 
   const emergencyFields = [
-    { label: "Emergency Contact Relationship", value: contact.emergencyContacts || contact.EmRelationship, icon: User },
-    { label: "Emergency Contact Name", value: contact.contactName, icon: User },
-    { label: "Emergency Contact Phone Number", value: contact.phoneNumber || contact.EmContactNumber, icon: Phone }
+    { ...conf.emergencyContact.relationship, value: contact.emergencyContacts || contact.EmRelationship },
+    { ...conf.emergencyContact.name, value: contact.contactName },
+    { ...conf.emergencyContact.phone, value: contact.phoneNumber || contact.EmContactNumber }
   ].filter(f => !!f.value);
 
   const physicalFields = [
-    { label: "Height", value: health.height ? `${health.height} ${health.heightUnit || "cm"}` : '', icon: Ruler },
-    { label: "Weight", value: health.weight ? `${health.weight} ${health.weightUnit || "kg"}` : '', icon: Scale }
+    { ...conf.healthOverview.height, value: health.height ? `${health.height} ${health.heightUnit || "cm"}` : '' },
+    { ...conf.healthOverview.weight, value: health.weight ? `${health.weight} ${health.weightUnit || "kg"}` : '' }
   ].filter(f => !!f.value);
 
   const healthFields = [
-    { label: "Blood Pressure", value: health.bloodPressure, icon: HeartPulse },
-    { label: "Blood Sugar", value: health.bloodSugar, icon: Droplet },
-    { label: "Physical Activity Level", value: health.physicalActivityLevel || health.activityLevel, icon: Activity },
-    { label: "Dietary Preference", value: health.dietaryPreference || health.dietPreference, icon: Coffee },
-    { label: "Smoking Status", value: health.smokingStatus, icon: Wind },
-    { label: "Alcohol Consumption", value: health.alcoholConsumption, icon: Wine }
+    { ...conf.healthOverview.bloodPressure, value: health.bloodPressure },
+    { ...conf.healthOverview.bloodSugar, value: health.bloodSugar },
+    { ...conf.healthOverview.physicalActivityLevel, value: health.physicalActivityLevel || health.activityLevel },
+    { ...conf.healthOverview.dietaryPreference, value: health.dietaryPreference || health.dietPreference },
+    { ...conf.healthOverview.smokingStatus, value: health.smokingStatus },
+    { ...conf.healthOverview.alcoholConsumption, value: health.alcoholConsumption }
   ].filter(f => !!f.value);
 
   const medicalRecordFields = [
-    { label: "Allergies", value: (medical.allergyTags?.length ? medical.allergyTags.join(', ') : null) || medical.allergies, icon: Wind },
-    { label: "Existing Conditions", value: (medical.conditionTags?.length ? medical.conditionTags.join(', ') : null) || medical.conditions || medical.existingConditions, icon: HeartPulse },
-    { label: "Previous Surgeries", value: (medical.surgeryTags?.length ? medical.surgeryTags.join(', ') : null) || medical.surgeries || medical.previousSurgeries, icon: Activity },
-    { label: "Current Medications", value: (medical.medicationTags?.length ? medical.medicationTags.join(', ') : null) || medical.medications || medical.currentMedications, icon: Pill }
+    { ...conf.medicalConditions.allergies, value: (medical.allergyTags?.length ? medical.allergyTags.join(', ') : null) || medical.allergies },
+    { ...conf.medicalConditions.existingConditions, value: (medical.conditionTags?.length ? medical.conditionTags.join(', ') : null) || medical.conditions || medical.existingConditions },
+    { ...conf.medicalConditions.previousSurgeries, value: (medical.surgeryTags?.length ? medical.surgeryTags.join(', ') : null) || medical.surgeries || medical.previousSurgeries },
+    { ...conf.medicalConditions.currentMedications, value: (medical.medicationTags?.length ? medical.medicationTags.join(', ') : null) || medical.medications || medical.currentMedications }
   ].filter(f => !!f.value);
 
   const insuranceFields = [
-    { label: "Insurance Type", value: insurance.insuranceType, icon: Shield },
-    { label: "Insurance Provider", value: insurance.provider || insurance.insuranceProvider, icon: Shield },
-    { label: "Insured Member Name", value: insurance.holderName || insurance.insuredMemberName, icon: User },
-    { label: "Customer ID/Policy Number", value: insurance.policyNumber, icon: FileText }
+    { ...conf.insuranceInformation.insuranceType, value: insurance.insuranceType },
+    { ...conf.insuranceInformation.insuranceProvider, value: insurance.provider || insurance.insuranceProvider },
+    { ...conf.insuranceInformation.insuredMemberName, value: insurance.holderName || insurance.insuredMemberName },
+    { ...conf.insuranceInformation.policyNumber, value: insurance.policyNumber }
   ].filter(f => !!f.value);
 
   const medicalDocuments = (medical.supportingRecords || []).map(file => ({
@@ -261,13 +267,13 @@ const VerifyInformation = ({ data = {}, onChange }) => {
           expanded={expandedSections.personal} 
           onToggle={() => toggleSection('personal')}
         >
-          <DynamicSectionCard title="Basic Details" icon={User} actionLabel="Edit" actionIcon="tabler:edit" fields={basicDetailsFields} onAction={() => handleEdit('basic')} />
-          <DynamicSectionCard title="Location" icon={MapPin} actionLabel="Edit" actionIcon="tabler:edit" fields={locationFields} onAction={() => handleEdit('contact')} />
-          <DynamicSectionCard title="Emergency Contact" icon={Phone} actionLabel="Edit" actionIcon="tabler:edit" fields={emergencyFields} onAction={() => handleEdit('contact')} />
-          <DynamicSectionCard title="Physical Profile" icon={Ruler} actionLabel="Edit" actionIcon="tabler:edit" fields={physicalFields} onAction={() => handleEdit('health')} />
+          <DynamicSectionCard title="Basic Details" icon="tabler:user" actionLabel="Edit" actionIcon="tabler:edit" fields={basicDetailsFields} onAction={() => handleEdit('basic')} />
+          <DynamicSectionCard title="Location" icon="tabler:map-pin" actionLabel="Edit" actionIcon="tabler:edit" fields={locationFields} onAction={() => handleEdit('contact')} />
+          <DynamicSectionCard title="Emergency Contact" icon="tabler:phone" actionLabel="Edit" actionIcon="tabler:edit" fields={emergencyFields} onAction={() => handleEdit('contact')} />
+          <DynamicSectionCard title="Physical Profile" icon="tabler:ruler-2" actionLabel="Edit" actionIcon="tabler:edit" fields={physicalFields} onAction={() => handleEdit('health')} />
           <DynamicSectionCard 
             title="Health Overview" 
-            icon={Activity} 
+            icon="tabler:activity-heartbeat" 
             actionLabel="Edit" 
             actionIcon="tabler:edit" 
             fields={healthFields}
@@ -282,19 +288,19 @@ const VerifyInformation = ({ data = {}, onChange }) => {
           expanded={expandedSections.medical} 
           onToggle={() => toggleSection('medical')}
         >
-          <DynamicSectionCard title="Medical Records" icon={Activity} actionLabel="Edit" actionIcon="tabler:edit" fields={medicalRecordFields} onAction={() => handleEdit('medical')} className="min-h-[320px]" />
-          <DynamicSectionCard title="Uploaded Documents" icon={FileText} actionLabel="Upload" actionIcon={Plus} documents={medicalDocuments} onAction={() => handleEdit('medical')} />
+          <DynamicSectionCard title="Medical Records" icon="tabler:activity-heartbeat" actionLabel="Edit" actionIcon="tabler:edit" fields={medicalRecordFields} onAction={() => handleEdit('medical')} className="min-h-[320px]" />
+          <DynamicSectionCard title="Uploaded Documents" icon="tabler:file-text" actionLabel="Upload" actionIcon="tabler:plus" documents={medicalDocuments} onAction={() => handleEdit('medical')} />
         </AccordionSection>
       )}
 
       {hasInsurance && (
         <AccordionSection 
-          title="Insurance" 
+          title="Insurance Information" 
           expanded={expandedSections.insurance} 
           onToggle={() => toggleSection('insurance')}
         >
-          <DynamicSectionCard title="Insurance" icon={Shield} actionLabel="Edit" actionIcon="tabler:edit" fields={insuranceFields} onAction={() => handleEdit('insurance')} className="min-h-[320px]" />
-          <DynamicSectionCard title="Uploaded Documents" icon={FileText} actionLabel="Upload" actionIcon={Plus} documents={insuranceDocuments} onAction={() => handleEdit('insurance')} />
+          <DynamicSectionCard title="Insurance" icon="tabler:shield-plus" actionLabel="Edit" actionIcon="tabler:edit" fields={insuranceFields} onAction={() => handleEdit('insurance')} className="min-h-[320px]" />
+          <DynamicSectionCard title="Uploaded Documents" icon="tabler:file-text" actionLabel="Upload" actionIcon="tabler:plus" documents={insuranceDocuments} onAction={() => handleEdit('insurance')} />
         </AccordionSection>
       )}
 

@@ -13,7 +13,7 @@ import {
     relationships,
     smokingStatuses,
     weightUnits,
-} from "../../../../shared/constants/patientRegistration/registrationConfig";
+} from "../../../../shared/constants/PatientRegistration/registrationConfig";
 
 import {
     setActiveStep,
