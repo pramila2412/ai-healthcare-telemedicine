@@ -11,16 +11,33 @@ const compactErrors = (errors) =>
 const validateRequiredText = (value, message) =>
   isEmpty(value) ? message : "";
 
+// Order matters here: each branch returns the first message that applies,
+// matching the distinct copy shown in the "Full Name" mockup (numbers ->
+// special characters -> extra spaces -> length checks).
 const validatePersonName = (value, label) => {
-  const normalizedValue = String(value ?? "").trim();
+  const rawValue = String(value ?? "");
+  const normalizedValue = rawValue.trim();
+  const lowerLabel = label.toLowerCase();
 
   if (!normalizedValue) return `${label} is required`;
-  if (normalizedValue.length < 2) return `Enter a valid ${label.toLowerCase()}`;
-  if (normalizedValue.length > 100) {
-    return `${label} must be 100 characters or fewer`;
+
+  if (/\d/.test(normalizedValue)) {
+    return `Numbers are not allowed in the ${lowerLabel}.`;
   }
-  if (!/^[\p{L}][\p{L}\s.'-]*$/u.test(normalizedValue)) {
-    return `Enter a valid ${label.toLowerCase()}`;
+
+  if (/[^\p{L}\s.'-]/u.test(normalizedValue)) {
+    return `Special characters are not allowed in the ${lowerLabel}`;
+  }
+
+  if (rawValue !== normalizedValue || /\s{2,}/.test(normalizedValue)) {
+    return `Please remove extra spaces from your ${lowerLabel}.`;
+  }
+
+  if (normalizedValue.length < 2) {
+    return `${label} must contain at least 2 characters.`;
+  }
+  if (normalizedValue.length > 100) {
+    return `${label} cannot exceed 100 characters.`;
   }
 
   return "";
@@ -86,13 +103,27 @@ export const validators = Object.freeze({
   contactName: (value) =>
     validatePersonName(value, "Emergency contact name"),
 
-  phoneNumber: (value) => {
+  // NOTE: `ownPhoneNumber` is the person's own contact number, used only to
+  // check it doesn't match the emergency contact number. Wire this up to
+  // whatever field actually stores the person's own phone number in your
+  // form data (I've assumed `formData.mobileNumber` below in
+  // validateContactLocation — rename if it's called something else).
+  phoneNumber: (value, ownPhoneNumber) => {
     const normalizedValue = String(value ?? "").trim();
-    if (!normalizedValue) return "Emergency contact phone number is required";
 
-    return /^[6-9]\d{9}$/.test(normalizedValue)
-      ? ""
-      : "Enter a valid 10-digit Indian phone number";
+    if (!normalizedValue) return "Emergency contact phone number is required!";
+    if (!/^\d+$/.test(normalizedValue)) return "Only numbers are allowed!";
+    if (normalizedValue.length < 10) {
+      return "Phone number must be at least 10 digits!";
+    }
+    if (!/^[6-9]\d{9}$/.test(normalizedValue)) {
+      return "Enter a valid 10-digit Indian phone number";
+    }
+    if (ownPhoneNumber && normalizedValue === String(ownPhoneNumber).trim()) {
+      return "Emergency contact number cannot be the same as your phone number!";
+    }
+
+    return "";
   },
 
   nationality: (value) =>
@@ -117,57 +148,122 @@ export const validators = Object.freeze({
         : "Height must be between 1 ft and 9 ft 10 in";
     }
 
-    return validateRequiredNumber({
-      value,
-      label: "Height",
-      minimum: 30,
-      maximum: 300,
-      unit: "cm",
-    });
+    const normalizedValue = String(value ?? "").trim();
+    if (!normalizedValue) return "Please enter your height!";
+    if (/[a-zA-Z]/.test(normalizedValue)) {
+      return "Height must contain only numbers!";
+    }
+
+    const numericValue = Number(normalizedValue);
+    if (!Number.isFinite(numericValue)) return "Please enter a valid height!";
+    if (numericValue < 0) return "Height cannot be a negative value!";
+    if (numericValue === 0) return "Height must be greater than 0 cm!";
+    if (numericValue > 300) return "Height must be 300 cm or less!";
+
+    return "";
   },
 
-  weight: (value, unit = "kg") =>
-    validateRequiredNumber({
-      value,
-      label: "Weight",
-      minimum: unit === "lb" ? 2.2 : 1,
-      maximum: unit === "lb" ? 1102.3 : 500,
-      unit,
-    }),
+  weight: (value, unit = "kg") => {
+    const normalizedValue = String(value ?? "").trim();
+    const unitLabel = unit === "lb" ? "pounds (lb)" : "kilograms (kg)";
+
+    if (!normalizedValue) return "Please enter your weight!";
+    if (/[a-zA-Z]/.test(normalizedValue)) return "Weight cannot contain letters!";
+
+    const numericValue = Number(normalizedValue);
+    if (!Number.isFinite(numericValue)) {
+      return `Please enter your weight in ${unitLabel}!`;
+    }
+    if (numericValue < 0) return "Weight cannot be a negative value!";
+    if (numericValue === 0) return `Weight must be greater than 0 ${unit}!`;
+
+    const minimum = unit === "lb" ? 2.2 : 1;
+    const maximum = unit === "lb" ? 1102.3 : 500;
+    if (numericValue < minimum || numericValue > maximum) {
+      return "Please enter a valid weight!";
+    }
+
+    return "";
+  },
 
   bloodPressure: (value) => {
-    const normalizedValue = String(value ?? "").trim();
+    const rawValue = String(value ?? "");
+    const normalizedValue = rawValue.trim();
     if (!normalizedValue) return "";
 
-    const match = normalizedValue.match(/^(\d{2,3})\s*\/\s*(\d{2,3})$/);
-    if (!match) return "Enter blood pressure in 120/80 format";
+    if (rawValue !== normalizedValue || /\s{2,}/.test(normalizedValue)) {
+      return "Please remove extra spaces.";
+    }
 
-    const systolic = Number(match[1]);
-    const diastolic = Number(match[2]);
-    if (
-      systolic < 50 ||
-      systolic > 250 ||
-      diastolic < 30 ||
-      diastolic > 150 ||
-      systolic <= diastolic
-    ) {
+    if (/[a-zA-Z]/.test(normalizedValue)) {
+      return "Blood pressure should contain numbers only";
+    }
+
+    if (/[^\d/]/.test(normalizedValue)) {
+      if (normalizedValue.includes(".")) {
+        return "Decimal values are not allowed.";
+      }
+      return "Remove special characters and enter a valid value.";
+    }
+
+    const parts = normalizedValue.split("/");
+    if (parts.length !== 2) {
+      return "Enter blood pressure in the format 120/80";
+    }
+
+    const [systolicPart, diastolicPart] = parts;
+    if (!systolicPart || !diastolicPart) {
+      return "Systolic and diastolic values are required.";
+    }
+
+    if (systolicPart.length > 3 || diastolicPart.length > 3) {
+      return "Blood pressure value is too long";
+    }
+
+    const systolic = Number(systolicPart);
+    const diastolic = Number(diastolicPart);
+
+    const systolicOutOfRange = systolic < 50 || systolic > 250;
+    const diastolicOutOfRange = diastolic < 30 || diastolic > 150;
+
+    if (systolicOutOfRange && diastolicOutOfRange) {
+      return "Both systolic and diastolic values are outside the acceptable range.";
+    }
+
+    if (systolicOutOfRange || diastolicOutOfRange || systolic <= diastolic) {
       return "Enter a valid blood pressure reading";
     }
 
     return "";
   },
 
+  // NOTE: I've treated blood sugar as required now (empty -> "Enter blood
+  // sugar in mg/dl."), since the mockup includes that message and no longer
+  // shows an "optional" state. Revert to `if (isEmpty(value)) return "";`
+  // if the field should stay optional.
+  // Also, "Blood sugar should be between 70—90 mg/dL." from the mockup
+  // reads like a normal-range hint rather than a distinct error condition,
+  // so I haven't wired it up as its own branch — let me know the intended
+  // trigger for it if it should be a real validation state.
   bloodSugar: (value) => {
-    if (isEmpty(value)) return "";
+    const rawValue = String(value ?? "");
+    const normalizedValue = rawValue.trim();
 
-    const numericValue = Number(value);
-    if (
-      !Number.isFinite(numericValue) ||
-      numericValue < 20 ||
-      numericValue > 1000
-    ) {
-      return "Enter a valid blood sugar reading";
+    if (!normalizedValue) return "Enter blood sugar in mg/dl.";
+    if (/[a-zA-Z]/.test(normalizedValue)) {
+      return "Only numeric values are allowed.";
     }
+    if (normalizedValue.includes(".")) return "Decimal values are not allowed.";
+    if (normalizedValue.length > 4) return "Blood sugar value is too long.";
+
+    const numericValue = Number(normalizedValue);
+    if (!Number.isFinite(numericValue)) {
+      return "Please enter a valid blood sugar value";
+    }
+    if (numericValue < 0) return "Blood sugar cannot be a negative value.";
+    if (numericValue === 0) return "Blood sugar must be greater than 0 mg/dL.";
+    if (numericValue < 20) return "Blood sugar value is below the acceptable range.";
+    if (numericValue > 1000) return "Blood sugar value exceeds the acceptable range.";
 
     return "";
   },
@@ -214,7 +310,12 @@ export const validateContactLocation = (formData = {}) =>
       formData.emergencyContacts,
     ),
     contactName: validators.contactName(formData.contactName),
-    phoneNumber: validators.phoneNumber(formData.phoneNumber),
+    // Assumes the person's own phone number lives at `formData.mobileNumber`.
+    // Update this key if your form data uses a different field name.
+    phoneNumber: validators.phoneNumber(
+      formData.phoneNumber,
+      formData.mobileNumber,
+    ),
     nationality: validators.nationality(formData.nationality || "Indian"),
     state: validators.state(formData.state),
     city: validators.city(formData.city),

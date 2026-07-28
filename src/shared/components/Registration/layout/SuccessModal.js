@@ -36,6 +36,13 @@ const SuccessModal = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  // Show only the last 4 digits, e.g. "+1 555 123 4567" -> "•••• 4567"
+  const digitsOnly = (phoneNumber || "").replace(/\D/g, "");
+  const maskedPhoneNumber = digitsOnly
+    ? `•••• ${digitsOnly.slice(-4)}`
+    : "";
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40  secure-modal">
       {/* Main Container */}
