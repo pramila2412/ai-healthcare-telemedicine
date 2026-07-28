@@ -10,11 +10,11 @@ const Footer = ({
   autoSavedLabel = "Just now",
 }) => {
   return (
-    <footer className="flex shrink-0 items-center justify-between gap-2 border-t-[0.5px] border-[#D1D5DB] bg-white px-3 py-4 sm:gap-4 sm:px-6 md:px-10 lg:px-10 lg:py-10">
+    <footer className="flex shrink-0 items-center justify-between gap-2 border-t-[0.5px] border-card-border bg-white px-3 py-4 sm:gap-4 sm:px-6 md:px-10 lg:px-10 lg:py-6">
       {showSkip ? (
         <button
           onClick={onSkip}
-          className="flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-[#D1D5DB] px-3 py-2 text-xs font-medium text-[#6B7280] hover:bg-slate-50 sm:px-4 lg:h-14 lg:w-31.75 lg:px-6"
+          className="flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-card-border px-3 py-2 text-xs font-medium text-[#6B7280] hover:bg-slate-50 sm:px-4 lg:h-14 lg:w-31.75 lg:px-6"
         >
           Skip for now
         </button>
@@ -28,7 +28,7 @@ const Footer = ({
             <Icon icon="tabler:cloud-upload" width={14} height={14} />
             <span>Auto-Saved</span>
           </div>
-          <span className="font-semibold  text-[#374151]">{autoSavedLabel}</span>
+          <span className="font-semibold  text-text-body">{autoSavedLabel}</span>
         </div>
 
         <button
