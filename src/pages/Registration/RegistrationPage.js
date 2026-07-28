@@ -19,7 +19,8 @@ import {
   setPersonalInfo, 
   setMedicalHistory, 
   setInsuranceInfo, 
-  setHealthRecords 
+  setHealthRecords,
+  setReviewComplete
 } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationActions";
 import {
   authSelectors,
@@ -179,6 +180,8 @@ const RegistrationPage = () => {
     if (activeSectionKey === "health") dispatch(setHealthRecords(data));
     if (activeSectionKey === "medical") dispatch(setMedicalHistory(data));
     if (activeSectionKey === "insurance") dispatch(setInsuranceInfo(data));
+    if (activeSectionKey === 'information') dispatch(setReviewComplete({ isConfirmed: data.isConfirmed }));
+    if (activeSectionKey === 'loginid') dispatch(setReviewComplete({ loginId: data.loginId }));
 
     const touchedFields = touchedFieldsByStep[activeSectionKey] || {};
     if (Object.keys(touchedFields).length > 0) {
@@ -244,9 +247,11 @@ const RegistrationPage = () => {
     moveToNextSection();
   };
 
-  const handleSecureModalComplete = () => {
+  const handleSecureModalComplete = (password) => {
     setIsSecureModalOpen(false);
     dispatch(markSectionComplete(activeSectionKey));
+    if (password) dispatch(setReviewComplete({ password }));
+
     if (activeSectionKey === "loginid") {
       setIsSuccessModalOpen(true);
     } else {

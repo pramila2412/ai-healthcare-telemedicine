@@ -52,4 +52,8 @@ export const insuranceInfoInit = {
     confirmation: false
 };
 
-export const reviewAndCompleteInit = {};
+export const reviewAndCompleteInit = {
+    isConfirmed: false,
+    loginId: '',
+    password: ''
+};

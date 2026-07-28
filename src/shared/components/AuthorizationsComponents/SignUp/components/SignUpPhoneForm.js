@@ -65,7 +65,7 @@ export default function SignUpPhoneForm({ phoneNumber, setPhoneNumber, handlePho
           />
           <Button
             type="submit"
-            className="login-form-btn w-full bg-emerald-800 hover:bg-emerald-900 text-white font-medium text-sm py-3 px-4 rounded-xl shadow-md transition-colors duration-200 mt-2 cursor-pointer"
+            className="login-form-btn w-full bg-primary hover:bg-[--color-primary-hover] text-white font-medium text-sm py-3 px-4 rounded-xl shadow-md transition-colors duration-200 mt-2 cursor-pointer"
           >
             Continue
           </Button>

@@ -70,10 +70,9 @@ export const patientRegistrationReducer = (state = initialState, action) => {
       };
 
     case SET_REVIEW_COMPLETE:
-      
       return {
         ...state, 
-        reviewComplete: action.payload
+        reviewAndComplete: { ...state.reviewAndComplete, ...action.payload }
       };
 
     case RESET_REGISTRATION:

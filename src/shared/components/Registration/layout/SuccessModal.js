@@ -1,12 +1,38 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import VerifiedBadge from "../../../../assets/patientRegistration/images/verified_check_icon.png";
 import { Icon } from "@iconify/react";
+import { sideBarRegistrationSelectors } from "@/state-management/modules/rootSelectors";
 
 const SuccessModal = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
+  const activeSectionData = useSelector((state) => 
+    sideBarRegistrationSelectors.getSectionData(state, 'basic')
+  );
+  
+  const phoneNumber = useSelector((state) => state.security?.phoneNumber || "");
+  const { email = "" } = activeSectionData || {};
+
+  const maskEmail = (em) => {
+    if (!em) return "";
+    const [name, domain] = em.split("@");
+    if (!domain) return em;
+    if (name.length <= 2) return `${name[0]}***@${domain}`;
+    return `${name[0]}***${name[name.length - 1]}@${domain}`;
+  };
+
+  const maskPhone = (phone) => {
+    if (!phone) return "";
+    const cleanPhone = phone.trim();
+    if (cleanPhone.length < 5) return cleanPhone;
+    const last4 = cleanPhone.slice(-4);
+    const prefix = cleanPhone.slice(0, -4).replace(/\d/g, '*');
+    return prefix + last4;
+  };
+
   useEffect(() => {
-    if (!isOpen) return;
-    const timer = setTimeout(onClose, 5000);
-    return () => clearTimeout(timer);
+    // Kept empty in case of future logic, or we can just remove the timer
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -43,7 +69,7 @@ const SuccessModal = ({ isOpen, onClose }) => {
             <p className="insurance-modal-caption text-sm">
               Your registered mobile number{" "}
               <span className="font-medium secure-modal-heading">
-                ******5688
+                {maskPhone(phoneNumber)}
               </span>{" "}
               has been verified.
             </p>
@@ -55,7 +81,7 @@ const SuccessModal = ({ isOpen, onClose }) => {
             <p className="insurance-modal-caption text-sm">
               Confirmation email sent to:{" "}
               <span className="font-medium secure-modal-heading">
-                a**d123@gmail.com
+                {maskEmail(email) || "a**d123@gmail.com"}
               </span>
             </p>
           </div>
@@ -76,7 +102,12 @@ const SuccessModal = ({ isOpen, onClose }) => {
           <button className="flex-1 verified-modal-btn border-1 border-[--color-primary] font-bold py-3.5 px-4 rounded-md transition-all hover:bg-[--color-secondary] active:scale-[0.98]">
             Download Application
           </button>
-          <button className="flex-1 bg-primary verified-modal-btn-solid font-bold py-3.5 px-4  transition-all shadow-md rounded-md  active:scale-[0.98] hover:bg-[--color-primary-hover]">
+          <button 
+            onClick={() => {
+              onClose();
+              navigate('/');
+            }}
+            className="flex-1 bg-primary verified-modal-btn-solid font-bold py-3.5 px-4  transition-all shadow-md rounded-md  active:scale-[0.98] hover:bg-[--color-primary-hover]">
             Go to Dashboard
           </button>
         </div>
