@@ -16,7 +16,7 @@ const SecureAccountModal = ({ isOpen, onClose, onComplete }) => {
         errors.confirmPassword = "Passwords do not match";
       return errors;
     },
-    onSubmit: () => { onComplete ? onComplete() : onClose(); },
+    onSubmit: () => { onComplete ? onComplete(formik.values.password) : onClose(); },
   });
 
   const { password, confirmPassword } = formik.values;
