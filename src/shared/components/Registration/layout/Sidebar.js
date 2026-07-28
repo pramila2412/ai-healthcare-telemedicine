@@ -3,7 +3,14 @@ import { Icon } from "@iconify/react";
 import SidebarItem from "./SidebarItem";
 import logo from "@assets/assets/logo.svg";
 
-const Sidebar = ({ sections, activeKey, onSelect, isOpen, onClose }) => {
+const Sidebar = ({
+  sections,
+  activeKey,
+  onSelect,
+  isOpen,
+  onClose,
+  completedKeys = [], // <-- declared + defaulted, this was missing
+}) => {
   return (
     <>
       {/* Mobile overlay backdrop */}
@@ -51,6 +58,7 @@ const Sidebar = ({ sections, activeKey, onSelect, isOpen, onClose }) => {
               key={section.key}
               section={section}
               activeKey={activeKey}
+              completedKeys={completedKeys}
               onSelect={(key) => {
                 onSelect(key);
                 onClose?.(); // auto-close drawer on mobile after picking a section

@@ -75,6 +75,9 @@ const RegistrationPage = () => {
   const activeSectionData = useSelector((state) =>
   sideBarRegistrationSelectors.getSectionData(state, activeSectionKey)
 );
+  const completedSectionKeys =
+    useSelector(sideBarRegistrationSelectors.getCompletedSections) || [];
+
   if (!role) return <Navigate to="/signup" />;
 
   const sidebar = sidebarByRole[role] || [];
@@ -268,6 +271,7 @@ const RegistrationPage = () => {
       <Sidebar
         sections={sidebar}
         activeKey={activeSectionKey}
+        completedKeys={completedSectionKeys}
         onSelect={handleSectionSelect}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}

@@ -1,15 +1,30 @@
 import React, { useEffect } from "react";
 import VerifiedBadge from "../../../../assets/patientRegistration/images/verified_check_icon.png";
 import { Icon } from "@iconify/react";
+import { useSelector } from "react-redux";
+import { selectPersonalInfo } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationSelectors";
 
 const SuccessModal = ({ isOpen, onClose }) => {
+  // All hooks must run on every render, regardless of isOpen — the early
+  // return has to come AFTER every hook call, never before.
   useEffect(() => {
     if (!isOpen) return;
     const timer = setTimeout(onClose, 5000);
     return () => clearTimeout(timer);
-  }, [isOpen]);
+  }, [isOpen, onClose]);
+
+  const phoneNumber = useSelector((state) => state.security?.phoneNumber);
+  const personalInfo = useSelector(selectPersonalInfo) || {};
+  const basic = personalInfo.basicDetails || {};
 
   if (!isOpen) return null;
+
+  // Show only the last 4 digits, e.g. "+1 555 123 4567" -> "•••• 4567"
+  const digitsOnly = (phoneNumber || "").replace(/\D/g, "");
+  const maskedPhoneNumber = digitsOnly
+    ? `•••• ${digitsOnly.slice(-4)}`
+    : "";
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40  secure-modal">
       {/* Main Container */}
@@ -43,7 +58,7 @@ const SuccessModal = ({ isOpen, onClose }) => {
             <p className="insurance-modal-caption text-sm">
               Your registered mobile number{" "}
               <span className="font-medium secure-modal-heading">
-                ******5688
+                {maskedPhoneNumber}
               </span>{" "}
               has been verified.
             </p>
@@ -55,7 +70,7 @@ const SuccessModal = ({ isOpen, onClose }) => {
             <p className="insurance-modal-caption text-sm">
               Confirmation email sent to:{" "}
               <span className="font-medium secure-modal-heading">
-                a**d123@gmail.com
+                {basic.email}
               </span>
             </p>
           </div>
