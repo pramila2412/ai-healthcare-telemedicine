@@ -24,7 +24,10 @@ const SuccessModal = ({ isOpen, onClose }) => {
 
   const maskPhone = (phone) => {
     if (!phone) return "";
-    const cleanPhone = phone.trim();
+    let cleanPhone = phone.replace(/\D/g, "");
+    if (cleanPhone.length > 10) {
+      cleanPhone = cleanPhone.slice(-10);
+    }
     if (cleanPhone.length < 5) return cleanPhone;
     const last4 = cleanPhone.slice(-4);
     const prefix = cleanPhone.slice(0, -4).replace(/\d/g, '*');
@@ -37,11 +40,7 @@ const SuccessModal = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  // Show only the last 4 digits, e.g. "+1 555 123 4567" -> "•••• 4567"
-  const digitsOnly = (phoneNumber || "").replace(/\D/g, "");
-  const maskedPhoneNumber = digitsOnly
-    ? `•••• ${digitsOnly.slice(-4)}`
-    : "";
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40  secure-modal">

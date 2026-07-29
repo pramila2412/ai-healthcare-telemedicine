@@ -175,7 +175,7 @@ const DocumentDropzone = ({
     <div>
       <div className="mb-2 flex items-center justify-between">
         <label className="text-[14px] font-medium leading-5 text-[#141414]">
-          {label} {required && <span className="text-danger">*</span>}
+          {label} {required && <span className="required-asterisk">*</span>}
         </label>
         {infoTooltip && (
           <Tooltip title={infoTooltip} arrow>
@@ -344,3 +344,4 @@ const DocumentDropzone = ({
 };
 
 export default DocumentDropzone;
+

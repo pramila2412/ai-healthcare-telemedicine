@@ -263,6 +263,7 @@ const RegistrationPage = () => {
   };
 
   const isContinueDisabled =
+    hasValidationErrors(validateRegistrationStep(activeSectionKey, activeSectionData)) ||
     (activeSectionKey === "insurance" && !activeSectionData?.insuranceType) ||
     (activeSectionKey === "information" && !activeSectionData?.isConfirmed) ||
     (activeSectionKey === "loginid" && !activeSectionData?.isValid);

@@ -123,7 +123,7 @@ const Insurance = ({
         {requiresInsuranceDetails && (
           <div className="min-w-0">
             <label className="mb-2 block text-[14px] font-medium text-[#141414]">
-              {providerConfig.label} <span className="text-danger">*</span>
+              {providerConfig.label} <span className="required-asterisk">*</span>
             </label>
             <FormSelect
               name="provider"
@@ -143,7 +143,7 @@ const Insurance = ({
           <>
             <div className="min-w-0">
               <label className="mb-2 block text-[14px] font-medium text-[#141414]">
-                Insurance Holder name <span className="text-danger">*</span>
+                Insurance Holder name <span className="required-asterisk">*</span>
               </label>
               <FormInput
                 name="holderName"
@@ -161,7 +161,7 @@ const Insurance = ({
             <div className="min-w-0">
               <label className="mb-2 block text-[14px] font-medium text-[#141414]">
                 Customer ID / Policy Number{" "}
-                <span className="text-danger">*</span>
+                <span className="required-asterisk">*</span>
               </label>
               <FormInput
                 name="policyNumber"
@@ -257,3 +257,4 @@ const Insurance = ({
 };
 
 export default Insurance;
+

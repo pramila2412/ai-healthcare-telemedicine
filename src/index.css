@@ -369,3 +369,14 @@ select {
     font-size: 1.05rem !important;
   }
 }
+
+.btn-disabled {
+  background-color: #F2F2F2 !important;
+  color: #6B7280 !important;
+  cursor: not-allowed !important;
+  opacity: 1 !important;
+}
+
+.required-asterisk {
+  color: #EF4444 !important; /* Tailwind red-500 */
+}

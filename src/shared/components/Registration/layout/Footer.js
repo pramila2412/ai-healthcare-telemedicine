@@ -36,8 +36,8 @@ const Footer = ({
           disabled={isContinueDisabled}
           className={`flex items-center justify-center gap-2 whitespace-nowrap rounded-lg px-3 py-2.5 text-xs font-medium transition-opacity sm:px-6 sm:text-sm lg:h-14 lg:w-36.75 lg:px-6 ${
             isContinueDisabled
-              ? "bg-[#248B8F] text-white opacity-40 cursor-not-allowed"
-              : "bg-[#248B8F] text-white hover:bg-[#1D7275]"
+              ? "btn-disabled"
+              : "bg-primary text-white hover:bg-[--color-primary-hover]"
           }`}
         >
           {continueLabel}

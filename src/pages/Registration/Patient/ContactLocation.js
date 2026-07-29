@@ -53,7 +53,7 @@ const ContactLocation = ({
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
             Emergency Contact Relationship{" "}
-            <span className="text-red-500">*</span>
+            <span className="required-asterisk">*</span>
           </label>
 
           <FormSelect
@@ -70,7 +70,7 @@ const ContactLocation = ({
         {/* Emergency Contact Name */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            Emergency Contact Name <span className="text-red-500">*</span>
+            Emergency Contact Name <span className="required-asterisk">*</span>
           </label>
 
           <FormInput
@@ -87,7 +87,7 @@ const ContactLocation = ({
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
             Emergency Contact Phone Number{" "}
-            <span className="text-red-500">*</span>
+            <span className="required-asterisk">*</span>
           </label>
 
           <FormInput
@@ -112,7 +112,7 @@ const ContactLocation = ({
         {/* Nationality */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            Nationality <span className="text-red-500">*</span>
+            Nationality <span className="required-asterisk">*</span>
           </label>
 
           <FormSelect
@@ -129,7 +129,7 @@ const ContactLocation = ({
         {/* State */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            State <span className="text-danger">*</span>
+            State <span className="required-asterisk">*</span>
           </label>
           <FormSelect
             name="state"
@@ -146,7 +146,7 @@ const ContactLocation = ({
         {/* Current City */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            Current City <span className="text-danger">*</span>
+            Current City <span className="required-asterisk">*</span>
           </label>
           <FormSelect
             name="city"
@@ -170,3 +170,4 @@ const ContactLocation = ({
 };
 
 export default ContactLocation;
+

@@ -230,8 +230,8 @@ const SecureAccountModal = ({ isOpen, onClose, onComplete }) => {
           className={`w-full py-4 rounded-xl font-medium transition-all shadow-lg 
             ${
               formik.isValid && formik.dirty
-                ? "bg-primary text-white hover:bg-(--color-primary-hover) shadow-teal-900/10 active:scale-[0.98]"
-                : "bg-(--color-disabled-bg) text-(--color-disabled-text) cursor-not-allowed shadow-none"
+                ? "bg-primary text-white hover:bg-[--color-primary-hover] shadow-teal-900/10 active:scale-[0.98]"
+                : "btn-disabled shadow-none"
             }`}
         >
           Create Profile

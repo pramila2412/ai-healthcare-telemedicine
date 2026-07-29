@@ -97,7 +97,7 @@ const HealthOverview = ({
         {/* Height */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            Height <span className="text-red-500">*</span>
+            Height <span className="required-asterisk">*</span>
           </label>
           <FormInput
             name="height"
@@ -117,13 +117,14 @@ const HealthOverview = ({
             }
             icon="tabler:ruler-measure-2"
             {...getValidationProps("height")}
+            required
           />
         </div>
 
         {/* Weight */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            Weight <span className="text-red-500">*</span>
+            Weight <span className="required-asterisk">*</span>
           </label>
           <FormInput
             name="weight"
@@ -251,3 +252,4 @@ const HealthOverview = ({
 };
 
 export default HealthOverview;
+

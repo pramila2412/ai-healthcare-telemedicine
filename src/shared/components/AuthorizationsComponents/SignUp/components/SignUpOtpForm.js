@@ -15,7 +15,7 @@ const SignUpOtpForm = ({
     <OtpForm
       title="Create Account"
       description="We've sent a 6-digit verification code to your registered phone number."
-      phoneNumber={`+91 ${phoneNumber}`}
+      phoneNumber={phoneNumber}
       timer={timer}
       setTimer={setTimer}
       onSubmit={onSubmit}

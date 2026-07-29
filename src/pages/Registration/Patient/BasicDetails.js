@@ -55,7 +55,7 @@ const BasicDetails = ({
         {/* Full Name */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            Full Name <span className="text-red-500">*</span>
+            Full Name <span className="required-asterisk">*</span>
           </label>
 
           <FormInput
@@ -71,7 +71,7 @@ const BasicDetails = ({
         {/* Date of Birth */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            Date of Birth <span className="text-red-500">*</span>
+            Date of Birth <span className="required-asterisk">*</span>
           </label>
 
           <div className="relative">
@@ -132,7 +132,7 @@ const BasicDetails = ({
         {/* Gender */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            Gender <span className="text-red-500">*</span>
+            Gender <span className="required-asterisk">*</span>
           </label>
 
           <FormSelect
@@ -149,7 +149,7 @@ const BasicDetails = ({
         {/* Blood Group */}
         <div>
           <label className="mb-2 block text-sm font-medium text-text-heading">
-            Blood Group <span className="text-red-500">*</span>
+            Blood Group <span className="required-asterisk">*</span>
           </label>
 
           <FormSelect
@@ -230,3 +230,4 @@ const BasicDetails = ({
 };
 
 export default BasicDetails;
+
