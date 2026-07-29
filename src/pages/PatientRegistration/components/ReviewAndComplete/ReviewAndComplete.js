@@ -100,7 +100,7 @@ const IDDisplay = ({ idValue, idStatus }) => {
         className={`${prefixBg} flex w-15 shrink-0 items-center justify-center border-r border-[#D0D0D0] transition-colors duration-200`}
       >
         <span
-          className={`${prefixText} font-bold text-xs tracking-wide font-TypeFace`}
+          className={`${prefixText} font-bold text-xs tracking-wide font-Satoshi`}
         >
           PAT
         </span>
@@ -111,7 +111,7 @@ const IDDisplay = ({ idValue, idStatus }) => {
         {chars.map((ch, i) => (
           <span
             key={i}
-            className="min-w-3.5 text-center text-xs font-medium text-[#141414] font-TypeFace"
+            className="min-w-3.5 text-center text-xs font-medium text-[#141414] font-Satoshi"
           >
             {ch}
           </span>
@@ -127,7 +127,7 @@ const IDStatusMessage = ({ status, idSuffix }) => {
     return (
       <div className="mt-2 flex items-center gap-1.5">
         <img src={AvailableIcon} alt="" className="h-6 w-6" />
-        <span className="text-xs font-normal text-[#096B58] font-TypeFace">
+        <span className="text-xs font-normal text-[#096B58] font-Satoshi">
           PAT-{idSuffix} is available
         </span>
       </div>
@@ -137,7 +137,7 @@ const IDStatusMessage = ({ status, idSuffix }) => {
     return (
       <div className="mt-2 flex items-center gap-1.5">
         <img src={TakenIcon} alt="" className="h-6 w-6" />
-        <span className="text-xs font-normal text-[#EF4444] font-TypeFace">
+        <span className="text-xs font-normal text-[#EF4444] font-Satoshi">
           This ID is already taken
         </span>
       </div>
@@ -146,7 +146,7 @@ const IDStatusMessage = ({ status, idSuffix }) => {
   return (
     <div className="mt-2 flex items-center gap-1.5">
       <img src={WarningIcon} alt="" className="h-6 w-6" />
-      <span className="text-xs font-normal text-[#666666] font-TypeFace">
+      <span className="text-xs font-normal text-[#666666] font-Satoshi">
         This is auto generated ID, you can select your own ID
       </span>
     </div>
@@ -161,7 +161,7 @@ const StrengthBar = ({ password }) => {
     <div className="flex flex-col gap-1">
       {/* Label — occupies space even when empty so layout doesn't shift */}
       <span
-        className="text-xs font-medium font-TypeFace h-4.5"
+        className="text-xs font-medium font-Satoshi h-4.5"
         style={{ color }}
       >
         {label || "​"} {/* zero-width space keeps line height */}
@@ -206,14 +206,14 @@ const PasswordRequirements = ({ password }) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-xs font-medium text-[#202020] font-TypeFace">
+      <span className="text-xs font-medium text-[#202020] font-Satoshi">
         Should Contain:
       </span>
       {checks.map(({ label, met }) => (
         <div key={label} className="flex items-center gap-2">
           {icon(met)}
           <span
-            className={`text-xs font-normal font-TypeFace ${textColor(met)}`}
+            className={`text-xs font-normal font-Satoshi ${textColor(met)}`}
           >
             {label}
           </span>
@@ -242,7 +242,7 @@ const PasswordInput = ({
       {/* Label */}
       <label
         htmlFor={id}
-        className="text-xs font-medium text-[#202020] font-TypeFace"
+        className="text-xs font-medium text-[#202020] font-Satoshi"
       >
         {label}
       </label>
@@ -274,7 +274,7 @@ const PasswordInput = ({
             onChange={onChange}
             onBlur={onBlur}
             placeholder={placeholder}
-            className="flex-1 border-none bg-transparent text-xs font-normal text-[#141414] outline-none placeholder:text-[#999999] font-TypeFace"
+            className="flex-1 border-none bg-transparent text-xs font-normal text-[#141414] outline-none placeholder:text-[#999999] font-Satoshi"
           />
 
           {/* Eye — 24×24, single asset */}
@@ -289,7 +289,7 @@ const PasswordInput = ({
         </div>
 
         {hasError && (
-          <p className="absolute left-0 top-[calc(100%+4px)] whitespace-nowrap text-[11px] text-[#EF4444] font-TypeFace m-0">
+          <p className="absolute left-0 top-[calc(100%+4px)] whitespace-nowrap text-[11px] text-[#EF4444] font-Satoshi m-0">
             {error}
           </p>
         )}
@@ -398,7 +398,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
   // ─── Render ───────────────────────────────────────────────────────────────────
   return (
     // Outer wrapper: relative so footer can be absolute-positioned at bottom
-    <div className="relative flex min-h-full w-full flex-col bg-white font-TypeFace">
+    <div className="relative flex min-h-full w-full flex-col bg-white font-Satoshi">
       {/* ── Scrollable content area — padded bottom so footer never overlaps ── */}
       <div className="flex-1 overflow-y-auto px-7 md:px-10 pt-6 md:pt-12 pb-14 md:pb-18">
         {/* ══════════════════════════════════════════════════════════════════
@@ -417,7 +417,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
 
           {/* ID field */}
           <div>
-            <label className="mb-2 block text-xs font-medium text-[#202020] font-TypeFace">
+            <label className="mb-2 block text-xs font-medium text-[#202020] font-Satoshi">
               {idStatus === "available"
                 ? "MediConnect ID"
                 : "Patient Unique ID"}
@@ -428,7 +428,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
 
           {/* Suggestions header */}
           <div className="mb-2.5 flex items-center justify-between">
-            <span className="text-xs font-medium text-[#202020] font-TypeFace">
+            <span className="text-xs font-medium text-[#202020] font-Satoshi">
               Suggestions
             </span>
             <button
@@ -437,7 +437,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
               className="flex h-8.5 items-center gap-1.5 rounded-lg border-none bg-[#EEF4F3] px-3 cursor-pointer"
             >
               <img src={RefreshIcon} alt="" className="h-4 w-4" />
-              <span className="text-xs font-medium text-[#096B58] font-TypeFace">
+              <span className="text-xs font-medium text-[#096B58] font-Satoshi">
                 Refresh
               </span>
             </button>
@@ -462,7 +462,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
             size="sm"
             title="Create a strong password"
             description="Create a strong password with a mix of letters, numbers and symbols"
-            descriptionClassName="mb-4 text-xs font-normal leading-relaxed text-[#666666] font-TypeFace"
+            descriptionClassName="mb-4 text-xs font-normal leading-relaxed text-[#666666] font-Satoshi"
           />
 
           {/* Two equal columns — stack on mobile, side-by-side on md+ */}
@@ -527,7 +527,7 @@ const ReviewAndComplete = ({ setActiveStep }) => {
         <button
           type="button"
           onClick={handleCreateProfile}
-          className={`h-14 w-full sm:w-auto min-w-0 sm:min-w-37 rounded-lg border-none px-7 text-xs font-medium transition-colors duration-200 font-TypeFace
+          className={`h-14 w-full sm:w-auto min-w-0 sm:min-w-37 rounded-lg border-none px-7 text-xs font-medium transition-colors duration-200 font-Satoshi
             ${
               isFormValid
                 ? "cursor-pointer bg-[#096B58] text-white"
@@ -542,3 +542,4 @@ const ReviewAndComplete = ({ setActiveStep }) => {
 };
 
 export default ReviewAndComplete;
+

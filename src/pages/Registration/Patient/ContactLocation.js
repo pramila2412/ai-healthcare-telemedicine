@@ -42,7 +42,7 @@ const ContactLocation = ({
         <h2 className="text-sm font-medium text-text-heading">
           Emergency Contact
         </h2>
-        <p className="mt-1 text-xs font-TypeFace font-normal text-[#6B7280]">
+        <p className="mt-1 text-xs font-Satoshi font-normal text-[#6B7280]">
           Choose someone we can contact in case of an emergency. This
           information stays private and secure.
         </p>
@@ -103,7 +103,7 @@ const ContactLocation = ({
 
       <div>
         <h2 className="text-sm font-medium text-text-heading">Location </h2>
-        <p className="mt-1 text-xs font-TypeFace font-normal text-[#6B7280]">
+        <p className="mt-1 text-xs font-Satoshi font-normal text-[#6B7280]">
           Help us reach you when needed and show healthcare services available
           in your area.
         </p>
@@ -170,4 +170,5 @@ const ContactLocation = ({
 };
 
 export default ContactLocation;
+
 

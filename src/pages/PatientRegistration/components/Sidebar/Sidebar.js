@@ -331,10 +331,10 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
               className="w-12 h-11 object-contain"
             />
             <div className="flex flex-col">
-              <h1 className="text-[16px] font-semibold leading-none text-[#096B58] font-TypeFace">
+              <h1 className="text-[16px] font-semibold leading-none text-[#096B58] font-Satoshi">
                 MediConnect
               </h1>
-              <p className="text-[10px] font-normal leading-2.5 text-primary font-TypeFace">
+              <p className="text-[10px] font-normal leading-2.5 text-primary font-Satoshi">
                 Healthcare Ecosystem
               </p>
             </div>
@@ -438,12 +438,12 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
               "0px 1px 1px rgba(0,0,0,0.03), 0px 2px 2px rgba(0,0,0,0.03), 0px 4px 4px rgba(0,0,0,0.03), 0px 8px 8px rgba(0,0,0,0.03)",
           }}
         >
-          <h4 className="text-[14px] font-medium text-[#111827] leading-none font-TypeFace">
+          <h4 className="text-[14px] font-medium text-[#111827] leading-none font-Satoshi">
             Profile Progress
           </h4>
 
           <div className="mt-4">
-            <p className="text-[13px] font-semibold text-[#2E6B5F] leading-none mb-2.5 font-TypeFace">
+            <p className="text-[13px] font-semibold text-[#2E6B5F] leading-none mb-2.5 font-Satoshi">
               {currentProgress}% Complete
             </p>
 
@@ -454,7 +454,7 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
               />
             </div>
 
-            <p className="mt-3 flex items-center gap-1 text-[9.5px] font-normal text-[#6B7280] leading-none font-TypeFace">
+            <p className="mt-3 flex items-center gap-1 text-[9.5px] font-normal text-[#6B7280] leading-none font-Satoshi">
               <img src={time} alt="Time" className="w-3 h-3" />
               <span className="mt-0.5">Estimated Time: 1-2 Minutes</span>
             </p>
@@ -466,3 +466,4 @@ const Sidebar = ({ activeStep, setActiveStep, isOpen, onClose, progress }) => {
 };
 
 export default Sidebar;
+

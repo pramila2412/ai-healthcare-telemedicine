@@ -31,7 +31,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Typeface", sans-serif',
+    fontFamily: ' "Satoshi-Variable", "Inter", system-ui, -apple-system, sans-serif ',
     h1: {
       fontWeight: 800,
       fontSize: '3.5rem',

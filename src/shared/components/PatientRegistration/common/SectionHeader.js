@@ -33,13 +33,13 @@ const SectionHeader = ({
   if (size === "sm") {
     return (
       <div className={className}>
-        <h2 className="mb-1.5 text-base font-semibold text-[#141414] leading-none font-TypeFace">
+        <h2 className="mb-1.5 text-base font-semibold text-[#141414] leading-none font-Satoshi">
           {title}
         </h2>
         <p
           className={
             descriptionClassName ||
-            "mb-2 text-xs font-normal leading-relaxed text-[#666666] font-TypeFace"
+            "mb-2 text-xs font-normal leading-relaxed text-[#666666] font-Satoshi"
           }
         >
           {description}
@@ -64,3 +64,4 @@ const SectionHeader = ({
 };
 
 export default SectionHeader;
+

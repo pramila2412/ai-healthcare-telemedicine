@@ -12,10 +12,11 @@ const InfoChip = ({ label, onSelect }) => (
   <button
     type="button"
     onClick={() => onSelect?.(label)}
-    className="h-9 whitespace-nowrap rounded-lg border border-[#D0D0D0] bg-white px-3.5 text-xs font-normal text-[#141414] cursor-pointer transition-colors duration-150 hover:border-[#096B58] font-TypeFace"
+    className="h-9 whitespace-nowrap rounded-lg border border-[#D0D0D0] bg-white px-3.5 text-xs font-normal text-[#141414] cursor-pointer transition-colors duration-150 hover:border-[#096B58] font-Satoshi"
   >
     {label}
   </button>
 );
 
 export default InfoChip;
+

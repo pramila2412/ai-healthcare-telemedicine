@@ -11,7 +11,7 @@ const VerifyOtp = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-between p-4 md:p-6 lg:p-8 font-TypeFace">
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-between p-4 md:p-6 lg:p-8 font-Satoshi">
       <LoginHeader onLogoClick={() => navigate("/")} />
 
       <main className="flex-1 flex items-center justify-center py-6">
@@ -28,3 +28,4 @@ const VerifyOtp = () => {
 };
 
 export default VerifyOtp;
+

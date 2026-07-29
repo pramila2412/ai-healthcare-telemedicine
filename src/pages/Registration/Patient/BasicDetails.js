@@ -45,7 +45,7 @@ const BasicDetails = ({
     <div className="space-y-8">
       <div className="w-full sm:w-82">
         <h2 className="text-sm font-medium text-text-heading">Basic Details</h2>
-        <p className="mt-1 text-xs font-TypeFace font-normal text-[#6B7280]">
+        <p className="mt-1 text-xs font-Satoshi font-normal text-[#6B7280]">
           Tell us a little about yourself so we can personalize your healthcare
           experience.
         </p>
@@ -230,4 +230,5 @@ const BasicDetails = ({
 };
 
 export default BasicDetails;
+
 

@@ -10,7 +10,7 @@ module.exports = {
         secondary: "var(--color-secondary)",
       },
       fontFamily: {
-        TypeFace: "var(--font-TypeFace)",
+        Satoshi: "var(--font-Satoshi)",
       },
     },
   },

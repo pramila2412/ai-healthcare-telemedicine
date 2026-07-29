@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "react-datepicker/dist/react-datepicker.css";
 @import "./styles/datepicker.css";
+@import "./assets/fonts/css/satoshi.css";
 
 @theme {
   --color-primary: #0D8B72;
@@ -20,7 +21,7 @@
   --color-white: #FFFFFF;
   --color-card-border: #D1D5DB;
 
-  --font-TypeFace: "TypeFace", "Inter", system-ui, -apple-system, sans-serif;
+  --font-Satoshi: "Satoshi-Variable", "Inter", system-ui, -apple-system, sans-serif;
 }
 
 :root {
@@ -38,7 +39,7 @@
 --color-card-border: #D1D5DB;
   --color-disabled-bg: #F2F2F2;
   --color-disabled-text: #6B7280;
-  --font-TypeFace: "TypeFace", "Inter", system-ui, -apple-system, sans-serif;
+  --font-Satoshi: "Satoshi-Variable", "Inter", system-ui, -apple-system, sans-serif;
 }
 
 /* Force Tailwind classes in case JIT compiler is cached */
@@ -54,7 +55,7 @@
 .verified-modal-btn { color: var(--color-primary); }
 .verified-modal-btn-solid { color: var(--color-white); }
 /* Secure Account Modal */
-.secure-modal { font-family: var(--font-TypeFace); }
+.secure-modal { font-family: var(--font-Satoshi); }
 .secure-modal-heading { color: var(--color-text-heading); }
 .secure-modal-body { color: var(--color-text-body); }
 .secure-modal-muted { color: var(--color-text-muted); }
@@ -71,7 +72,7 @@
 }
 
 .section-kicker {
-  font-family: var(--font-TypeFace);
+  font-family: var(--font-Satoshi);
   font-size: 14px;
   font-weight: 500;
   line-height: 1;
@@ -105,7 +106,7 @@ img {
 
 @layer components {
   .insurance-modal {
-    font-family: var(--font-TypeFace);
+    font-family: var(--font-Satoshi);
     color: #0B1117;
   }
   .insurance-modal-subtitle {
@@ -380,3 +381,4 @@ select {
 .required-asterisk {
   color: #EF4444 !important; /* Tailwind red-500 */
 }
+

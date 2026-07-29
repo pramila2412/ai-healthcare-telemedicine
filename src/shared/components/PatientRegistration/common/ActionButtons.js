@@ -16,7 +16,7 @@ const PrimaryButton = ({
     onClick={!disabled ? onClick : undefined}
     disabled={disabled}
     className={`
-      h-14 rounded-lg px-6 text-xs font-medium font-TypeFace
+      h-14 rounded-lg px-6 text-xs font-medium font-Satoshi
       flex items-center justify-center transition-colors duration-150
       w-full sm:w-auto
       ${
@@ -54,7 +54,7 @@ const SecondaryButton = ({
       disabled={disabled}
       onClick={!disabled ? onClick : undefined}
       className={`
-        h-14 w-full sm:w-auto rounded-lg px-6 text-xs font-medium font-TypeFace
+        h-14 w-full sm:w-auto rounded-lg px-6 text-xs font-medium font-Satoshi
         transition-colors duration-150
         ${variantClass}
       `}
