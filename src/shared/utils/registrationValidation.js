@@ -249,7 +249,7 @@ export const validators = Object.freeze({
     const rawValue = String(value ?? "");
     const normalizedValue = rawValue.trim();
 
-    if (!normalizedValue) return "Enter blood sugar in mg/dl.";
+    if (!normalizedValue) return "";
     if (/[a-zA-Z]/.test(normalizedValue)) {
       return "Only numeric values are allowed.";
     }
