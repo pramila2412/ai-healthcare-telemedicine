@@ -29,7 +29,7 @@ const UnitToggle = ({ value, options = [], onChange }) => {
       <button
         type="button"
         onClick={() => setIsOpen((c) => !c)}
-        className="flex items-center gap-1.5 text-xs text-[#666666] cursor-pointer select-none"
+        className="flex items-center mt-2 gap-1.5 text-xs text-[#666666] cursor-pointer select-none"
       >
         <img
           src={downArrow}

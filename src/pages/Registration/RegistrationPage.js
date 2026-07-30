@@ -7,7 +7,9 @@ import Header from "@/shared/components/Registration/layout/Header";
 import Sidebar from "@/shared/components/Registration/layout/Sidebar";
 import MedicalRecordsIntroPopup from "@/shared/components/Popup/MedicalRecordsIntroPopup";
 import UploadSuccessSnackbar from "@/shared/components/Registration/upload/UploadSuccessSnackbar";
-import sidebarByRole, { getStepComponent } from "@/shared/constants/RoleRegistration";
+import sidebarByRole, {
+  getStepComponent,
+} from "@/shared/constants/RoleRegistration";
 import SecureAccountModal from "@/shared/components/Registration/layout/SecureAccountModal";
 import SuccessModal from "@/shared/components/Registration/layout/SuccessModal";
 import {
@@ -15,12 +17,12 @@ import {
   saveSectionData,
   setActiveSection,
 } from "@/state-management/modules/Registrations/SidebarRegistration/registrationActions";
-import { 
-  setPersonalInfo, 
-  setMedicalHistory, 
-  setInsuranceInfo, 
+import {
+  setPersonalInfo,
+  setMedicalHistory,
+  setInsuranceInfo,
   setHealthRecords,
-  setReviewComplete
+  setReviewComplete,
 } from "@/state-management/modules/Registrations/patientRegistration/patientRegistrationActions";
 import {
   authSelectors,
@@ -31,13 +33,8 @@ import {
   validateRegistrationStep,
 } from "@/shared/utils/registrationValidation";
 
-const MEDICAL_RECORDS_INTRO_STORAGE_KEY =
-  "mediconnect.hideMedicalRecordsIntro";
-const PERSONAL_INFORMATION_STEP_KEYS = new Set([
-  "basic",
-  "contact",
-  "health",
-]);
+const MEDICAL_RECORDS_INTRO_STORAGE_KEY = "mediconnect.hideMedicalRecordsIntro";
+const PERSONAL_INFORMATION_STEP_KEYS = new Set(["basic", "contact", "health"]);
 const MEDICAL_RECORDS_STEP_KEYS = new Set(["medical", "insurance"]);
 
 const findActiveSection = (sections, activeKey) => {
@@ -72,10 +69,16 @@ const RegistrationPage = () => {
   const [touchedFieldsByStep, setTouchedFieldsByStep] = useState({});
 
   const role = useSelector(authSelectors.getUserRole);
-  const activeSectionKey = useSelector(sideBarRegistrationSelectors.getActiveSectionKey);
+  const activeSectionKey = useSelector(
+    sideBarRegistrationSelectors.getActiveSectionKey,
+  );
   const activeSectionData = useSelector((state) =>
-  sideBarRegistrationSelectors.getSectionData(state, activeSectionKey)
-);
+    sideBarRegistrationSelectors.getSectionData(state, activeSectionKey),
+  );
+
+  const ownPhoneNumber = useSelector((state) => state.security.phoneNumber);
+  console.log("DEBUG ownPhoneNumber:", ownPhoneNumber); // ✅ add this line temporarily
+
   const completedSectionKeys =
     useSelector(sideBarRegistrationSelectors.getCompletedSections) || [];
 
@@ -105,10 +108,7 @@ const RegistrationPage = () => {
 
     dispatch(setActiveSection(key));
 
-    if (
-      isEnteringMedicalRecords &&
-      !isMedicalRecordsIntroSuppressed()
-    ) {
+    if (isEnteringMedicalRecords && !isMedicalRecordsIntroSuppressed()) {
       setDontShowMedicalRecordsIntroAgain(false);
       setIsMedicalRecordsIntroOpen(true);
     }
@@ -132,10 +132,7 @@ const RegistrationPage = () => {
     if (!dontShowMedicalRecordsIntroAgain) return;
 
     try {
-      window.localStorage.setItem(
-        MEDICAL_RECORDS_INTRO_STORAGE_KEY,
-        "true",
-      );
+      window.localStorage.setItem(MEDICAL_RECORDS_INTRO_STORAGE_KEY, "true");
     } catch {
       // The preference is non-critical; continue when storage is unavailable.
     }
@@ -156,6 +153,7 @@ const RegistrationPage = () => {
     const stepErrors = validateRegistrationStep(
       activeSectionKey,
       activeSectionData,
+      { ownPhoneNumber }, // ✅ pass context
     );
 
     setTouchedFieldsByStep((currentTouchedFields) => ({
@@ -183,14 +181,18 @@ const RegistrationPage = () => {
     if (activeSectionKey === "health") dispatch(setHealthRecords(data));
     if (activeSectionKey === "medical") dispatch(setMedicalHistory(data));
     if (activeSectionKey === "insurance") dispatch(setInsuranceInfo(data));
-    if (activeSectionKey === 'information') dispatch(setReviewComplete({ isConfirmed: data.isConfirmed }));
-    if (activeSectionKey === 'loginid') dispatch(setReviewComplete({ loginId: data.loginId }));
+    if (activeSectionKey === "information")
+      dispatch(setReviewComplete({ isConfirmed: data.isConfirmed }));
+    if (activeSectionKey === "loginid")
+      dispatch(setReviewComplete({ loginId: data.loginId }));
 
     const touchedFields = touchedFieldsByStep[activeSectionKey] || {};
     if (Object.keys(touchedFields).length > 0) {
       setValidationErrorsByStep((currentErrors) => ({
         ...currentErrors,
-        [activeSectionKey]: validateRegistrationStep(activeSectionKey, data),
+        [activeSectionKey]: validateRegistrationStep(activeSectionKey, data, {
+          ownPhoneNumber,
+        }),
       }));
     }
   };
@@ -199,6 +201,7 @@ const RegistrationPage = () => {
     const stepErrors = validateRegistrationStep(
       activeSectionKey,
       activeSectionData,
+      { ownPhoneNumber },
     );
 
     if (hasValidationErrors(stepErrors)) {
@@ -263,14 +266,17 @@ const RegistrationPage = () => {
   };
 
   const isContinueDisabled =
-    hasValidationErrors(validateRegistrationStep(activeSectionKey, activeSectionData)) ||
+    hasValidationErrors(
+      validateRegistrationStep(activeSectionKey, activeSectionData, {
+        ownPhoneNumber,
+      }),
+    ) ||
     (activeSectionKey === "insurance" && !activeSectionData?.insuranceType) ||
     (activeSectionKey === "information" && !activeSectionData?.isConfirmed) ||
     (activeSectionKey === "loginid" && !activeSectionData?.isValid);
 
   const activeStepErrors = validationErrorsByStep[activeSectionKey] || {};
-  const activeStepTouchedFields =
-    touchedFieldsByStep[activeSectionKey] || {};
+  const activeStepTouchedFields = touchedFieldsByStep[activeSectionKey] || {};
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -290,7 +296,10 @@ const RegistrationPage = () => {
           onMenuClick={() => setIsSidebarOpen(true)}
         />
 
-          <div id="step-scroll-container" className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-10 py-6">
+        <div
+          id="step-scroll-container"
+          className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-10 py-6"
+        >
           {StepComponent ? (
             <StepComponent
               data={activeSectionData}
