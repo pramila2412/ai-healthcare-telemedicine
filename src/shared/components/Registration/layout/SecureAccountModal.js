@@ -8,12 +8,31 @@ const SecureAccountModal = ({ isOpen, onClose, onComplete }) => {
 
   const formik = useFormik({
     initialValues: { password: "", confirmPassword: "" },
+    validateOnBlur: true,
+    validateOnChange: true,
     validate: (values) => {
       const errors = {};
-      if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\d!@#$%^&*(),.?":{}|<>]).{8,}/.test(values.password))
-        errors.password = "Password does not meet requirements";
-      if (values.password !== values.confirmPassword)
-        errors.confirmPassword = "Passwords do not match";
+      
+      if (!values.password) {
+        errors.password = "Please enter your password.";
+      } else if (values.password.length < 8) {
+        errors.password = "Password must be at least 8 characters.";
+      } else if (!/[A-Z]/.test(values.password)) {
+        errors.password = "Add at least one uppercase letter.";
+      } else if (!/[a-z]/.test(values.password)) {
+        errors.password = "Add at least one lowercase letter.";
+      } else if (!/[\d]/.test(values.password)) {
+        errors.password = "Add at least one number.";
+      } else if (!/[\d!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
+        errors.password = "Please create a stronger password.";
+      }
+
+      if (!values.confirmPassword) {
+        errors.confirmPassword = "Confirm password is required.";
+      } else if (values.password !== values.confirmPassword) {
+        errors.confirmPassword = "Passwords do not match.";
+      }
+      
       return errors;
     },
     onSubmit: () => { onComplete ? onComplete(formik.values.password) : onClose(); },
@@ -111,6 +130,7 @@ const SecureAccountModal = ({ isOpen, onClose, onComplete }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
           <div className="space-y-2">
             <label className="text-sm font-medium secure-modal-heading">
+              Create New Password
             </label>
             <div className="relative group">
               <Icon
@@ -124,8 +144,13 @@ const SecureAccountModal = ({ isOpen, onClose, onComplete }) => {
                 name="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder="Enter your new password"
-                className="w-full pl-11 pr-11 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:secure-modal-placeholder text-slate-700"
+                className={`w-full pl-11 pr-11 py-3.5 bg-white border rounded-xl focus:ring-2 outline-none transition-all placeholder:secure-modal-placeholder text-slate-700 ${
+                  formik.touched.password && formik.errors.password
+                    ? "border-red-400 focus:ring-red-500/20 focus:border-red-400"
+                    : "border-gray-200 focus:ring-primary/20 focus:border-primary"
+                }`}
               />
               <button
                 type="button"
@@ -141,10 +166,14 @@ const SecureAccountModal = ({ isOpen, onClose, onComplete }) => {
                 />
               </button>
             </div>
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-xs text-red-500">{formik.errors.password}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-medium secure-modal-heading">
+              Confirm Password
             </label>
             <div className="relative group">
               <Icon
@@ -158,8 +187,13 @@ const SecureAccountModal = ({ isOpen, onClose, onComplete }) => {
                 name="confirmPassword"
                 value={formik.values.confirmPassword}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder="Enter password again"
-                className="w-full pl-11 pr-11 py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:secure-modal-placeholder text-[--color-text-heading]"
+                className={`w-full pl-11 pr-11 py-3.5 bg-white border rounded-xl focus:ring-2 outline-none transition-all placeholder:secure-modal-placeholder text-slate-700 ${
+                  formik.touched.confirmPassword && formik.errors.confirmPassword
+                    ? "border-red-400 focus:ring-red-500/20 focus:border-red-400"
+                    : "border-gray-200 focus:ring-primary/20 focus:border-primary"
+                }`}
               />
               <button
                 type="button"
@@ -177,6 +211,9 @@ const SecureAccountModal = ({ isOpen, onClose, onComplete }) => {
                 />
               </button>
             </div>
+            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+              <p className="text-xs text-red-500">{formik.errors.confirmPassword}</p>
+            )}
           </div>
         </div>
 
