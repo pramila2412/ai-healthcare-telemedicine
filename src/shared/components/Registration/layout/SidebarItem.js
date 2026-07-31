@@ -13,9 +13,17 @@ const SidebarItem = ({
   onSelect,
   isLast,
   completedKeys = [], // array/Set of keys that already have a value
+  unlockedKeys = new Set(), // keys that are currently reachable/clickable
 }) => {
   const hasChildren =
     Array.isArray(section.children) && section.children.length > 0;
+
+  // A section with children is reachable as soon as at least one of its
+  // children is unlocked; a childless section (e.g. "Review & Complete")
+  // is reachable when its own key is unlocked.
+  const isParentUnlocked = hasChildren
+    ? section.children.some((c) => unlockedKeys.has(c.key))
+    : unlockedKeys.has(section.key);
 
   const isParentActive =
     activeKey === section.key ||
@@ -44,6 +52,7 @@ const SidebarItem = ({
   }, [isParentActive, isSectionCompleted]);
 
   const handleParentClick = () => {
+    if (!isParentUnlocked) return;
     if (hasChildren) {
       setExpanded((prev) => !prev);
     } else {
@@ -67,7 +76,10 @@ const SidebarItem = ({
     : -1;
   const progressChildIndex = Math.max(activeChildIndex, highestCompletedChildIndex);
 
-  const showParentCheck = isSectionCompleted && !isParentActive;
+  // Completed always wins over active: once every child has data, this
+  // parent shows the green check even if you re-open it to edit.
+  const showParentCheck = isSectionCompleted;
+  const showParentActiveStyle = isParentActive && !isSectionCompleted;
 
   return (
     <div className={`relative ${expanded ? "" : "pb-10"}`}>
@@ -89,16 +101,16 @@ const SidebarItem = ({
       {/* Parent */}
       <div
         onClick={handleParentClick}
-        className={`flex items-center justify-between rounded-lg p-2 cursor-pointer transition-colors w-full min-w-0 ${
-          isParentActive ? "bg-[#E3F6F5]" : "hover:bg-slate-50"
-        }`}
+        className={`flex items-center justify-between rounded-lg p-2 transition-colors w-full min-w-0 ${
+          isParentUnlocked ? "cursor-pointer" : "cursor-not-allowed"
+        } ${isParentActive ? "bg-[#E3F6F5]" : isParentUnlocked ? "hover:bg-slate-50" : ""}`}
       >
         <div className="flex items-center gap-3">
           <div
             className={`w-8 h-8 flex items-center justify-center ${
               showParentCheck ? "rounded-full" : "rounded-sm"
             } ${
-              isParentActive
+              showParentActiveStyle
                 ? "bg-[#248B8F] text-white"
                 : showParentCheck
                 ? CHECK_BORDER
@@ -111,7 +123,7 @@ const SidebarItem = ({
               height={showParentCheck ? 16 : 20}
               strokeWidth={showParentCheck ? 9 : 4}
               className={`${
-                isParentActive
+                showParentActiveStyle
                   ? "text-white"
                   : showParentCheck
                   ? CHECK_COLOR
@@ -144,10 +156,12 @@ const SidebarItem = ({
       {/* Children */}
       {hasChildren && expanded && (
         <div className="relative ml-5.5 mt-4">
-          {/* Teal progress line: covers active child AND any completed children */}
+          {/* Progress line: green once the whole section is completed, teal while still in progress */}
           {progressChildIndex >= 0 && (
             <div
-              className="absolute left-0 -top-4 w-0.5 bg-[#248B8F] z-10"
+              className={`absolute left-0 -top-4 w-0.5 z-10 ${
+                isSectionCompleted ? "bg-[#22C55E]" : "bg-[#248B8F]"
+              }`}
               style={{
                 height: `${(progressChildIndex + 1) * ROW_HEIGHT}px`,
               }}
@@ -157,22 +171,31 @@ const SidebarItem = ({
           {section.children.map((child) => {
             const isActive = activeKey === child.key;
             const isChildCompleted = completedKeys.includes(child.key);
-            const showChildCheck = isChildCompleted && !isActive;
+            const isChildUnlocked = unlockedKeys.has(child.key);
+            // Completed always wins over active, same as the parent: once a
+            // child has data, re-opening it to edit still shows the green
+            // check instead of switching back to the teal "active" circle.
+            const showChildCheck = isChildCompleted;
+            const showChildActiveStyle = isActive && !isChildCompleted;
 
             return (
               <div
                 key={child.key}
-                onClick={() => onSelect(child.key)}
-                className="relative flex items-center gap-3 px-4  cursor-pointer"
+                onClick={() => isChildUnlocked && onSelect(child.key)}
+                className={`relative flex items-center gap-3 px-4 ${
+                  isChildUnlocked ? "cursor-pointer" : "cursor-not-allowed"
+                }`}
                 style={{ height: `${ROW_HEIGHT}px` }}
               >
                 <div
                   className={`relative z-10 flex items-center justify-center rounded-full w-6 h-6 shrink-0 ${
-                    isActive
+                    showChildActiveStyle
                       ? "bg-[#248B8F] text-white"
                       : showChildCheck
                       ? CHECK_BORDERS
-                      : "text-slate-300"
+                      : isChildUnlocked
+                      ? "text-slate-300"
+                      : "text-slate-200"
                   }`}
                 >
                   <Icon
@@ -191,7 +214,9 @@ const SidebarItem = ({
                         ? "font-medium text-[#202020]"
                         : isChildCompleted
                         ? "text-[#202020]"
-                        : "text-slate-400"
+                        : isChildUnlocked
+                        ? "text-slate-400"
+                        : "text-slate-300"
                     }`}
                   >
                     {child.label}

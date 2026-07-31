@@ -3,23 +3,6 @@ import { Search } from "lucide-react";
 import downArrow from "@assets/patientRegistration/downarrow.svg";
 import { Icon } from "@iconify/react";
 
-/**
- * FormSelect — searchable custom dropdown, shared across all registration steps.
- *
- * Props:
- *   name              {string}   — field name (passed back to onSelect / onBlur)
- *   value             {string}   — currently selected value
- *   options           {string[]} — list of option strings
- *   placeholder       {string}   — shown when nothing is selected
- *   searchPlaceholder {string}   — placeholder inside search input
- *   icon              {string}   — SVG src for the left icon (optional)
- *   iconAlt           {string}   — alt text for icon
- *   onSelect          {fn}       — (name, value) => void
- *   onBlur            {fn}       — (name) => void — called when dropdown closes without a pick
- *   error             {string}   — error message
- *   showError         {boolean}  — whether to display the error
- *   className         {string}   — extra classes on the trigger button
- */
 const FormSelect = ({
   name,
   value,
@@ -179,7 +162,7 @@ const FormSelect = ({
           </div>
 
           {/* Options list */}
-          <div className="max-h-46 overflow-y-auto px-3 pb-2" role="listbox">
+          <div className="max-h-46 overflow-y-auto no-scrollbar px-3 pb-2" role="listbox">
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option) => {
                 const isSelected = option === value;
@@ -190,10 +173,10 @@ const FormSelect = ({
                     role="option"
                     aria-selected={isSelected}
                     onClick={() => handleSelect(option)}
-                    className={`relative flex h-12 w-full items-center border-b border-[#E5E7EB] text-left text-sm font-normal last:border-b-0 cursor-pointer px-3 transition-colors duration-150 ${
+                    className={`relative flex h-12 w-full items-center   text-left text-sm font-normal last:border-b-0 cursor-pointer px-3 transition-colors duration-150 ${
                       isSelected
                         ? "bg-[#F0F7F5] text-primary-dark font-semibold before:absolute before:left-0 before:top-0 before:h-full before:w-0.75 before:bg-primary-dark"
-                        : "text-[#141414] hover:bg-[#F5F5F5]"
+                        : "text-[#141414] hover:bg-[#F5FCFC]"
                     }`}
                   >
                     {option}

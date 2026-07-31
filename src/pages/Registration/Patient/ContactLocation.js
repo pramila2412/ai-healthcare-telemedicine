@@ -38,7 +38,7 @@ const ContactLocation = ({
 
   return (
     <div className="space-y-8">
-      <div className='w-82'>
+      <div className="w-82">
         <h2 className="text-sm font-medium text-text-heading">
           Emergency Contact
         </h2>
@@ -170,5 +170,3 @@ const ContactLocation = ({
 };
 
 export default ContactLocation;
-
-
