@@ -4,7 +4,7 @@ export const MEDICAL_CONDITION_FIELDS = Object.freeze([
     selectedKey: "allergyTags",
     label: "Allergies",
     placeholder: "Enter your allergies",
-    iconKey: "allergies",
+    icon: "tabler:virus",
     suggestions: [
       "Peanuts",
       "Dust",
@@ -21,7 +21,7 @@ export const MEDICAL_CONDITION_FIELDS = Object.freeze([
     selectedKey: "conditionTags",
     label: "Existing Conditions",
     placeholder: "Enter your existing conditions",
-    iconKey: "conditions",
+    icon: "tabler:heart-rate-monitor",
     suggestions: [
       "Diabetes",
       "Hypertension",
@@ -36,7 +36,7 @@ export const MEDICAL_CONDITION_FIELDS = Object.freeze([
     selectedKey: "surgeryTags",
     label: "Previous Surgeries",
     placeholder: "Enter your previous surgeries",
-    iconKey: "surgeries",
+    icon: "tabler:first-aid-kit",
     suggestions: [
       "Appendectomy",
       "C-section",
@@ -50,7 +50,7 @@ export const MEDICAL_CONDITION_FIELDS = Object.freeze([
     selectedKey: "medicationTags",
     label: "Current Medications",
     placeholder: "Enter your current medications",
-    iconKey: "medications",
+    icon: "tabler:pill",
     suggestions: [
       "Metformin",
       "Amlodipine",

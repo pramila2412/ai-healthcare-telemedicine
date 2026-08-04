@@ -1,4 +1,4 @@
-import CloseIcon from "@mui/icons-material/Close";
+import { Icon } from "@iconify/react";
 import Autocomplete from "@mui/material/Autocomplete";
 import Chip from "@mui/material/Chip";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -30,7 +30,7 @@ const TagAutocomplete = ({
   inputValue = "",
   options = [],
   placeholder = "",
-  IconComponent,
+  icon,
   onChange,
   onInputChange,
 }) => (
@@ -42,7 +42,9 @@ const TagAutocomplete = ({
             key={selectedValue}
             label={selectedValue}
             size="small"
-            deleteIcon={<CloseIcon />}
+            deleteIcon={
+              <Icon icon="tabler:letter-x" width={15} height={15} />
+            }
             onDelete={() =>
               onChange?.(value.filter((item) => item !== selectedValue))
             }
@@ -80,6 +82,10 @@ const TagAutocomplete = ({
           onInputChange?.(nextValue);
         }
       }}
+      popupIcon={
+        <Icon icon="tabler:circle-chevron-down" width={20} height={20} />
+      }
+      clearIcon={<Icon icon="tabler:letter-x" width={16} height={16} />}
       renderTags={() => null}
       renderInput={(params) => (
         <TextField
@@ -90,9 +96,14 @@ const TagAutocomplete = ({
             ...params.slotProps,
             input: {
               ...params.slotProps.input,
-              startAdornment: IconComponent ? (
+              startAdornment: icon ? (
                 <InputAdornment position="start">
-                  <IconComponent sx={{ fontSize: 20, color: "#667085" }} />
+                  <Icon
+                    icon={icon}
+                    width={20}
+                    height={20}
+                    className="text-[#667085]"
+                  />
                 </InputAdornment>
               ) : null,
             },

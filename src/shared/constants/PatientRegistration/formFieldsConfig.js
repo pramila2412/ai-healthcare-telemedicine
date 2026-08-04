@@ -1,16 +1,7 @@
-import LocalHospitalOutlinedIcon from "@mui/icons-material/LocalHospitalOutlined";
-import MedicalServicesOutlinedIcon from "@mui/icons-material/MedicalServicesOutlined";
-import MedicationOutlinedIcon from "@mui/icons-material/MedicationOutlined";
-import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
-import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
-import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
-import HealthAndSafetyOutlinedIcon from "@mui/icons-material/HealthAndSafetyOutlined";
-import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
-
 export const FIELD_LABELS_AND_ICONS = {
   basicDetails: {
     fullName: { label: "Full Name", icon: "tabler:user" },
-    dob: { label: "Date of Birth", icon: "tabler:calendar" },
+    dob: { label: "Date of Birth", icon: "tabler:calendar-due" },
     gender: { label: "Gender", icon: "tabler:gender-bigender" },
     bloodGroup: { label: "Blood Group", icon: "tabler:droplet" },
     maritalStatus: { label: "Marital Status", icon: "tabler:heart-handshake" },
@@ -39,15 +30,15 @@ export const FIELD_LABELS_AND_ICONS = {
     alcoholConsumption: { label: "Alcohol Consumption", icon: "tabler:glass-full" }
   },
   medicalConditions: {
-    allergies: { label: "Allergies", icon: WbSunnyOutlinedIcon },
-    existingConditions: { label: "Existing Conditions", icon: MedicalServicesOutlinedIcon },
-    previousSurgeries: { label: "Previous Surgeries", icon: LocalHospitalOutlinedIcon },
-    currentMedications: { label: "Current Medications", icon: MedicationOutlinedIcon }
+    allergies: { label: "Allergies", icon: "tabler:virus" },
+    existingConditions: { label: "Existing Conditions", icon: "tabler:heart-rate-monitor" },
+    previousSurgeries: { label: "Previous Surgeries", icon: "tabler:first-aid-kit" },
+    currentMedications: { label: "Current Medications", icon: "tabler:pill" }
   },
   insuranceInformation: {
-    insuranceType: { label: "Insurance Type", icon: HealthAndSafetyOutlinedIcon },
-    insuranceProvider: { label: "Insurance Provider", icon: AccountBalanceOutlinedIcon },
-    insuredMemberName: { label: "Insured Member Name", icon: Person2OutlinedIcon },
-    policyNumber: { label: "Customer ID/Policy Number", icon: CreditCardOutlinedIcon }
+    insuranceType: { label: "Insurance Type", icon: "tabler:building-bank" },
+    insuranceProvider: { label: "Insurance Provider", icon: "tabler:shield-plus" },
+    insuredMemberName: { label: "Insured Member Name", icon: "tabler:user" },
+    policyNumber: { label: "Customer ID/Policy Number", icon: "tabler:credit-card" }
   }
 };
