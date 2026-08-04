@@ -88,8 +88,7 @@ const HealthOverview = ({
         </h2>
         <p className="mt-1 text-xs font-Satoshi font-normal text-[#6B7280]">
           Add your basic health information to help us provide more personalized
-          care and better health recommendations. Height and weight are
-          required; you can skip the remaining fields if you're unsure.
+          care and better health recommendations. you can skip any fields if you're unsure.
         </p>
       </div>
 
