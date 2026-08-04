@@ -1,14 +1,14 @@
-import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
-import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
-import HealthAndSafetyOutlinedIcon from "@mui/icons-material/HealthAndSafetyOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
+import { Icon } from "@iconify/react";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import React, { useMemo, useState } from "react";
 
 import FormInput from "@/shared/components/Registration/form/FormInput";
 import FormSelect from "@/shared/components/Registration/form/FormSelect";
+import {
+  CheckboxCheckedIcon,
+  CheckboxUncheckedIcon,
+} from "@/shared/components/Registration/form/IconifyCheckboxIcons";
 import DocumentDropzone from "@/shared/components/Registration/upload/DocumentDropzone";
 import UploadSuccessSnackbar from "@/shared/components/Registration/upload/UploadSuccessSnackbar";
 import InsuranceInformationPopup from "@/shared/components/Popup/InsuranceInformationPopup";
@@ -115,7 +115,7 @@ const Insurance = ({
             placeholder="Select your insurance type"
             searchPlaceholder="Search insurance type"
             className="!h-14 !text-sm"
-            startIcon={<AccountBalanceOutlinedIcon sx={{ fontSize: 20 }} />}
+            icon="tabler:building-bank"
             onSelect={(_name, value) => handleInsuranceTypeChange(value)}
           />
         </div>
@@ -132,7 +132,7 @@ const Insurance = ({
               placeholder={providerConfig.placeholder}
               searchPlaceholder="Search provider"
               className="!h-14 !text-sm"
-              startIcon={<HealthAndSafetyOutlinedIcon sx={{ fontSize: 20 }} />}
+              icon="tabler:shield-plus"
               onSelect={(_name, value) => updateField("provider", value)}
               {...getValidationProps("provider")}
             />
@@ -150,7 +150,7 @@ const Insurance = ({
                 value={formData.holderName}
                 placeholder="Enter insurance holder name"
                 className="!h-14 !text-sm"
-                startIcon={<Person2OutlinedIcon sx={{ fontSize: 20 }} />}
+                icon="tabler:user"
                 onChange={(event) =>
                   updateField("holderName", event.target.value)
                 }
@@ -168,7 +168,7 @@ const Insurance = ({
                 value={formData.policyNumber}
                 placeholder="Enter Customer ID or Policy Number"
                 className="!h-14 !text-sm"
-                startIcon={<CreditCardOutlinedIcon sx={{ fontSize: 20 }} />}
+                icon="tabler:credit-card"
                 onChange={(event) =>
                   updateField("policyNumber", event.target.value)
                 }
@@ -208,6 +208,8 @@ const Insurance = ({
                   updateField("confirmation", event.target.checked)
                 }
                 onBlur={() => onFieldBlur?.("confirmation")}
+                icon={<CheckboxUncheckedIcon />}
+                checkedIcon={<CheckboxCheckedIcon />}
                 sx={{
                   mt: -0.75,
                   color: "#98A2B3",
@@ -232,8 +234,11 @@ const Insurance = ({
           )}
 
           <div className="mt-8 flex max-w-[640px] items-start gap-3 rounded-lg bg-[#F1F9F7] px-4 py-3 text-[13px] leading-5 text-[#236C68]">
-            <LockOutlinedIcon
-              sx={{ mt: 0.15, fontSize: 18, color: "#0D8B72" }}
+            <Icon
+              icon="tabler:lock"
+              width={18}
+              height={18}
+              className="mt-px shrink-0 text-[#0D8B72]"
             />
             <p>
               Your insurance information will only be used to verify coverage

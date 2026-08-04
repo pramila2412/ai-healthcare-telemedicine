@@ -1,29 +1,31 @@
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
-import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
+import { Icon } from "@iconify/react";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import React from "react";
 
+import {
+  CheckboxCheckedIcon,
+  CheckboxUncheckedIcon,
+} from "@/shared/components/Registration/form/IconifyCheckboxIcons";
+
 import Popup from "./Popup";
 
 const INFORMATION_TIPS = Object.freeze([
   {
-    icon: FactCheckOutlinedIcon,
+    icon: "tabler:checklist",
     text: "Add only information you're confident is accurate.",
   },
   {
-    icon: CloudUploadOutlinedIcon,
+    icon: "tabler:cloud-upload",
     text: "Upload documents only if they're current and clearly readable.",
   },
   {
-    icon: EditOutlinedIcon,
+    icon: "tabler:edit",
     text: "You can update or remove this information anytime.",
   },
   {
-    icon: ShieldOutlinedIcon,
+    icon: "tabler:shield-check",
     text: "Your health information is securely encrypted and shared only with your permission.",
   },
 ]);
@@ -110,12 +112,17 @@ const MedicalRecordsIntroPopup = ({
     </div>
 
     <div className="mt-5 space-y-3 rounded-lg bg-[#F1F9F7] px-4 py-3">
-      {INFORMATION_TIPS.map(({ icon: TipIcon, text }) => (
+      {INFORMATION_TIPS.map(({ icon, text }) => (
         <div
           key={text}
           className="flex items-start gap-3 text-[11px] leading-4 text-[#475467]"
         >
-          <TipIcon sx={{ mt: 0.1, fontSize: 15, color: "#248B8F" }} />
+          <Icon
+            icon={icon}
+            width={15}
+            height={15}
+            className="mt-px shrink-0 text-[#248B8F]"
+          />
           <p>{text}</p>
         </div>
       ))}
@@ -128,6 +135,8 @@ const MedicalRecordsIntroPopup = ({
           size="small"
           checked={dontShowAgain}
           onChange={(event) => onDontShowAgainChange?.(event.target.checked)}
+          icon={<CheckboxUncheckedIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           sx={{
             color: "#98A2B3",
             "&.Mui-checked": { color: "#248B8F" },

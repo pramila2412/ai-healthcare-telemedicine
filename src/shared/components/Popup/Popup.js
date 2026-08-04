@@ -1,4 +1,4 @@
-import CloseIcon from "@mui/icons-material/Close";
+import { Icon } from "@iconify/react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -72,7 +72,7 @@ const Popup = ({
               color: "#667085",
             }}
           >
-            <CloseIcon sx={{ fontSize: 16 }} />
+            <Icon icon="tabler:letter-x" width={16} height={16} />
           </IconButton>
         )}
       </DialogTitle>

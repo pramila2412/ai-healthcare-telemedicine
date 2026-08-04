@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
@@ -26,7 +27,23 @@ const UploadStatusSnackbar = ({ open, status, onClose, onRetry }) => {
       <Alert
         severity={status?.severity || "error"}
         variant="outlined"
-        onClose={handleClose}
+        icon={
+          <Icon
+            icon={isError ? "tabler:info-circle" : "tabler:check"}
+            width={18}
+            height={18}
+          />
+        }
+        action={
+          <button
+            type="button"
+            onClick={handleClose}
+            aria-label="Close upload notification"
+            className="mt-0.5 inline-flex h-6 w-6 items-center justify-center text-[#667085] hover:text-[#344054]"
+          >
+            <Icon icon="tabler:letter-x" width={16} height={16} />
+          </button>
+        }
         sx={{
           width: { xs: "calc(100vw - 32px)", sm: 360 },
           alignItems: "flex-start",

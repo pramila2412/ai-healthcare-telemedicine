@@ -1,4 +1,4 @@
-import HealthAndSafetyOutlinedIcon from "@mui/icons-material/HealthAndSafetyOutlined";
+import { Icon } from "@iconify/react";
 import Button from "@mui/material/Button";
 import React from "react";
 
@@ -62,7 +62,12 @@ const InsuranceInformationPopup = ({ open, onClose }) => (
     </div>
 
     <div className="mt-5 flex min-h-14 items-center gap-3 rounded-sm bg-[#F2F2F2] px-4 py-3 text-[10px] leading-[14px] text-[#374151]">
-      <HealthAndSafetyOutlinedIcon sx={{ fontSize: 14, color: "#374151" }} />
+      <Icon
+        icon="tabler:lock"
+        width={14}
+        height={14}
+        className="shrink-0 text-[#374151]"
+      />
       <p>
         Your information remains private, encrypted, and accessible only for
         authorized healthcare purposes.

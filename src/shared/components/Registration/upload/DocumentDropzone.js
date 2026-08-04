@@ -1,11 +1,7 @@
+import { Icon } from "@iconify/react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import CloseIcon from "@mui/icons-material/Close";
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import React, { useRef, useState } from "react";
 
 import {
@@ -186,7 +182,7 @@ const DocumentDropzone = ({
                 aria-label={`${label} information`}
                 className="flex h-6 items-center gap-1 rounded-full bg-[#F0FBFA] px-2 text-[10px] font-medium text-[#248B8F] hover:bg-[#E3F6F5]"
               >
-                <InfoOutlinedIcon sx={{ fontSize: 12 }} />
+                <Icon icon="tabler:info-circle" width={12} height={12} />
                 <span>{infoLabel}</span>
               </button>
             ) : (
@@ -201,7 +197,7 @@ const DocumentDropzone = ({
                   backgroundColor: "#F1F9F7",
                 }}
               >
-                <InfoOutlinedIcon sx={{ fontSize: 14 }} />
+                <Icon icon="tabler:info-circle" width={14} height={14} />
               </IconButton>
             )}
           </Tooltip>
@@ -260,7 +256,12 @@ const DocumentDropzone = ({
         }`}
       >
         <div className="flex flex-wrap items-center justify-center gap-2 text-[14px] text-[#344054]">
-          <CloudUploadOutlinedIcon sx={{ fontSize: 20, color: "#667085" }} />
+          <Icon
+            icon="tabler:cloud-upload"
+            width={20}
+            height={20}
+            className="shrink-0 text-[#667085]"
+          />
           <span>{instruction}</span>
           <span className="font-medium text-[#0D8B72] underline underline-offset-2">
             browse
@@ -289,17 +290,18 @@ const DocumentDropzone = ({
         <div className="mt-4 flex flex-wrap gap-3">
           {files.map((file) => {
             const extension = getFileExtension(file.name);
-            const FileIcon =
-              extension === "pdf"
-                ? DescriptionOutlinedIcon
-                : InsertPhotoOutlinedIcon;
 
             return (
               <div
                 key={file.id}
                 className="flex w-full min-w-0 items-center gap-3 rounded-lg border border-[#E4E7EC] bg-white px-3 py-2.5 sm:w-64"
               >
-                <FileIcon sx={{ fontSize: 22, color: "#228E90" }} />
+                <Icon
+                  icon="tabler:file-text"
+                  width={22}
+                  height={22}
+                  className="shrink-0 text-[#228E90]"
+                />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[12px] font-medium text-[#344054]">
                     {file.name}
@@ -318,7 +320,7 @@ const DocumentDropzone = ({
                   aria-label={`Remove ${file.name}`}
                   sx={{ color: "#667085" }}
                 >
-                  <CloseIcon sx={{ fontSize: 17 }} />
+                  <Icon icon="tabler:letter-x" width={17} height={17} />
                 </IconButton>
               </div>
             );
