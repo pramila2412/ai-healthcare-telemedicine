@@ -17,6 +17,7 @@ const FormSelect = ({
   onBlur,
   error = "",
   showError = false,
+  showDropdownIcon = true,
   disabled = false,
   className = "",
 }) => {
@@ -77,7 +78,7 @@ const FormSelect = ({
   };
 
   const triggerBase =
-    "h-14 w-full rounded-lg border border-[#E5E7EB] bg-white pr-10 text-[#6B7280] text-xs font-normal outline-none text-left transition-colors duration-150 focus:border-[#096B58]";
+    "h-14 w-full rounded-lg border border-[#E5E7EB] bg-white text-[#6B7280] text-xs font-normal outline-none text-left transition-colors duration-150 focus:border-[#096B58]";
 
   return (
     <div className="relative" ref={selectRef}>
@@ -88,7 +89,9 @@ const FormSelect = ({
         name={name}
         onClick={handleToggle}
         disabled={disabled}
-        className={`${triggerBase} relative flex items-center ${icon || startIcon ? "pl-12" : "px-4"} ${
+        className={`${triggerBase} relative flex items-center ${icon || startIcon ? "pl-12" : "pl-4"} ${
+          showDropdownIcon ? "pr-10" : "pr-4"
+        } ${
           value ? "text-[#141414]" : "text-[#666666]"
         } ${showError && error ? "border-danger" : ""} ${
           disabled ? "cursor-not-allowed bg-[#F4F4F4] opacity-60" : ""
@@ -113,15 +116,16 @@ const FormSelect = ({
           </span>
         )}
         <span className="block truncate">{value || placeholder}</span>
-        <Icon
-          icon="tabler:circle-chevron-down"
-          width="24"
-          height="24"
-          className={`absolute right-4 top-1/2  -translate-y-1/2 transition-transform [&_path]:stroke-[1.5] text-text-muted ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          
-        />
+        {showDropdownIcon && (
+          <Icon
+            icon="tabler:circle-chevron-down"
+            width="24"
+            height="24"
+            className={`absolute right-4 top-1/2 -translate-y-1/2 transition-transform [&_path]:stroke-[1.5] text-text-muted ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        )}
         
       </button>
 
