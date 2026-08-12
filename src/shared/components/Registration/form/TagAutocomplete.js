@@ -1,38 +1,15 @@
 import { Icon } from "@iconify/react";
-import Autocomplete from "@mui/material/Autocomplete";
 import Chip from "@mui/material/Chip";
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
 import React from "react";
 
-const fieldSx = {
-  "& .MuiOutlinedInput-root": {
-    minHeight: 56,
-    borderRadius: "8px",
-    backgroundColor: "#FFFFFF",
-    fontSize: "14px",
-    color: "#141414",
-    "& fieldset": { borderColor: "#D0D0D0", borderWidth: "0.5px" },
-    "&:hover fieldset": { borderColor: "#98A2B3" },
-    "&.Mui-focused fieldset": {
-      borderColor: "#096B58",
-      borderWidth: "1px",
-    },
-  },
-  "& .MuiInputBase-input::placeholder": {
-    color: "#666666",
-    opacity: 1,
-  },
-};
+import FormSelect from "./FormSelect";
 
 const TagAutocomplete = ({
   value = [],
-  inputValue = "",
   options = [],
   placeholder = "",
   icon,
   onChange,
-  onInputChange,
 }) => (
   <div>
     {value.length > 0 && (
@@ -69,47 +46,16 @@ const TagAutocomplete = ({
       </div>
     )}
 
-    <Autocomplete
-      multiple
-      freeSolo
-      filterSelectedOptions
-      options={options}
-      value={value}
-      inputValue={inputValue}
-      onChange={(_event, nextValue) => onChange?.(nextValue)}
-      onInputChange={(_event, nextValue, reason) => {
-        if (reason === "input" || reason === "clear") {
-          onInputChange?.(nextValue);
-        }
+    <FormSelect
+      value=""
+      options={options.filter((option) => !value.includes(option))}
+      placeholder={placeholder}
+      searchPlaceholder={`Search ${placeholder.toLowerCase().replace("enter your ", "")}`}
+      icon={icon}
+      showDropdownIcon={false}
+      onSelect={(_name, selectedValue) => {
+        onChange?.([...value, selectedValue]);
       }}
-      popupIcon={
-        <Icon icon="tabler:circle-chevron-down" width={20} height={20} />
-      }
-      clearIcon={<Icon icon="tabler:letter-x" width={16} height={16} />}
-      renderTags={() => null}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder={placeholder}
-          sx={fieldSx}
-          slotProps={{
-            ...params.slotProps,
-            input: {
-              ...params.slotProps.input,
-              startAdornment: icon ? (
-                <InputAdornment position="start">
-                  <Icon
-                    icon={icon}
-                    width={20}
-                    height={20}
-                    className="text-[#667085]"
-                  />
-                </InputAdornment>
-              ) : null,
-            },
-          }}
-        />
-      )}
     />
   </div>
 );

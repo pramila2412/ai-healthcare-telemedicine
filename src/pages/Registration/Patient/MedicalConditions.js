@@ -70,15 +70,11 @@ const MedicalConditions = ({ data, onChange, stepConfig }) => {
               </label>
               <TagAutocomplete
                 value={formData[field.selectedKey]}
-                inputValue={formData[field.key]}
                 options={field.suggestions}
                 placeholder={field.placeholder}
                 icon={field.icon}
                 onChange={(selectedValues) =>
                   updateSelectedValues(field, selectedValues)
-                }
-                onInputChange={(inputValue) =>
-                  updateField(field.key, inputValue)
                 }
               />
             </div>
